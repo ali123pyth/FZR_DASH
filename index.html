@@ -1,530 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FZR Group — Project Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<title>Project Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --green:       #1b221a;
-    --green-mid:   #263325;
-    --green-light: #344832;
-    --beige:       #f5f5f5;
-    --beige-mid:   #ececec;
-    --beige-dark:  #e0e0e0;
-    --white:       #ffffff;
-    --text-body:   #2a2a2a;
-    --text-muted:  #7a8a79;
-    --text-light:  #a8b8a7;
-    --font:        'Poppins', sans-serif;
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a40;
+    --accent: #7c6aff;
+    --accent2: #ff6a9b;
+    --accent3: #6affcb;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--beige); color: var(--text-body); font-family: var(--font); font-size: 13px; min-height: 100vh; }
 
-  /* ── BANNER — white background so black logo shows correctly ── */
-  .banner { display: grid; grid-template-columns: 1fr auto; border-bottom: 3px solid var(--green); }
-  .banner-left {
-    background: var(--white);
-    padding: 16px 40px;
-    display: flex; align-items: center; gap: 24px;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    overflow-x: hidden;
   }
-  .banner-logo {
-    height: 64px;
-    width: auto;
-    object-fit: contain;
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,106,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,106,255,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
   }
-  .banner-divider {
-    width: 1px; height: 40px;
-    background: var(--beige-dark);
-    flex-shrink: 0;
+
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.25;
   }
-  .banner-left .dept {
-    font-size: 11px; font-weight: 300; color: var(--text-muted);
+  .orb1 { width: 500px; height: 500px; background: var(--accent); top: -150px; left: -100px; animation: drift1 12s ease-in-out infinite; }
+  .orb2 { width: 400px; height: 400px; background: var(--accent2); bottom: -100px; right: -80px; animation: drift2 15s ease-in-out infinite; }
+
+  @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+  @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,-60px)} }
+
+  /* ── Layout ── */
+  .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo-area h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
+  .logo-area h1 span { color: var(--accent); }
+  .logo-area p { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(106,255,203,0.08);
+    border: 1px solid rgba(106,255,203,0.2);
+    color: var(--accent3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 100px;
     letter-spacing: 0.1em;
   }
-  .banner-right {
-    background: var(--green);
-    padding: 16px 40px;
-    display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
-    min-width: 240px;
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 2s ease-in-out infinite;
   }
-  .banner-right .doc-type {
-    font-size: 12px; font-weight: 600; color: var(--beige);
-    letter-spacing: 0.16em; text-transform: uppercase;
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+  /* ── Stats Row ── */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    animation: fadeUp 0.5s ease both;
   }
-  .banner-right .doc-date {
-    font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px;
+  .stat-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .stat-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124,106,255,0.06) 0%, transparent 60%); }
+
+  .stat-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+  .stat-value { font-size: 36px; font-weight: 800; letter-spacing: -1px; }
+  .stat-value.purple { color: var(--accent); }
+  .stat-value.pink   { color: var(--accent2); }
+  .stat-value.green  { color: var(--accent3); }
+  .stat-sub { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  /* ── Section Title ── */
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── Main Grid ── */
+  .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 24px; margin-bottom: 24px; }
+  @media(max-width:900px){ .main-grid { grid-template-columns: 1fr; } }
+
+  /* ── Person Cards ── */
+  .cards-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
   }
 
-  /* ── COUNTDOWN BAR (replaces running header) ── */
-  .countdown-bar {
-    background: var(--green-mid);
-    padding: 9px 40px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 11px; color: var(--text-light);
-    border-bottom: 1px solid var(--green-light);
+  .person-card {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+    transition: background 0.15s;
+    border-radius: 8px;
+    margin: 0 -8px;
+    padding: 14px 8px;
   }
-  .countdown-left { display: flex; align-items: center; gap: 14px; }
-  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6dbf6d; animation: blink 2s ease-in-out infinite; display: inline-block; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .countdown-bar strong { color: var(--beige); }
-  .btn-refresh {
-    background: none; border: 1px solid var(--text-light); color: var(--beige);
-    font-family: var(--font); font-size: 10px; font-weight: 600;
-    padding: 4px 14px; cursor: pointer; border-radius: 2px;
-    letter-spacing: 0.1em; text-transform: uppercase; transition: all .2s;
+  .person-card:last-child { border-bottom: none; }
+  .person-card:hover { background: rgba(124,106,255,0.06); }
+
+  .avatar {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    flex-shrink: 0;
   }
-  .btn-refresh:hover { background: var(--beige); color: var(--green); }
 
-  /* ── LOADING BAR ── */
-  .loading-bar { height: 3px; background: var(--green-light); }
-  .loading-fill { height: 100%; background: var(--beige); width: 0%; transition: width 0.3s ease; }
+  .person-info .name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .person-info .project { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 
-  /* ── WRAPPER ── */
-  .wrapper { padding: 36px 40px 60px; max-width: 1280px; margin: 0 auto; }
+  .percent-block { text-align: right; }
+  .percent-number { font-weight: 800; font-size: 20px; font-family: var(--font-mono); }
+  .progress-bar-wrap { width: 80px; height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; }
+  .progress-bar { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
 
-  /* ── SECTION HEADING ── */
-  .sec-head {
-    font-size: 10px; font-weight: 700; color: var(--green);
-    text-transform: uppercase; letter-spacing: 0.18em;
-    padding-bottom: 10px; border-bottom: 2px solid var(--green);
-    margin-bottom: 20px; margin-top: 40px;
-    display: flex; justify-content: space-between; align-items: center;
+  /* ── Chart Panel ── */
+  .chart-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
   }
-  .sec-head:first-of-type { margin-top: 0; }
-  .sec-head span { font-weight: 300; font-size: 10px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: none; }
 
-  /* ── KPI ROW ── */
-  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin-bottom: 40px; }
-  .kpi-card { background: var(--green); padding: 22px 22px 20px; border-radius: 4px; animation: fadeUp .4s ease both; position: relative; overflow: hidden; }
-  .kpi-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--green-light); }
-  .kpi-card:nth-child(2){animation-delay:.07s} .kpi-card:nth-child(3){animation-delay:.14s}
-  .kpi-card:nth-child(4){animation-delay:.21s} .kpi-card:nth-child(5){animation-delay:.28s} .kpi-card:nth-child(6){animation-delay:.35s}
-  .kpi-label { font-size: 9px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; }
-  .kpi-value { font-size: 34px; font-weight: 700; color: var(--beige); line-height: 1; letter-spacing: -1px; }
-  .kpi-sub   { font-size: 10px; font-weight: 300; color: var(--text-muted); margin-top: 6px; }
-
-  /* ── FILTER BAR ── */
-  .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-  .filter-bar label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
-  .filter-bar input, .filter-bar select {
-    border: 1px solid var(--beige-dark); background: var(--white); color: var(--text-body);
-    font-family: var(--font); font-size: 12px; padding: 8px 12px; outline: none;
-    transition: border-color .2s; border-radius: 3px;
+  .donut-wrap { position: relative; width: 180px; height: 180px; margin: 24px auto; }
+  canvas#donut { display: block; }
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
-  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--green); }
-  .filter-bar input { flex: 1; min-width: 180px; }
-  .btn-reset { background: var(--green); color: var(--beige); border: none; font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border-radius: 3px; transition: background .2s; white-space: nowrap; }
-  .btn-reset:hover { background: var(--green-light); }
+  .donut-center .big { font-size: 28px; font-weight: 800; color: var(--accent); }
+  .donut-center .small { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
 
-  /* ── MAIN GRID ── */
-  .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; margin-bottom: 28px; }
-  @media(max-width:860px){ .main-grid { grid-template-columns: 1fr; } }
+  .legend { margin-top: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .legend-item:last-child { border-bottom: none; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend-name { font-size: 13px; flex: 1; }
+  .legend-pct { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
 
-  /* ── TABLE ── */
-  .table-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; overflow: hidden; }
-  .table-wrap  { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: var(--green); }
-  thead th { color: var(--beige); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 13px 14px; text-align: left; white-space: nowrap; cursor: pointer; user-select: none; transition: background .15s; }
-  thead th:hover { background: var(--green-mid); }
-  thead th.green-th { background: var(--green-light); width: 36px; text-align: center; cursor: default; }
-  .sort-arrow { margin-left: 4px; opacity: 0.35; font-size: 9px; }
-  tbody tr { border-bottom: 1px solid var(--beige-mid); transition: background .15s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:nth-child(even) { background: var(--beige); }
-  tbody tr:hover { background: #e8ede8; }
-  tbody td { padding: 11px 14px; font-size: 12px; }
-  td.td-num  { text-align: center; font-weight: 600; color: var(--green); font-size: 11px; background: var(--beige-mid); }
-  td.td-name { font-weight: 600; color: var(--green); }
-  td.td-pct  { font-weight: 700; color: var(--green); white-space: nowrap; }
+  /* ── Bottom bar chart ── */
+  .bar-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+  }
 
-  .prog-wrap { display: flex; align-items: center; gap: 10px; }
-  .bar-bg    { flex: 1; height: 5px; background: var(--beige-dark); overflow: hidden; min-width: 60px; border-radius: 3px; }
-  .bar-fill  { height: 100%; background: var(--green); border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
-  .bar-fill.lo { background: var(--text-light); }
+  .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 120px; margin-top: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--border); position: relative; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+  .bar-fill { width: 100%; border-radius: 6px 6px 0 0; transition: height 1.2s cubic-bezier(0.4,0,0.2,1); min-height: 4px; }
+  .bar-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-top: 6px; }
+  .bar-val { font-family: var(--font-mono); font-size: 10px; color: var(--text); }
 
-  .tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
-  .tag-ongoing { background: #e0ede0; color: #1b5e20; border: 1px solid #a5c8a5; }
-  .tag-done    { background: var(--green); color: var(--beige); border: 1px solid var(--green); }
-  .tag-hold    { background: #f5f0e0; color: #7a6020; border: 1px solid #d4c080; }
-  .tag-other   { background: var(--beige-mid); color: var(--text-muted); border: 1px solid var(--beige-dark); }
+  /* ── Animations ── */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-  .overdue-row { background: #f8f4f0 !important; }
-  .overdue-flag { font-size: 9px; color: #8b5020; font-weight: 600; margin-left: 6px; }
+  /* Stagger delays */
+  .stat-card:nth-child(1){animation-delay:0.05s}
+  .stat-card:nth-child(2){animation-delay:0.1s}
+  .stat-card:nth-child(3){animation-delay:0.15s}
+  .stat-card:nth-child(4){animation-delay:0.2s}
+  .person-card:nth-child(1){animation-delay:0.1s}
+  .person-card:nth-child(2){animation-delay:0.18s}
+  .person-card:nth-child(3){animation-delay:0.26s}
+  .person-card:nth-child(4){animation-delay:0.34s}
+  .person-card:nth-child(5){animation-delay:0.42s}
 
-  /* ── RIGHT COL ── */
-  .right-col { display: flex; flex-direction: column; gap: 16px; }
-  .chart-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .chart-title { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--beige-dark); }
+  /* Config panel */
+  .config-bar {
+    background: rgba(124,106,255,0.07);
+    border: 1px dashed rgba(124,106,255,0.3);
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .config-bar label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .config-bar input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 8px 14px;
+    flex: 1;
+    min-width: 260px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .config-bar input:focus { border-color: var(--accent); }
+  .config-bar button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .config-bar button:hover { opacity: 0.85; transform: scale(0.98); }
 
-  .donut-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 18px; }
-  .donut-center { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
-  .donut-center .big { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; }
-  .donut-center .lbl { font-size: 9px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
-
-  .leg-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--beige-mid); }
-  .leg-row:last-child { border-bottom:none; }
-  .leg-dot  { width:10px; height:10px; flex-shrink:0; border-radius:2px; }
-  .leg-name { font-size:12px; flex:1; color: var(--text-body); }
-  .leg-pct  { font-size:11px; font-weight:600; color: var(--green); }
-
-  /* ── BARS ── */
-  .bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .bars-area { display:flex; align-items:flex-end; gap:9px; height:110px; margin-top:14px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
-  .b-col  { flex:0 0 auto; min-width:40px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
-  .b-fill { width:32px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
-  .b-fill.hi { background: var(--green); }
-  .b-label { font-size:9px; color:var(--text-muted); width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
-  .b-val   { font-size:9px; font-weight:600; color:var(--green); }
-
-  /* ── SUMMARY ── */
-  .summary-box { border-top:3px solid var(--green); border-bottom:3px solid var(--green); background:var(--white); padding:22px 28px; margin-top:36px; display:flex; gap:28px; flex-wrap:wrap; }
-  .sum-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--green); margin-bottom:8px; }
-  .summary-box p { font-size:12px; font-weight:300; line-height:1.8; color:var(--text-body); }
-
-  /* ── FOOTER ── */
-  footer { background:var(--white); border-top:3px solid var(--green); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; }
-  .footer-logo { height: 32px; width: auto; object-fit: contain; }
-  footer .pg { font-size:10px; font-weight:600; color:var(--green); letter-spacing:0.06em; }
-
-  .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .status-msg { font-family: var(--font-mono); font-size: 11px; color: var(--accent2); margin-top: 4px; }
 </style>
 </head>
 <body>
 
-<!-- BANNER -->
-<div class="banner">
-  <div class="banner-left">
-    <img src="logo.png" alt="FZR Group" class="banner-logo"/>
-    <div class="banner-divider"></div>
-    <div class="dept">Project Management Division</div>
-  </div>
-  <div class="banner-right">
-    <div class="doc-type">Live Dashboard</div>
-    <div class="doc-date" id="bannerDate"></div>
-  </div>
-</div>
-
-<div class="loading-bar"><div class="loading-fill" id="loadingFill"></div></div>
-
-<!-- COUNTDOWN (no brand text) -->
-<div class="countdown-bar">
-  <div class="countdown-left">
-    <span class="live-dot"></span>
-    <span>Live data · last updated: <strong id="lastUpdated">—</strong></span>
-    <span>· next refresh in: <strong id="countdown">3:00</strong></span>
-  </div>
-  <button class="btn-refresh" onclick="fetchData()">↻ Refresh Now</button>
-</div>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
 
 <div class="wrapper">
 
-  <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
-  <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
-    <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
-    <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
-    <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
-    <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
+  <!-- Header -->
+  <header>
+    <div class="logo-area">
+      <h1>Project <span>Dashboard</span></h1>
+      <p>Google Sheets × Telegram Bot</p>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      LIVE DATA
+    </div>
+  </header>
+
+  <!-- Config bar (paste Google Sheets CSV export URL) -->
+  <div class="config-bar">
+    <label>SHEET CSV URL</label>
+    <input id="sheetUrl" type="text" placeholder="Paste your Google Sheet published CSV URL here…" />
+    <button onclick="loadSheet()">Load Data</button>
+  </div>
+  <div id="statusMsg" class="status-msg" style="margin-bottom:24px;margin-left:4px;"></div>
+
+  <!-- Stat cards -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-label">Total Members</div><div class="stat-value purple" id="s-total">—</div><div class="stat-sub">across all projects</div></div>
+    <div class="stat-card"><div class="stat-label">Avg Completion</div><div class="stat-value green" id="s-avg">—</div><div class="stat-sub">percent complete</div></div>
+    <div class="stat-card"><div class="stat-label">Active Projects</div><div class="stat-value pink" id="s-projects">—</div><div class="stat-sub">unique projects</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Items</div><div class="stat-value" id="s-pending" style="color:#ffaa44">—</div><div class="stat-sub">need attention</div></div>
   </div>
 
-  <div class="sec-head">Member Overview <span id="recordCount"></span></div>
-  <div class="filter-bar">
-    <label>Filter:</label>
-    <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
-    <select id="statusFilter" onchange="applyFilters()">
-      <option value="">All Statuses</option>
-      <option value="Ongoing">Ongoing</option>
-      <option value="Done">Done</option>
-      <option value="Hold">Hold</option>
-    </select>
-    <select id="projectFilter" onchange="applyFilters()">
-      <option value="">All Projects</option>
-    </select>
-    <button class="btn-reset" onclick="resetFilters()">Reset</button>
-  </div>
-
+  <!-- Main grid -->
   <div class="main-grid">
-    <div class="table-panel">
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="green-th">#</th>
-            <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
-            <th>Pending</th>
-          </tr></thead>
-          <tbody id="tableBody">
-            <tr><td colspan="8" class="no-data">Loading data…</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Person cards -->
+    <div class="cards-container">
+      <div class="section-title">Members · Completion</div>
+      <div id="personList"><div style="color:var(--muted);font-family:var(--font-mono);font-size:12px;padding:20px 0">Load a sheet to see members…</div></div>
     </div>
 
-    <div class="right-col">
-      <div class="chart-panel">
-        <div class="chart-title">Completion by Project</div>
-        <div class="donut-wrap">
-          <canvas id="donut" width="150" height="150"></canvas>
-          <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
+    <!-- Donut chart -->
+    <div class="chart-panel">
+      <div class="section-title">By Project</div>
+      <div class="donut-wrap">
+        <canvas id="donut" width="180" height="180"></canvas>
+        <div class="donut-center">
+          <div class="big" id="donut-center-val">—</div>
+          <div class="small">avg %</div>
         </div>
-        <div id="donutLegend"><div class="no-data">No data.</div></div>
       </div>
-      <div class="chart-panel">
-        <div class="chart-title">Status Breakdown</div>
-        <div id="statusBars"></div>
-      </div>
+      <div class="legend" id="donutLegend"><div style="color:var(--muted);font-family:var(--font-mono);font-size:11px">No data</div></div>
     </div>
   </div>
 
-  <div class="sec-head">Completion by Person</div>
+  <!-- Bar chart row -->
   <div class="bar-panel">
-    <div class="chart-title">Individual progress — all members</div>
-    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
-  </div>
-
-  <div class="summary-box">
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Dashboard Summary</div>
-      <p id="summaryText">Loading live data from Google Sheets…</p>
-    </div>
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Data Source</div>
-      <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>. Columns: Name, Place, Project, Pending, Percent, Status, Deadline.</p>
+    <div class="section-title">Completion by Person</div>
+    <div class="bar-chart" id="barChart">
+      <div style="color:var(--muted);font-family:var(--font-mono);font-size:12px;align-self:center">Load data to see chart</div>
     </div>
   </div>
 
 </div>
 
-<footer>
-  <img src="logo.png" alt="FZR Group" class="footer-logo"/>
-  <span class="pg">Live Dashboard — <span id="footerYear"></span></span>
-</footer>
-
 <script>
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?output=csv";
-const REFRESH_INTERVAL = 3 * 60;
-const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
+// ──────────────────────────────────────────────────────
+//  DEMO DATA — shown when no sheet is loaded
+// ──────────────────────────────────────────────────────
+const DEMO = [
+  { Name:"Alice Chen",   Place:"New York",   Project:"Alpha",   Pending:"Yes", Percent:82 },
+  { Name:"Bob Martin",   Place:"London",     Project:"Beta",    Pending:"No",  Percent:55 },
+  { Name:"Clara Diaz",   Place:"Madrid",     Project:"Alpha",   Pending:"Yes", Percent:91 },
+  { Name:"David Kim",    Place:"Seoul",      Project:"Gamma",   Pending:"No",  Percent:38 },
+  { Name:"Eva Novak",    Place:"Prague",     Project:"Beta",    Pending:"Yes", Percent:67 },
+  { Name:"Frank Osei",   Place:"Accra",      Project:"Gamma",   Pending:"No",  Percent:74 },
+  { Name:"Grace Liu",    Place:"Singapore",  Project:"Delta",   Pending:"Yes", Percent:20 },
+  { Name:"Hiro Tanaka",  Place:"Tokyo",      Project:"Delta",   Pending:"No",  Percent:95 },
+];
 
-let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
+const COLORS = ["#7c6aff","#ff6a9b","#6affcb","#ffaa44","#4ac8ff","#ff9b6a","#c46aff","#aaff6a"];
 
-document.getElementById("bannerDate").textContent = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
-document.getElementById("footerYear").textContent = new Date().getFullYear();
+function initWithData(data){ renderAll(data); }
 
-async function fetchData(){
-  setLoading(true);
-  try {
-    const res=await fetch(SHEET_CSV_URL+"&t="+Date.now());
-    const text=await res.text();
-    const rows=text.trim().split("\n").map(r=>parseCSVRow(r));
-    const hdrs=rows[0];
-    allData=rows.slice(1).map(row=>{
-      const o={}; hdrs.forEach((h,i)=>{o[h.trim()]=(row[i]||"").trim();});
-      o.Percent=parseFloat(String(o.Percent).replace("%",""))||0;
-      return o;
-    }).filter(r=>r.Name);
-    document.getElementById("lastUpdated").textContent=new Date().toLocaleTimeString("en-GB");
-    countdown=REFRESH_INTERVAL;
-    populateProjectFilter();
-    applyFilters();
-  } catch(e){
-    document.getElementById("tableBody").innerHTML=`<tr><td colspan="8" class="no-data">⚠️ Could not load data.</td></tr>`;
-  }
-  setLoading(false);
-}
-
-function parseCSVRow(row){
-  const result=[]; let cur="",inQ=false;
-  for(let i=0;i<row.length;i++){
-    const c=row[i];
-    if(c==='"'){inQ=!inQ;}
-    else if(c===','&&!inQ){result.push(cur);cur="";}
-    else{cur+=c;}
-  }
-  result.push(cur); return result;
-}
-
-function setLoading(on){document.getElementById("loadingFill").style.width=on?"100%":"0%";}
-
-function populateProjectFilter(){
-  const projects=[...new Set(allData.map(d=>d.Project).filter(Boolean))].sort();
-  const sel=document.getElementById("projectFilter"),cur=sel.value;
-  sel.innerHTML='<option value="">All Projects</option>'+
-    projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
-}
-
-function applyFilters(){
-  const search=document.getElementById("searchInput").value.toLowerCase();
-  const status=document.getElementById("statusFilter").value;
-  const project=document.getElementById("projectFilter").value;
-  filteredData=allData.filter(r=>{
-    const ms=!search||[r.Name,r.Place,r.Project,r.Pending].some(v=>(v||"").toLowerCase().includes(search));
-    const mst=!status||r.Status===status;
-    const mp=!project||r.Project===project;
-    return ms&&mst&&mp;
-  });
-  if(sortKey) doSort();
-  renderAll(filteredData);
-}
-
-function resetFilters(){
-  document.getElementById("searchInput").value="";
-  document.getElementById("statusFilter").value="";
-  document.getElementById("projectFilter").value="";
-  applyFilters();
-}
-
-function sortTable(key){
-  if(sortKey===key){sortAsc=!sortAsc;}else{sortKey=key;sortAsc=true;}
-  doSort(); renderAll(filteredData);
-}
-
-function doSort(){
-  filteredData.sort((a,b)=>{
-    let va=a[sortKey]||"",vb=b[sortKey]||"";
-    if(sortKey==="Percent"){va=parseFloat(va)||0;vb=parseFloat(vb)||0;}
-    else if(sortKey==="Deadline"){va=parseDate(va);vb=parseDate(vb);}
-    else{va=va.toLowerCase();vb=vb.toLowerCase();}
-    return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
-  });
-}
-
-function parseDate(str){
-  if(!str) return 0;
-  const p=str.split("/");
-  return p.length===3?new Date(p[2],p[1]-1,p[0]).getTime():0;
-}
-
+// ──────────────────────────────────────────────────────
+//  RENDER
+// ──────────────────────────────────────────────────────
 function renderAll(data){
-  const total=data.length;
-  const avg=total?Math.round(data.map(d=>d.Percent).reduce((a,b)=>a+b,0)/total):0;
-  const projects=[...new Set(data.map(d=>d.Project).filter(Boolean))];
-  const ongoing=data.filter(d=>(d.Status||"").toLowerCase()==="ongoing").length;
-  const hold=data.filter(d=>(d.Status||"").toLowerCase()==="hold").length;
-  const today=new Date(); today.setHours(0,0,0,0);
-  const overdue=data.filter(d=>{
-    if(!d.Deadline||(d.Status||"").toLowerCase()==="done") return false;
-    const dt=parseDate(d.Deadline); return dt&&dt<today.getTime();
-  });
+  const total = data.length;
+  const percents = data.map(d => parseFloat(d.Percent)||0);
+  const avg = total ? Math.round(percents.reduce((a,b)=>a+b,0)/total) : 0;
+  const projects = [...new Set(data.map(d=>d.Project).filter(Boolean))];
+  const pending = data.filter(d=>["yes","true","1","pending"].includes(String(d.Pending).toLowerCase())).length;
 
-  document.getElementById("s-total").textContent=total;
-  document.getElementById("s-avg").textContent=avg+"%";
-  document.getElementById("s-projects").textContent=projects.length;
-  document.getElementById("s-ongoing").textContent=ongoing;
-  document.getElementById("s-hold").textContent=hold;
-  document.getElementById("s-overdue").textContent=overdue.length;
-  document.getElementById("recordCount").textContent=`${total} record${total!==1?"s":""}`;
-  document.getElementById("kpiNote").textContent=`as of ${new Date().toLocaleTimeString("en-GB")}`;
-  document.getElementById("summaryText").textContent=
-    `This live report covers ${total} member${total!==1?"s":""} across ${projects.length} `+
-    `project${projects.length!==1?"s":""}. Average task completion is ${avg}%. `+
-    `${ongoing} task${ongoing!==1?"s are":" is"} ongoing, ${hold} on hold, `+
-    `and ${overdue.length} item${overdue.length!==1?"s are":" is"} overdue.`;
+  document.getElementById("s-total").textContent = total;
+  document.getElementById("s-avg").textContent = avg + "%";
+  document.getElementById("s-projects").textContent = projects.length;
+  document.getElementById("s-pending").textContent = pending;
 
-  renderTable(data,overdue.map(r=>r.Name));
-  renderDonut(data,projects);
-  renderStatusBars(data);
+  renderPersonCards(data);
+  renderDonut(data, projects);
   renderBars(data);
 }
 
-function getStatusTag(s){
-  const sl=(s||"").toLowerCase();
-  if(sl==="ongoing") return `<span class="tag tag-ongoing">Ongoing</span>`;
-  if(sl==="done")    return `<span class="tag tag-done">Done</span>`;
-  if(sl==="hold")    return `<span class="tag tag-hold">Hold</span>`;
-  return `<span class="tag tag-other">${s||"—"}</span>`;
-}
+function avatarColors(i){ return COLORS[i % COLORS.length]; }
 
-function renderTable(data,overdueNames){
-  if(!data.length){
-    document.getElementById("tableBody").innerHTML=`<tr><td colspan="8" class="no-data">No records match your filters.</td></tr>`;
-    return;
-  }
-  document.getElementById("tableBody").innerHTML=data.map((d,i)=>{
-    const pct=d.Percent,isOver=overdueNames.includes(d.Name);
-    return `<tr class="${isOver?"overdue-row":""}">
-      <td class="td-num">${i+1}</td>
-      <td class="td-name">${d.Name||"—"}${isOver?'<span class="overdue-flag">⚠ overdue</span>':""}</td>
-      <td>${d.Place||"—"}</td>
-      <td>${d.Project||"—"}</td>
-      <td><div class="prog-wrap"><div class="bar-bg"><div class="bar-fill${pct<50?" lo":""}" style="width:${pct}%"></div></div><span class="td-pct">${pct}%</span></div></td>
-      <td>${getStatusTag(d.Status)}</td>
-      <td style="font-family:monospace;font-size:11px">${d.Deadline||"—"}</td>
-      <td style="font-size:11px;color:var(--text-muted)">${d.Pending||"—"}</td>
-    </tr>`;
+function renderPersonCards(data){
+  const el = document.getElementById("personList");
+  el.innerHTML = data.map((d,i) => {
+    const pct = parseFloat(d.Percent)||0;
+    const col = avatarColors(i);
+    const initials = (d.Name||"?").split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2);
+    const barColor = pct>=80?'var(--accent3)':pct>=50?'var(--accent)':'var(--accent2)';
+    return `
+    <div class="person-card">
+      <div class="avatar" style="background:${col}22;color:${col}">${initials}</div>
+      <div class="person-info">
+        <div class="name">${d.Name||"—"}</div>
+        <div class="project">📁 ${d.Project||"—"} &nbsp;·&nbsp; 📍 ${d.Place||"—"}</div>
+      </div>
+      <div class="percent-block">
+        <div class="percent-number" style="color:${barColor}">${pct}%</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" style="width:${pct}%;background:${barColor}"></div>
+        </div>
+      </div>
+    </div>`;
   }).join("");
 }
 
-function renderDonut(data,projects){
-  const groups={};
-  projects.forEach(p=>{
-    const rows=data.filter(d=>d.Project===p);
-    groups[p]=rows.length?Math.round(rows.map(d=>d.Percent).reduce((a,b)=>a+b,0)/rows.length):0;
+function renderDonut(data, projects){
+  // Group avg percent by project
+  const groups = {};
+  projects.forEach(p => {
+    const rows = data.filter(d=>d.Project===p);
+    const avg = rows.length ? Math.round(rows.map(d=>parseFloat(d.Percent)||0).reduce((a,b)=>a+b,0)/rows.length) : 0;
+    groups[p] = avg;
   });
-  const vals=projects.map(p=>groups[p]);
-  const total=vals.reduce((a,b)=>a+b,0)||1;
-  const overall=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
-  document.getElementById("donut-avg").textContent=overall+"%";
-  const c=document.getElementById("donut"),ctx=c.getContext("2d");
-  ctx.clearRect(0,0,150,150);
-  let angle=-Math.PI/2;
-  vals.forEach((v,i)=>{
-    const sl=(v/total)*Math.PI*2;
-    ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,66,angle,angle+sl);ctx.closePath();
-    ctx.fillStyle=CHART_COLORS[i%CHART_COLORS.length];ctx.fill();angle+=sl;
-  });
-  ctx.beginPath();ctx.arc(75,75,40,0,Math.PI*2);ctx.fillStyle="#ffffff";ctx.fill();
-  document.getElementById("donutLegend").innerHTML=projects.map((p,i)=>`
-    <div class="leg-row">
-      <div class="leg-dot" style="background:${CHART_COLORS[i%CHART_COLORS.length]}"></div>
-      <div class="leg-name">${p}</div><div class="leg-pct">${groups[p]}%</div>
-    </div>`).join("");
-}
 
-function renderStatusBars(data){
-  const counts={Ongoing:0,Done:0,Hold:0};
-  data.forEach(d=>{const s=(d.Status||"").trim();if(counts[s]!==undefined)counts[s]++;});
-  const total=data.length||1;
-  const colors={Ongoing:"#344832",Done:"#1b221a",Hold:"#8a7020"};
-  document.getElementById("statusBars").innerHTML=Object.entries(counts).map(([k,v])=>`
-    <div style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px">
-        <span>${getStatusTag(k)}</span><span style="font-weight:600;color:var(--green)">${v}</span>
-      </div>
-      <div style="height:6px;background:var(--beige-dark);border-radius:3px;overflow:hidden">
-        <div style="height:100%;width:${Math.round(v/total*100)}%;background:${colors[k]};transition:width 1s ease;border-radius:3px"></div>
-      </div>
+  const vals = projects.map(p=>groups[p]);
+  const total = vals.reduce((a,b)=>a+b,0)||1;
+  const overall = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length)||0;
+
+  document.getElementById("donut-center-val").textContent = overall + "%";
+
+  const canvas = document.getElementById("donut");
+  const ctx = canvas.getContext("2d");
+  const cx=90, cy=90, r=70, inner=44;
+  ctx.clearRect(0,0,180,180);
+
+  let angle = -Math.PI/2;
+  vals.forEach((v,i)=>{
+    const slice = (v/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,angle,angle+slice);
+    ctx.closePath();
+    ctx.fillStyle = COLORS[i%COLORS.length];
+    ctx.fill();
+    angle+=slice;
+  });
+
+  // Donut hole
+  ctx.beginPath();
+  ctx.arc(cx,cy,inner,0,Math.PI*2);
+  ctx.fillStyle = "#1a1a26";
+  ctx.fill();
+
+  // Legend
+  const legend = document.getElementById("donutLegend");
+  legend.innerHTML = projects.map((p,i)=>`
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${COLORS[i%COLORS.length]}"></div>
+      <div class="legend-name">${p}</div>
+      <div class="legend-pct">${groups[p]}%</div>
     </div>`).join("");
 }
 
 function renderBars(data){
-  const max=Math.max(...data.map(d=>d.Percent),1);
-  document.getElementById("barChart").innerHTML=data.length?data.map(d=>{
-    const pct=d.Percent,h=Math.round((pct/max)*100);
-    return `<div class="b-col">
-      <div class="b-val">${pct}%</div>
-      <div class="b-fill${pct>=70?" hi":""}" style="height:${h}%"></div>
-      <div class="b-label">${(d.Name||"?").split(" ")[0]}</div>
+  const el = document.getElementById("barChart");
+  const maxPct = Math.max(...data.map(d=>parseFloat(d.Percent)||0), 1);
+  el.innerHTML = data.map((d,i)=>{
+    const pct = parseFloat(d.Percent)||0;
+    const h = Math.round((pct/maxPct)*100);
+    const col = COLORS[i%COLORS.length];
+    const label = (d.Name||"?").split(" ")[0];
+    return `
+    <div class="bar-col">
+      <div class="bar-val">${pct}%</div>
+      <div class="bar-fill" style="height:${h}%;background:${col}99;border-top:2px solid ${col}"></div>
+      <div class="bar-label">${label}</div>
     </div>`;
-  }).join(""):`<div class="no-data">No data.</div>`;
+  }).join("");
 }
 
-setInterval(()=>{
-  countdown--;
-  if(countdown<=0){fetchData();return;}
-  const m=Math.floor(countdown/60),s=countdown%60;
-  document.getElementById("countdown").textContent=`${m}:${String(s).padStart(2,"0")}`;
-},1000);
+// ──────────────────────────────────────────────────────
+//  LOAD FROM GOOGLE SHEET (published CSV)
+// ──────────────────────────────────────────────────────
+async function loadSheet(){
+  const url = document.getElementById("sheetUrl").value.trim();
+  const msg = document.getElementById("statusMsg");
+  if(!url){ msg.textContent="⚠ Please paste a CSV URL first."; return; }
+  msg.textContent="⏳ Fetching data…";
+  try {
+    const res = await fetch(url);
+    if(!res.ok) throw new Error("Fetch failed");
+    const text = await res.text();
+    const rows = text.trim().split("\n").map(r=>r.split(",").map(c=>c.trim().replace(/^"|"$/g,"")));
+    const headers = rows[0];
+    const data = rows.slice(1).map(row=>{
+      const obj={};
+      headers.forEach((h,i)=>{ obj[h]=row[i]||""; });
+      if(obj.Percent) obj.Percent=parseFloat(String(obj.Percent).replace("%",""))||0;
+      return obj;
+    });
+    renderAll(data);
+    msg.textContent=`✅ Loaded ${data.length} records.`;
+  } catch(e){
+    msg.textContent="❌ Could not load sheet. Make sure it's published as CSV (File → Share → Publish to web → CSV).";
+  }
+}
 
-fetchData();
+// Load demo on start
+renderAll(DEMO);
 </script>
 </body>
 </html>
