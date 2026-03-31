@@ -361,7 +361,7 @@ function parseCSVRow(row){
   result.push(cur); return result;
 }
 
-function setLoading(on){document.getElementById("loadingFill").style.width=on?"100%":"0%";}
+function setLoading(on){ const el=document.getElementById("loadingFill"); if(el) el.style.width=on?"100%":"0%"; }
 
 function populateTeamFilter(){
   const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
