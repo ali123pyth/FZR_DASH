@@ -249,6 +249,9 @@
     <select id="projectFilter" onchange="applyFilters()">
       <option value="">All Projects</option>
     </select>
+    <select id="teamFilter" onchange="applyFilters()">
+      <option value="">All Teams</option>
+    </select>
     <button class="btn-reset" onclick="resetFilters()">Reset</button>
   </div>
 
@@ -258,6 +261,7 @@
         <table>
           <thead><tr>
             <th class="green-th">#</th>
+            <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
@@ -267,7 +271,7 @@
             <th>Pending</th>
           </tr></thead>
           <tbody id="tableBody">
-            <tr><td colspan="8" class="no-data">Loading data…</td></tr>
+            <tr><td colspan="9" class="no-data">Loading data…</td></tr>
           </tbody>
         </table>
       </div>
@@ -338,9 +342,10 @@ async function fetchData(){
     document.getElementById("lastUpdated").textContent=new Date().toLocaleTimeString("en-GB");
     countdown=REFRESH_INTERVAL;
     populateProjectFilter();
+    populateTeamFilter();
     applyFilters();
   }catch(e){
-    document.getElementById("tableBody").innerHTML=`<tr><td colspan="8" class="no-data">⚠️ Could not load data.</td></tr>`;
+    document.getElementById("tableBody").innerHTML=`<tr><td colspan="9" class="no-data">⚠️ Could not load data.</td></tr>`;
   }
   setLoading(false);
 }
@@ -356,7 +361,14 @@ function parseCSVRow(row){
   result.push(cur); return result;
 }
 
-function setLoading(on){ const el=document.getElementById("loadingFill"); if(el) el.style.width=on?"100%":"0%"; }
+function setLoading(on){document.getElementById("loadingFill").style.width=on?"100%":"0%";}
+
+function populateTeamFilter(){
+  const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
+  const sel=document.getElementById("teamFilter"),cur=sel.value;
+  sel.innerHTML='<option value="">All Teams</option>'+
+    teams.map(t=>`<option value="${t}" ${t===cur?"selected":""}>${t}</option>`).join("");
+}
 
 function populateProjectFilter(){
   const projects=[...new Set(allData.map(d=>d.Project).filter(Boolean))].sort();
@@ -369,11 +381,13 @@ function applyFilters(){
   const search=document.getElementById("searchInput").value.toLowerCase();
   const status=document.getElementById("statusFilter").value;
   const project=document.getElementById("projectFilter").value;
+  const team=document.getElementById("teamFilter").value;
   filteredData=allData.filter(r=>{
-    const ms=!search||[r.Name,r.Place,r.Project,r.Pending].some(v=>(v||"").toLowerCase().includes(search));
+    const ms=!search||[r.Name,r.Place,r.Project,r.Pending,r.Team].some(v=>(v||"").toLowerCase().includes(search));
     const mst=!status||r.Status===status;
     const mp=!project||r.Project===project;
-    return ms&&mst&&mp;
+    const mt=!team||r.Team===team;
+    return ms&&mst&&mp&&mt;
   });
   if(sortKey) doSort();
   renderAll(filteredData);
@@ -383,6 +397,7 @@ function resetFilters(){
   document.getElementById("searchInput").value="";
   document.getElementById("statusFilter").value="";
   document.getElementById("projectFilter").value="";
+  document.getElementById("teamFilter").value="";
   applyFilters();
 }
 
@@ -447,13 +462,14 @@ function getStatusTag(s){
 
 function renderTable(data,overdueNames){
   if(!data.length){
-    document.getElementById("tableBody").innerHTML=`<tr><td colspan="8" class="no-data">No records match your filters.</td></tr>`;
+    document.getElementById("tableBody").innerHTML=`<tr><td colspan="9" class="no-data">No records match your filters.</td></tr>`;
     return;
   }
   document.getElementById("tableBody").innerHTML=data.map((d,i)=>{
     const pct=d.Percent,isOver=overdueNames.includes(d.Name);
     return `<tr class="${isOver?"overdue-row":""}">
       <td class="td-num">${i+1}</td>
+      <td>${d.Team||"—"}</td>
       <td class="td-name">${d.Name||"—"}${isOver?'<span class="overdue-flag">⚠ overdue</span>':""}</td>
       <td>${d.Place||"—"}</td>
       <td>${d.Project||"—"}</td>
