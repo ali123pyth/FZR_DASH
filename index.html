@@ -252,9 +252,9 @@
     <select id="teamFilter" onchange="applyFilters()">
       <option value="">All Teams</option>
     </select>
-    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:var(--white);border:1px solid var(--beige-dark);border-radius:3px;">
-      <img id="teamLogoImg" src="" alt="" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:multiply;"/>
-      <span id="teamLogoName" style="font-size:11px;font-weight:600;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;"></span>
+    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
+      <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
+
     </div>
     <button class="btn-reset" onclick="resetFilters()">Reset</button>
   </div>
@@ -325,10 +325,10 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?output=csv";
 const REFRESH_INTERVAL = 3 * 60;
 const TEAM_LOGOS = {
-  "FZR":       "team-fzr.png",
-  "Velur":     "team-velur.png",
-  "MYM":       "team-mym.png",
-  "Acumen AI": "team-acumenai.png"
+  "FZR":       { src: "team-fzr.png",       bg: "#1b221a" },
+  "Velur":     { src: "team-velur.png",      bg: "#1b221a" },
+  "MYM":       { src: "team-mym.png",        bg: "#ffffff" },
+  "Acumen AI": { src: "team-acumenai.png",   bg: "#000000" }
 };
 
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
@@ -391,16 +391,18 @@ function populateProjectFilter(){
 function updateTeamLogo(team){
   const wrap=document.getElementById("teamLogoWrap");
   const img=document.getElementById("teamLogoImg");
-  const name=document.getElementById("teamLogoName");
   if(team && TEAM_LOGOS[team]){
-    img.src=TEAM_LOGOS[team];
+    const t=TEAM_LOGOS[team];
+    img.src=t.src;
     img.alt=team;
-    name.textContent=team;
+    wrap.style.background=t.bg;
+    wrap.style.border="1px solid "+t.bg;
+    wrap.style.padding="8px 16px";
+    wrap.style.borderRadius="4px";
     wrap.style.display="flex";
   } else {
     wrap.style.display="none";
     img.src="";
-    name.textContent="";
   }
 }
 
