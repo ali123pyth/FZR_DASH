@@ -252,6 +252,10 @@
     <select id="teamFilter" onchange="applyFilters()">
       <option value="">All Teams</option>
     </select>
+    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:var(--white);border:1px solid var(--beige-dark);border-radius:3px;">
+      <img id="teamLogoImg" src="" alt="" style="height:36px;width:auto;object-fit:contain;mix-blend-mode:multiply;"/>
+      <span id="teamLogoName" style="font-size:11px;font-weight:600;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;"></span>
+    </div>
     <button class="btn-reset" onclick="resetFilters()">Reset</button>
   </div>
 
@@ -320,6 +324,13 @@
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?output=csv";
 const REFRESH_INTERVAL = 3 * 60;
+const TEAM_LOGOS = {
+  "FZR":       "team-fzr.png",
+  "Velur":     "team-velur.png",
+  "MYM":       "team-mym.png",
+  "Acumen AI": "team-acumenai.png"
+};
+
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
 
 let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
@@ -377,11 +388,28 @@ function populateProjectFilter(){
     projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
 }
 
+function updateTeamLogo(team){
+  const wrap=document.getElementById("teamLogoWrap");
+  const img=document.getElementById("teamLogoImg");
+  const name=document.getElementById("teamLogoName");
+  if(team && TEAM_LOGOS[team]){
+    img.src=TEAM_LOGOS[team];
+    img.alt=team;
+    name.textContent=team;
+    wrap.style.display="flex";
+  } else {
+    wrap.style.display="none";
+    img.src="";
+    name.textContent="";
+  }
+}
+
 function applyFilters(){
   const search=document.getElementById("searchInput").value.toLowerCase();
   const status=document.getElementById("statusFilter").value;
   const project=document.getElementById("projectFilter").value;
   const team=document.getElementById("teamFilter").value;
+  updateTeamLogo(team);
   filteredData=allData.filter(r=>{
     const ms=!search||[r.Name,r.Place,r.Project,r.Pending,r.Team].some(v=>(v||"").toLowerCase().includes(search));
     const mst=!status||r.Status===status;
@@ -398,6 +426,7 @@ function resetFilters(){
   document.getElementById("statusFilter").value="";
   document.getElementById("projectFilter").value="";
   document.getElementById("teamFilter").value="";
+  updateTeamLogo("");
   applyFilters();
 }
 
