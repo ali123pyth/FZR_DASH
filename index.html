@@ -194,6 +194,71 @@
 
   .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media(max-width:600px){
+    .wrapper { padding: 16px 12px 40px; }
+
+    /* Banner */
+    .banner { grid-template-columns: 1fr; }
+    .banner-left { padding: 12px 16px; }
+    .banner-logo { height: 40px; }
+    .banner-right { min-width: unset; padding: 10px 16px; align-items: flex-start; }
+    .banner-right .doc-type { font-size: 11px; }
+
+    /* Countdown */
+    .countdown-bar { padding: 8px 12px; flex-wrap: wrap; gap: 6px; }
+    .countdown-left { flex-wrap: wrap; gap: 6px; font-size: 10px; }
+
+    /* KPI — 2 per row, compact */
+    .kpi-row { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+    .kpi-card { padding: 12px 12px 10px; }
+    .kpi-value { font-size: 22px; }
+    .kpi-label { font-size: 8px; margin-bottom: 4px; }
+    .kpi-sub { font-size: 9px; margin-top: 2px; }
+
+    /* Section heading */
+    .sec-head { font-size: 9px; margin-top: 24px; }
+
+    /* Filters */
+    .filter-bar { gap: 6px; }
+    .filter-bar input,
+    .filter-bar select { font-size: 11px; padding: 6px 8px; width: 100%; }
+    .btn-reset { width: 100%; text-align: center; padding: 8px; }
+
+    /* Main grid — single column */
+    .main-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    /* Table — compact */
+    thead th { font-size: 9px; padding: 8px 8px; }
+    tbody td { font-size: 11px; padding: 8px 8px; }
+    .prog-wrap { gap: 6px; }
+    .bar-bg { min-width: 40px; }
+
+    /* Charts */
+    .right-col { gap: 12px; }
+    .chart-panel { padding: 16px; }
+    .donut-wrap { width: 130px; height: 130px; }
+
+    /* Bar chart */
+    .bar-panel { padding: 16px; }
+    .bars-area { height: 90px; }
+    .b-fill { width: 24px; }
+    .b-val { font-size: 8px; }
+    .b-label { font-size: 8px; width: 30px; }
+
+    /* Summary */
+    .summary-box { padding: 16px; gap: 16px; }
+    .summary-box p { font-size: 11px; }
+
+    /* Footer */
+    footer { padding: 10px 16px; }
+    .footer-logo { height: 24px; }
+    footer .pg { font-size: 9px; }
+
+    /* Team logo */
+    #teamLogoWrap img { height: 32px; }
+  }
 </style>
 </head>
 <body>
