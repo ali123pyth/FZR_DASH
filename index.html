@@ -259,6 +259,16 @@
     /* Team logo */
     #teamLogoWrap img { height: 32px; }
   }
+
+  @media(max-width:600px){
+    .banner { grid-template-columns: 1fr auto !important; }
+    .banner-right { 
+      min-width: unset !important; 
+      padding: 12px 16px !important; 
+      align-items: flex-end !important;
+    }
+    .banner-left { padding: 12px 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -268,7 +278,7 @@
   <div class="banner-left">
     <img src="logo.png" alt="FZR Group" class="banner-logo"/>
     <div class="banner-divider"></div>
-    <div class="dept">Project Management Division</div>
+    <div class="dept">AI & Growth Leadership</div>
   </div>
   <div class="banner-right">
     <div class="doc-type">Live Dashboard</div>
