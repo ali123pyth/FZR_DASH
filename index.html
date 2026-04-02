@@ -175,11 +175,11 @@
 
   /* ── BARS ── */
   .bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .bars-area { display:flex; align-items:flex-end; gap:9px; height:180px; margin-top:14px; padding-bottom:50px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
-  .b-col  { flex:0 0 auto; min-width:80px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+  .bars-area { display:flex; align-items:flex-end; gap:9px; height:200px; margin-top:14px; padding-bottom:0; border-bottom:none; overflow-x:auto; }
+  .b-col  { flex:0 0 auto; min-width:80px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; padding-bottom:0; }
   .b-fill { width:50px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
   .b-fill.hi { background: var(--green); }
-  .b-label { font-size:10px; color:var(--text-muted); width:80px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
+  .b-label { font-size:10px; color:var(--text-muted); width:80px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:8px; flex-shrink:0; }
   .b-val   { font-size:9px; font-weight:600; color:var(--green); }
 
   /* ── SUMMARY ── */
@@ -375,7 +375,7 @@
   <div class="sec-head">Completion by Project</div>
   <div class="bar-panel">
     <div class="chart-title">Individual project progress — all projects</div>
-    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
+    <div style="border-bottom:1px solid var(--beige-dark);padding-bottom:16px;overflow-x:auto"><div class="bars-area" id="barChart" style="overflow-x:visible"><div class="no-data">Loading…</div></div></div>
   </div>
 
   <div class="summary-box">
