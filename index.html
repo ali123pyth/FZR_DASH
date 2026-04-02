@@ -372,9 +372,9 @@
     </div>
   </div>
 
-  <div class="sec-head">Completion by Person</div>
+  <div class="sec-head">Completion by Project</div>
   <div class="bar-panel">
-    <div class="chart-title">Individual progress — all members</div>
+    <div class="chart-title">Individual project progress — all projects</div>
     <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
   </div>
 
@@ -630,13 +630,24 @@ function renderStatusBars(data){
 }
 
 function renderBars(data){
-  const max=Math.max(...data.map(d=>d.Percent),1);
-  document.getElementById("barChart").innerHTML=data.length?data.map(d=>{
-    const pct=d.Percent,h=Math.round((pct/max)*100);
+  // Group by project and calculate avg percent
+  const projects={};
+  data.forEach(d=>{
+    const p=d.Project||"Unknown";
+    if(!projects[p]) projects[p]={total:0,count:0};
+    projects[p].total+=d.Percent;
+    projects[p].count++;
+  });
+  const entries=Object.entries(projects).map(([p,v])=>({
+    name:p, pct:Math.round(v.total/v.count)
+  })).sort((a,b)=>b.pct-a.pct);
+  const max=Math.max(...entries.map(e=>e.pct),1);
+  document.getElementById("barChart").innerHTML=entries.length?entries.map(e=>{
+    const h=Math.round((e.pct/max)*100);
     return `<div class="b-col">
-      <div class="b-val">${pct}%</div>
-      <div class="b-fill${pct>=70?" hi":""}" style="height:${h}%"></div>
-      <div class="b-label">${(d.Name||"?").split(" ")[0]}</div>
+      <div class="b-val">${e.pct}%</div>
+      <div class="b-fill${e.pct>=70?" hi":""}" style="height:${h}%"></div>
+      <div class="b-label">${e.name}</div>
     </div>`;
   }).join(""):`<div class="no-data">No data.</div>`;
 }
