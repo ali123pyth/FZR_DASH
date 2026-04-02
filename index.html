@@ -457,10 +457,16 @@ function populateTeamFilter(){
 }
 
 function populateProjectFilter(){
-  const projects=[...new Set(allData.map(d=>d.Project).filter(Boolean))].sort();
+  const selectedTeam = document.getElementById("teamFilter").value;
+  const filtered = selectedTeam
+    ? allData.filter(d => d.Team === selectedTeam)
+    : allData;
+  const projects=[...new Set(filtered.map(d=>d.Project).filter(Boolean))].sort();
   const sel=document.getElementById("projectFilter"),cur=sel.value;
   sel.innerHTML='<option value="">All Projects</option>'+
     projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
+  // Reset project selection if it no longer exists in filtered list
+  if(cur && !projects.includes(cur)) sel.value="";
 }
 
 function updateTeamLogo(team){
@@ -487,6 +493,7 @@ function applyFilters(){
   const project=document.getElementById("projectFilter").value;
   const team=document.getElementById("teamFilter").value;
   updateTeamLogo(team);
+  populateProjectFilter();
   filteredData=allData.filter(r=>{
     const ms=!search||[r.Name,r.Place,r.Project,r.Pending,r.Team].some(v=>(v||"").toLowerCase().includes(search));
     const mst=!status||r.Status===status;
