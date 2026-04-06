@@ -175,11 +175,11 @@
 
   /* ── BARS ── */
   .bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .bars-area { display:flex; align-items:flex-end; gap:9px; height:200px; margin-top:14px; padding-bottom:0; border-bottom:none; overflow-x:auto; }
-  .b-col  { flex:0 0 auto; min-width:80px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; padding-bottom:0; }
-  .b-fill { width:50px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
+  .bars-area { display:flex; align-items:flex-end; gap:9px; height:110px; margin-top:14px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
+  .b-col  { flex:0 0 auto; min-width:40px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+  .b-fill { width:32px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
   .b-fill.hi { background: var(--green); }
-  .b-label { font-size:10px; color:var(--text-muted); width:80px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:8px; flex-shrink:0; }
+  .b-label { font-size:9px; color:var(--text-muted); width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
   .b-val   { font-size:9px; font-weight:600; color:var(--green); }
 
   /* ── SUMMARY ── */
@@ -194,81 +194,6 @@
 
   .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-  /* ── MOBILE RESPONSIVE ── */
-  @media(max-width:600px){
-    .wrapper { padding: 16px 12px 40px; }
-
-    /* Banner */
-    .banner { grid-template-columns: 1fr; }
-    .banner-left { padding: 12px 16px; }
-    .banner-logo { height: 40px; }
-    .banner-right { min-width: unset; padding: 10px 16px; align-items: flex-start; }
-    .banner-right .doc-type { font-size: 11px; }
-
-    /* Countdown */
-    .countdown-bar { padding: 8px 12px; flex-wrap: wrap; gap: 6px; }
-    .countdown-left { flex-wrap: wrap; gap: 6px; font-size: 10px; }
-
-    /* KPI — 2 per row, compact */
-    .kpi-row { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
-    .kpi-card { padding: 12px 12px 10px; }
-    .kpi-value { font-size: 22px; }
-    .kpi-label { font-size: 8px; margin-bottom: 4px; }
-    .kpi-sub { font-size: 9px; margin-top: 2px; }
-
-    /* Section heading */
-    .sec-head { font-size: 9px; margin-top: 24px; }
-
-    /* Filters */
-    .filter-bar { gap: 6px; }
-    .filter-bar input,
-    .filter-bar select { font-size: 11px; padding: 6px 8px; width: 100%; }
-    .btn-reset { width: 100%; text-align: center; padding: 8px; }
-
-    /* Main grid — single column */
-    .main-grid { grid-template-columns: 1fr; gap: 16px; }
-
-    /* Table — compact */
-    thead th { font-size: 9px; padding: 8px 8px; }
-    tbody td { font-size: 11px; padding: 8px 8px; }
-    .prog-wrap { gap: 6px; }
-    .bar-bg { min-width: 40px; }
-
-    /* Charts */
-    .right-col { gap: 12px; }
-    .chart-panel { padding: 16px; }
-    .donut-wrap { width: 130px; height: 130px; }
-
-    /* Bar chart */
-    .bar-panel { padding: 16px; }
-    .bars-area { height: 90px; }
-    .b-fill { width: 24px; }
-    .b-val { font-size: 8px; }
-    .b-label { font-size: 8px; width: 30px; }
-
-    /* Summary */
-    .summary-box { padding: 16px; gap: 16px; }
-    .summary-box p { font-size: 11px; }
-
-    /* Footer */
-    footer { padding: 10px 16px; }
-    .footer-logo { height: 24px; }
-    footer .pg { font-size: 9px; }
-
-    /* Team logo */
-    #teamLogoWrap img { height: 32px; }
-  }
-
-  @media(max-width:600px){
-    .banner { grid-template-columns: 1fr auto !important; }
-    .banner-right { 
-      min-width: unset !important; 
-      padding: 12px 16px !important; 
-      align-items: flex-end !important;
-    }
-    .banner-left { padding: 12px 16px !important; }
-  }
 </style>
 </head>
 <body>
@@ -278,7 +203,7 @@
   <div class="banner-left">
     <img src="logo.png" alt="FZR Group" class="banner-logo"/>
     <div class="banner-divider"></div>
-    <div class="dept">AI & Growth Leadership</div>
+    <div class="dept">Project Management Division</div>
   </div>
   <div class="banner-right">
     <div class="doc-type">Live Dashboard</div>
@@ -328,7 +253,7 @@
       <option value="">All Teams</option>
     </select>
     <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
-      <img id="teamLogoImg" src="" alt="" style="height:44px;width:auto;max-width:160px;object-fit:contain;object-position:center;"/>
+      <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
 
     </div>
     <button class="btn-reset" onclick="resetFilters()">Reset</button>
@@ -345,7 +270,7 @@
             <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Status')">Status/Stage <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
             <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
             <th>Pending</th>
           </tr></thead>
@@ -372,10 +297,10 @@
     </div>
   </div>
 
-  <div class="sec-head">Completion by Project</div>
+  <div class="sec-head">Completion by Person</div>
   <div class="bar-panel">
-    <div class="chart-title">Individual project progress — all projects</div>
-    <div style="border-bottom:1px solid var(--beige-dark);padding-bottom:16px;overflow-x:auto"><div class="bars-area" id="barChart" style="overflow-x:visible"><div class="no-data">Loading…</div></div></div>
+    <div class="chart-title">Individual progress — all members</div>
+    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
   </div>
 
   <div class="summary-box">
@@ -401,9 +326,9 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijs
 const REFRESH_INTERVAL = 3 * 60;
 const TEAM_LOGOS = {
   "FZR":       { src: "team-fzr.png",       bg: "#1b221a" },
-  "Velur":     { src: "team-velur.jpg",      bg: "#ffffff" },
+  "Velur":     { src: "team-velur.png",      bg: "#1b221a" },
   "MYM":       { src: "team-mym.png",        bg: "#ffffff" },
-  "Acumen AI": { src: "team-acumenai.jpg",   bg: "#ffffff" }
+  "Acumen AI": { src: "team-acumenai.png",   bg: "#000000" }
 };
 
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
@@ -457,16 +382,10 @@ function populateTeamFilter(){
 }
 
 function populateProjectFilter(){
-  const selectedTeam = document.getElementById("teamFilter").value;
-  const filtered = selectedTeam
-    ? allData.filter(d => d.Team === selectedTeam)
-    : allData;
-  const projects=[...new Set(filtered.map(d=>d.Project).filter(Boolean))].sort();
+  const projects=[...new Set(allData.map(d=>d.Project).filter(Boolean))].sort();
   const sel=document.getElementById("projectFilter"),cur=sel.value;
   sel.innerHTML='<option value="">All Projects</option>'+
     projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
-  // Reset project selection if it no longer exists in filtered list
-  if(cur && !projects.includes(cur)) sel.value="";
 }
 
 function updateTeamLogo(team){
@@ -493,7 +412,6 @@ function applyFilters(){
   const project=document.getElementById("projectFilter").value;
   const team=document.getElementById("teamFilter").value;
   updateTeamLogo(team);
-  populateProjectFilter();
   filteredData=allData.filter(r=>{
     const ms=!search||[r.Name,r.Place,r.Project,r.Pending,r.Team].some(v=>(v||"").toLowerCase().includes(search));
     const mst=!status||r.Status===status;
@@ -637,24 +555,13 @@ function renderStatusBars(data){
 }
 
 function renderBars(data){
-  // Group by project and calculate avg percent
-  const projects={};
-  data.forEach(d=>{
-    const p=d.Project||"Unknown";
-    if(!projects[p]) projects[p]={total:0,count:0};
-    projects[p].total+=d.Percent;
-    projects[p].count++;
-  });
-  const entries=Object.entries(projects).map(([p,v])=>({
-    name:p, pct:Math.round(v.total/v.count)
-  })).sort((a,b)=>b.pct-a.pct);
-  const max=Math.max(...entries.map(e=>e.pct),1);
-  document.getElementById("barChart").innerHTML=entries.length?entries.map(e=>{
-    const h=Math.round((e.pct/max)*100);
+  const max=Math.max(...data.map(d=>d.Percent),1);
+  document.getElementById("barChart").innerHTML=data.length?data.map(d=>{
+    const pct=d.Percent,h=Math.round((pct/max)*100);
     return `<div class="b-col">
-      <div class="b-val">${e.pct}%</div>
-      <div class="b-fill${e.pct>=70?" hi":""}" style="height:${h}%"></div>
-      <div class="b-label">${e.name}</div>
+      <div class="b-val">${pct}%</div>
+      <div class="b-fill${pct>=70?" hi":""}" style="height:${h}%"></div>
+      <div class="b-label">${(d.Name||"?").split(" ")[0]}</div>
     </div>`;
   }).join(""):`<div class="no-data">No data.</div>`;
 }
@@ -670,4 +577,3 @@ fetchData();
 </script>
 </body>
 </html>
-Tue Mar 31 17:12:01 +04 2026
