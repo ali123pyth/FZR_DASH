@@ -194,6 +194,11 @@
 
   .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .sheet-tabs { display:flex; gap:0; border-bottom:2px solid var(--green); margin-bottom:28px; }
+  .sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
+  .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
+  .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
 </style>
 </head>
 <body>
@@ -226,7 +231,11 @@
 
 <div class="wrapper">
 
-  <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
+  <div class="sheet-tabs">
+  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
+  <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
+</div>
+<div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
   <div class="kpi-row">
     <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
     <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
@@ -322,7 +331,11 @@
 </footer>
 
 <script>
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?output=csv";
+const SHEETS = {
+  "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
+  "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv"
+};
+let activeSheet = "FZR Projects";
 const REFRESH_INTERVAL = 3 * 60;
 const TEAM_LOGOS = {
   "FZR":       { src: "team-fzr.png",       bg: "#1b221a" },
@@ -341,7 +354,7 @@ document.getElementById("footerYear").textContent = new Date().getFullYear();
 async function fetchData(){
   setLoading(true);
   try{
-    const res=await fetch(SHEET_CSV_URL+"&t="+Date.now());
+    const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
     const text=await res.text();
     const rows=text.trim().split("\n").map(r=>parseCSVRow(r));
     const hdrs=rows[0];
@@ -373,6 +386,19 @@ function parseCSVRow(row){
 }
 
 function setLoading(on){ const el=document.getElementById("loadingFill"); if(el) el.style.width=on?"100%":"0%"; }
+
+
+function switchSheet(name, el){
+  activeSheet = name;
+  document.querySelectorAll('.sheet-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById("searchInput").value="";
+  document.getElementById("statusFilter").value="";
+  document.getElementById("projectFilter").value="";
+  document.getElementById("teamFilter").value="";
+  updateTeamLogo("");
+  fetchData();
+}
 
 function populateTeamFilter(){
   const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
