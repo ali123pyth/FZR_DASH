@@ -807,6 +807,18 @@ fetchData();
       if(origSwitch) origSwitch(name,btn);
     }
   };
+  // Also hide banners immediately if Market Intel is already active
+  // and re-hide after any DOM changes
+  function applyBannerState(){
+    var mb = document.getElementById("main-banners");
+    if(!mb) return;
+    var active = document.querySelector(".sheet-tab.active");
+    if(active && active.textContent.trim() === "MARKET INTEL"){
+      mb.style.cssText = "display:none!important";
+    }
+  }
+  // Run on every animation frame while Market Intel is active
+  setInterval(applyBannerState, 200);
 })();
 </script>
 
