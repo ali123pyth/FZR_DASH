@@ -229,12 +229,11 @@
   <button class="btn-refresh" onclick="fetchData()">↻ Refresh Now</button>
 </div>
 
-<div class="wrapper"><div id="main-dash">
+<div class="wrapper">
 
   <div class="sheet-tabs">
   <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
   <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
-  <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
 </div>
 <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
   <div class="kpi-row">
@@ -606,114 +605,5 @@ setInterval(()=>{
 
 fetchData();
 </script>
-
-<div id="intel-panel" style="display:none;padding:0">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-    <div class="sec-head" style="margin:0;border:none">Competitor Intelligence <span id="i-count" style="font-weight:300;font-size:11px"></span></div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:11px;color:var(--text-muted)">Scan: <b id="i-date">—</b></span>
-      <button class="btn-refresh" onclick="loadIntel()">↻ Refresh</button>
-    </div>
-  </div>
-  <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Activities</div><div class="kpi-value" id="i-total">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">Instagram</div><div class="kpi-value" id="i-ig">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">LinkedIn</div><div class="kpi-value" id="i-li">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">High Impact</div><div class="kpi-value" id="i-high">—</div></div>
-  </div>
-  <div class="sec-head">Activity Log</div>
-  <div class="filter-bar" style="margin-bottom:12px">
-    <button class="btn-reset" onclick="iFilter('all',this)">All</button>
-    <button class="btn-reset" onclick="iFilter('Instagram',this)">Instagram</button>
-    <button class="btn-reset" onclick="iFilter('LinkedIn',this)">LinkedIn</button>
-    <button class="btn-reset" onclick="iFilter('High',this)">High Impact</button>
-    <input type="text" placeholder="Search..." oninput="iSearch(this.value)" style="flex:1;min-width:120px;max-width:200px;padding:6px 10px;border:1px solid var(--beige-dark);border-radius:4px;font-size:12px;font-family:var(--font);background:var(--white)">
-  </div>
-  <div class="table-panel"><div class="table-wrap">
-    <table>
-      <thead><tr>
-        <th>Platform</th><th>Company</th><th>Type</th><th>Activity</th>
-        <th>Details</th><th>Impact</th><th>Likes</th><th>Date</th>
-      </tr></thead>
-      <tbody id="i-tbody"><tr><td colspan="8" class="no-data">Click Refresh to load data</td></tr></tbody>
-    </table>
-  </div></div>
-  <div class="sec-head" style="margin-top:28px">Intelligence Brief</div>
-  <div id="i-brief" style="background:var(--white);border:1px solid var(--beige-dark);border-left:3px solid var(--green);padding:16px 20px;border-radius:0 4px 4px 0;font-size:13px;line-height:1.8;color:var(--text)">—</div>
-</div>
-
-<script>
-(function(){
-  var GIST="https://gist.githubusercontent.com/ali123pyth/ed9b5cdbdab642a6821ef20b2605502f/raw/competitor_intel.json";
-  var allData=[], iF="all";
-
-  var orig=window.switchSheet;
-  window.switchSheet=function(name,btn){
-    document.getElementById("intel-panel").style.display = name==="Market Intel" ? "block" : "none";
-    document.getElementById("main-dash").style.display  = name==="Market Intel" ? "none"  : "block";
-    document.querySelector(".banner").style.display      = name==="Market Intel" ? "none"  : "";
-    document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
-    btn.classList.add("active");
-    if(name==="Market Intel"){ if(allData.length===0) loadIntel(); }
-    else if(orig) orig(name,btn);
-  };
-
-  window.loadIntel=function(){
-    document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='no-data'>Loading...</td></tr>";
-    fetch(GIST+"?t="+Date.now())
-      .then(function(r){return r.json();})
-      .then(function(d){
-        allData=d.competitors||[];
-        document.getElementById("i-date").textContent=d.scan_date||"—";
-        document.getElementById("i-total").textContent=allData.length;
-        document.getElementById("i-ig").textContent=d.instagram_count||0;
-        document.getElementById("i-li").textContent=d.linkedin_count||0;
-        document.getElementById("i-high").textContent=d.high_count||0;
-        document.getElementById("i-brief").innerHTML=d.brief||"—";
-        renderI(allData);
-      })
-      .catch(function(e){document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='no-data'>Error: "+e.message+"</td></tr>";});
-  };
-
-  window.iFilter=function(v,btn){
-    iF=v;
-    document.querySelectorAll("#intel-panel .btn-reset").forEach(function(b){b.classList.remove("active");});
-    btn.classList.add("active");
-    renderI(allData);
-  };
-  window.iSearch=function(v){renderI(allData,v);};
-
-  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  function renderI(data,search){
-    var s=search||"", filtered=data.filter(function(c){
-      if(iF!=="all"&&c.platform!==iF&&c.significance!==iF) return false;
-      if(s){var q=s.toLowerCase();return(c.company||"").toLowerCase().includes(q)||(c.title||"").toLowerCase().includes(q)||(c.details||"").toLowerCase().includes(q);}
-      return true;
-    });
-    filtered.sort(function(a,b){return({"High":0,"Medium":1,"Low":2}[a.significance]||2)-({"High":0,"Medium":1,"Low":2}[b.significance]||2);});
-    document.getElementById("i-count").textContent="("+filtered.length+" entries)";
-    if(!filtered.length){document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='no-data'>No matching activities</td></tr>";return;}
-    var pC={"Instagram":"#8b1a4a","LinkedIn":"#1a3a6b"};
-    var sC={"High":"#c0392b","Medium":"#c46235","Low":"#2d6a2d"};
-    document.getElementById("i-tbody").innerHTML=filtered.map(function(c,i){
-      var url=c.source_url||"";
-      var t=url.startsWith("http")?"<a href='"+esc(url)+"' target='_blank' style='color:var(--green);font-weight:600;text-decoration:none'>"+esc(c.title||"—")+" &#8599;</a>":"<b>"+esc(c.title||"—")+"</b>";
-      var p=c.platform||"";
-      var bg=i%2===0?"var(--beige)":"var(--white)";
-      return "<tr style='background:"+bg+"'>"
-        +"<td><span style='background:"+(pC[p]||"#555")+";color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600'>"+esc(p)+"</span></td>"
-        +"<td style='font-weight:600'>"+esc(c.company||c.competitor||"")+"</td>"
-        +"<td><span style='background:var(--beige-dark);padding:2px 7px;border-radius:3px;font-size:10px'>"+esc(c.type||"")+"</span></td>"
-        +"<td>"+t+"</td>"
-        +"<td style='font-size:11px;color:var(--text-muted);max-width:220px'>"+esc(c.details||"")+"</td>"
-        +"<td><span style='background:"+(sC[c.significance]||"#555")+";color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600'>"+esc(c.significance||"")+"</span></td>"
-        +"<td style='text-align:center;color:var(--text-muted)'>"+esc(String(c.engagement||""))+"</td>"
-        +"<td style='white-space:nowrap;color:var(--text-muted)'>"+esc(c.date||"")+"</td>"
-        +"</tr>";
-    }).join("");
-  }
-})();
-</script>
-
 </body>
 </html>
