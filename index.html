@@ -651,6 +651,7 @@ fetchData();
   window.switchSheet=function(name,btn){
     document.getElementById("intel-panel").style.display = name==="Market Intel" ? "block" : "none";
     document.getElementById("main-dash").style.display  = name==="Market Intel" ? "none"  : "block";
+    document.querySelector(".banner").style.display      = name==="Market Intel" ? "none"  : "";
     document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
     btn.classList.add("active");
     if(name==="Market Intel"){ if(allData.length===0) loadIntel(); }
