@@ -201,64 +201,11 @@
   .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
   .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
 
-  /* ── MARKET INTELLIGENCE TAB ──────────────────────────────── */
-  #intel-panel { display:none; }
-  body[data-tab="Market Intel"] .banner,
-  body[data-tab="Market Intel"] .countdown-bar,
-  body[data-tab="Market Intel"] .kpi-row,
-  body[data-tab="Market Intel"] .filter-bar,
-  body[data-tab="Market Intel"] .main-grid,
-  body[data-tab="Market Intel"] .table-panel,
-  body[data-tab="Market Intel"] .bar-panel,
-  body[data-tab="Market Intel"] .summary-box,
-  body[data-tab="Market Intel"] #teamFilter,
-  body[data-tab="Market Intel"] #teamLogoWrap,
-  body[data-tab="Market Intel"] #searchInput,
-  body[data-tab="Market Intel"] #statusFilter,
-  body[data-tab="Market Intel"] #projectFilter,
-  body[data-tab="Startup Project"] .kpi-row { display:none !important; }
-  body[data-tab="Market Intel"] #intel-panel { display:block !important; }
-  .intel-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
-  .intel-stat { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; padding:16px; text-align:center; }
-  .intel-stat .snum { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
-  .intel-stat .slbl { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; }
-  .intel-stat.s-total .snum { color:var(--green); }
-  .intel-stat.s-ig    .snum { color:#c0392b; }
-  .intel-stat.s-li    .snum { color:#1a3a6b; }
-  .intel-stat.s-high  .snum { color:#e84545; }
-  .intel-brief { background:var(--beige); border-left:3px solid var(--green); padding:16px 20px; border-radius:0 4px 4px 0; margin-bottom:24px; font-size:13px; line-height:1.8; color:var(--text); }
-  .intel-brief p { margin:0 0 8px; } .intel-brief p:last-child { margin:0; }
-  .intel-brief ul { margin:4px 0 8px 18px; } .intel-brief li { margin-bottom:3px; }
-  .intel-section-lbl { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin:0 0 10px; padding-bottom:6px; border-bottom:2px solid var(--green); }
-  .intel-filters { display:flex; gap:7px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
-  .ifbtn { background:var(--beige); border:1px solid var(--beige-dark); border-radius:20px; padding:4px 13px; font-size:11px; font-family:var(--font); color:var(--text-muted); cursor:pointer; transition:all .15s; }
-  .ifbtn:hover,.ifbtn.active { background:var(--green); border-color:var(--green); color:var(--beige); }
-  .isearch { margin-left:auto; background:var(--beige); border:1px solid var(--beige-dark); border-radius:20px; padding:4px 13px; font-size:11px; font-family:var(--font); color:var(--text); outline:none; width:180px; }
-  .intel-table-wrap { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; overflow:hidden; }
-  .intel-table { width:100%; border-collapse:collapse; min-width:800px; }
-  .intel-table th { background:var(--green); color:var(--beige); padding:9px 12px; text-align:left; font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
-  .intel-table td { padding:9px 12px; font-size:12px; border-bottom:1px solid var(--beige-mid); vertical-align:top; line-height:1.5; }
-  .intel-table tr:last-child td { border-bottom:none; }
-  .intel-table tr:hover td { background:var(--beige); }
-  .itag { display:inline-block; padding:2px 8px; border-radius:3px; font-size:10px; font-weight:600; letter-spacing:.04em; }
-  .itag-ig   { background:#f5e0e8; color:#8b1a4a; }
-  .itag-li   { background:#dce6f0; color:#1a3a6b; }
-  .itag-high { background:#fde8e8; color:#c0392b; }
-  .itag-med  { background:#fdf0e8; color:#c46235; }
-  .itag-low  { background:#e8f5e8; color:#2d6a2d; }
-  .itag-type { background:var(--beige-mid); color:var(--text-muted); }
-  .intel-link { color:var(--text); text-decoration:none; font-weight:600; }
-  .intel-link:hover { color:var(--green); }
-  .intel-empty,.intel-loading { text-align:center; padding:40px; color:var(--text-muted); font-size:13px; }
-  .intel-spin { display:inline-block; width:20px; height:20px; border:2px solid var(--beige-dark); border-top-color:var(--green); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:8px; }
-  .intel-refresh { background:var(--beige); border:1px solid var(--green); border-radius:4px; padding:5px 14px; font-size:11px; font-family:var(--font); color:var(--green); cursor:pointer; transition:all .15s; }
-  .intel-refresh:hover { background:var(--green); color:var(--beige); }
-  @media(max-width:600px){ .intel-stats{grid-template-columns:repeat(2,1fr);} .isearch{width:100%;margin-left:0;} }
+  /* ── MARKET INTELLIGENCE TAB STYLES ── */ .isearch{width:100%;margin-left:0;} }
 </style>
 </head>
-<body data-tab="FZR Projects">
+<body>
 
-<div id="main-banners">
 <!-- BANNER 1 — Logo -->
 <div class="banner">
   <div class="banner-left">
@@ -284,7 +231,6 @@
   </div>
   <button class="btn-refresh" onclick="fetchData()">↻ Refresh Now</button>
 </div>
-</div><!-- /main-banners -->
 
 <div class="wrapper">
 
@@ -405,11 +351,6 @@ const TEAM_LOGOS = {
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
 
 let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
-    // Re-apply banner hide if Market Intel tab is active
-    if(document.body.getAttribute("data-tab")==="Market Intel"){
-      var mb=document.getElementById("main-banners");
-      if(mb) mb.style.setProperty("display","none","important");
-    }
 
 document.getElementById("bannerDate").textContent = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
 document.getElementById("footerYear").textContent = new Date().getFullYear();
@@ -781,44 +722,6 @@ fetchData();
     renderITable(filterI(allData));
   };
   window.iSearch=function(v){iSearchVal=v;renderITable(filterI(allData));};
-
-  // Hook into existing switchSheet to load data when tab is clicked
-  var origSwitch=window.switchSheet;
-  window.switchSheet=function(name,btn){
-    var panel=document.getElementById("intel-panel");
-    // Elements to hide when Market Intel is active
-    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row,#teamFilter,#teamLogoWrap,#searchInput,#statusFilter,#projectFilter");
-    document.body.setAttribute("data-tab", name);
-    // Directly show/hide banner and countdown using JS (more reliable than CSS)
-    var mainBanners = document.getElementById("main-banners");
-    if(name==="Market Intel"){
-      if(mainBanners) mainBanners.style.setProperty("display","none","important");
-    } else {
-      if(mainBanners) mainBanners.style.removeProperty("display");
-    }
-    if(name==="Market Intel"){
-      document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
-      btn.classList.add("active");
-      hideEls.forEach(function(el){el.style.display="none";});
-      if(panel){panel.style.display="block";if(allData.length===0)loadIntel();}
-    } else {
-      hideEls.forEach(function(el){el.style.display="";});
-      if(panel) panel.style.display="none";
-      if(origSwitch) origSwitch(name,btn);
-    }
-  };
-  // Also hide banners immediately if Market Intel is already active
-  // and re-hide after any DOM changes
-  function applyBannerState(){
-    var mb = document.getElementById("main-banners");
-    if(!mb) return;
-    var active = document.querySelector(".sheet-tab.active");
-    if(active && active.textContent.trim() === "MARKET INTEL"){
-      mb.style.cssText = "display:none!important";
-    }
-  }
-  // Run on every animation frame while Market Intel is active
-  setInterval(applyBannerState, 200);
 })();
 </script>
 
