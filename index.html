@@ -199,6 +199,45 @@
   .sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
   .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
   .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
+
+  /* ── MARKET INTELLIGENCE TAB ──────────────────────────────── */
+  #intel-panel { display:none; }
+  .intel-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+  .intel-stat { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; padding:16px; text-align:center; }
+  .intel-stat .snum { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
+  .intel-stat .slbl { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.08em; }
+  .intel-stat.s-total .snum { color:var(--green); }
+  .intel-stat.s-ig    .snum { color:#c0392b; }
+  .intel-stat.s-li    .snum { color:#1a3a6b; }
+  .intel-stat.s-high  .snum { color:#e84545; }
+  .intel-brief { background:var(--beige); border-left:3px solid var(--green); padding:16px 20px; border-radius:0 4px 4px 0; margin-bottom:24px; font-size:13px; line-height:1.8; color:var(--text); }
+  .intel-brief p { margin:0 0 8px; } .intel-brief p:last-child { margin:0; }
+  .intel-brief ul { margin:4px 0 8px 18px; } .intel-brief li { margin-bottom:3px; }
+  .intel-section-lbl { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin:0 0 10px; padding-bottom:6px; border-bottom:2px solid var(--green); }
+  .intel-filters { display:flex; gap:7px; margin-bottom:14px; flex-wrap:wrap; align-items:center; }
+  .ifbtn { background:var(--beige); border:1px solid var(--beige-dark); border-radius:20px; padding:4px 13px; font-size:11px; font-family:var(--font); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+  .ifbtn:hover,.ifbtn.active { background:var(--green); border-color:var(--green); color:var(--beige); }
+  .isearch { margin-left:auto; background:var(--beige); border:1px solid var(--beige-dark); border-radius:20px; padding:4px 13px; font-size:11px; font-family:var(--font); color:var(--text); outline:none; width:180px; }
+  .intel-table-wrap { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; overflow:hidden; }
+  .intel-table { width:100%; border-collapse:collapse; min-width:800px; }
+  .intel-table th { background:var(--green); color:var(--beige); padding:9px 12px; text-align:left; font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
+  .intel-table td { padding:9px 12px; font-size:12px; border-bottom:1px solid var(--beige-mid); vertical-align:top; line-height:1.5; }
+  .intel-table tr:last-child td { border-bottom:none; }
+  .intel-table tr:hover td { background:var(--beige); }
+  .itag { display:inline-block; padding:2px 8px; border-radius:3px; font-size:10px; font-weight:600; letter-spacing:.04em; }
+  .itag-ig   { background:#f5e0e8; color:#8b1a4a; }
+  .itag-li   { background:#dce6f0; color:#1a3a6b; }
+  .itag-high { background:#fde8e8; color:#c0392b; }
+  .itag-med  { background:#fdf0e8; color:#c46235; }
+  .itag-low  { background:#e8f5e8; color:#2d6a2d; }
+  .itag-type { background:var(--beige-mid); color:var(--text-muted); }
+  .intel-link { color:var(--text); text-decoration:none; font-weight:600; }
+  .intel-link:hover { color:var(--green); }
+  .intel-empty,.intel-loading { text-align:center; padding:40px; color:var(--text-muted); font-size:13px; }
+  .intel-spin { display:inline-block; width:20px; height:20px; border:2px solid var(--beige-dark); border-top-color:var(--green); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:8px; }
+  .intel-refresh { background:var(--beige); border:1px solid var(--green); border-radius:4px; padding:5px 14px; font-size:11px; font-family:var(--font); color:var(--green); cursor:pointer; transition:all .15s; }
+  .intel-refresh:hover { background:var(--green); color:var(--beige); }
+  @media(max-width:600px){ .intel-stats{grid-template-columns:repeat(2,1fr);} .isearch{width:100%;margin-left:0;} }
 </style>
 </head>
 <body>
@@ -234,6 +273,7 @@
   <div class="sheet-tabs">
   <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
   <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
+  <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
 </div>
 <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
   <div class="kpi-row">
@@ -605,5 +645,138 @@ setInterval(()=>{
 
 fetchData();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- MARKET INTELLIGENCE TAB                                 -->
+<!-- Data source: GitHub Gist (updated daily by Railway)     -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="intel-panel">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green)">Competitor Intelligence</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:3px">UAE Lighting Market &middot; Instagram + LinkedIn &middot; Last 7 days</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:11px;color:var(--text-muted)">Last scan: <b id="i-scan-date" style="color:var(--text)">—</b></span>
+      <button class="intel-refresh" onclick="loadIntel()">↻ Refresh</button>
+    </div>
+  </div>
+
+  <div class="intel-stats">
+    <div class="intel-stat s-total"><div class="snum" id="i-total">—</div><div class="slbl">Activities</div></div>
+    <div class="intel-stat s-ig"><div class="snum" id="i-ig">—</div><div class="slbl">Instagram</div></div>
+    <div class="intel-stat s-li"><div class="snum" id="i-li">—</div><div class="slbl">LinkedIn</div></div>
+    <div class="intel-stat s-high"><div class="snum" id="i-high">—</div><div class="slbl">High Impact</div></div>
+  </div>
+
+  <div class="intel-section-lbl" style="margin-bottom:10px">Intelligence Brief</div>
+  <div class="intel-brief" id="i-brief">
+    <div class="intel-loading"><div class="intel-spin"></div><br>Loading...</div>
+  </div>
+
+  <div class="intel-section-lbl" style="margin-top:24px;margin-bottom:10px">Activity Log</div>
+  <div class="intel-filters">
+    <button class="ifbtn active" onclick="iFilter('all',this)">All</button>
+    <button class="ifbtn" onclick="iFilter('Instagram',this)">Instagram</button>
+    <button class="ifbtn" onclick="iFilter('LinkedIn',this)">LinkedIn</button>
+    <button class="ifbtn" onclick="iFilter('High',this)">High Impact</button>
+    <button class="ifbtn" onclick="iFilter('Project Showcase',this)">Projects</button>
+    <button class="ifbtn" onclick="iFilter('Product Launch',this)">Launches</button>
+    <input class="isearch" type="text" placeholder="Search..." oninput="iSearch(this.value)">
+  </div>
+  <div class="intel-table-wrap" style="overflow-x:auto">
+    <table class="intel-table">
+      <thead><tr>
+        <th>Platform</th><th>Company</th><th>Type</th><th>Activity</th>
+        <th>Details</th><th>Impact</th><th>Likes</th><th>Date</th>
+      </tr></thead>
+      <tbody id="i-tbody">
+        <tr><td colspan="8" class="intel-loading"><div class="intel-spin"></div><br>Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function(){
+  var GIST_URL = "https://gist.githubusercontent.com/ali123pyth/ed9b5cdbdab642a6821ef20b2605502f/raw/competitor_intel.json";
+  var allData=[], iFilterVal="all", iSearchVal="";
+
+  window.loadIntel = function(){
+    document.getElementById("i-brief").innerHTML='<div class="intel-loading"><div class="intel-spin"></div><br>Loading...</div>';
+    document.getElementById("i-tbody").innerHTML='<tr><td colspan="8" class="intel-loading"><div class="intel-spin"></div><br>Loading...</td></tr>';
+    fetch(GIST_URL+"?t="+Date.now())
+      .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+      .then(function(data){
+        allData=data.competitors||[];
+        document.getElementById("i-scan-date").textContent=data.scan_date||"—";
+        document.getElementById("i-total").textContent=allData.length;
+        document.getElementById("i-ig").textContent=data.instagram_count||allData.filter(function(c){return c.platform==="Instagram";}).length;
+        document.getElementById("i-li").textContent=data.linkedin_count||allData.filter(function(c){return c.platform==="LinkedIn";}).length;
+        document.getElementById("i-high").textContent=data.high_count||allData.filter(function(c){return c.significance==="High";}).length;
+        document.getElementById("i-brief").innerHTML=data.brief||"<p>No brief available.</p>";
+        renderITable(filterI(allData));
+      })
+      .catch(function(err){
+        document.getElementById("i-brief").innerHTML="<p style='color:#c0392b'>Could not load data: "+err.message+"</p><p style='font-size:11px;color:var(--text-muted)'>Make sure Railway scanner is running and Gist ID is correct.</p>";
+        document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='intel-empty'>No data &middot; "+err.message+"</td></tr>";
+      });
+  };
+
+  function filterI(data){
+    var f=data;
+    if(iFilterVal!=="all") f=f.filter(function(c){return c.platform===iFilterVal||c.significance===iFilterVal||c.type===iFilterVal;});
+    if(iSearchVal){var q=iSearchVal.toLowerCase();f=f.filter(function(c){return(c.company||"").toLowerCase().indexOf(q)>=0||(c.competitor||"").toLowerCase().indexOf(q)>=0||(c.title||"").toLowerCase().indexOf(q)>=0||(c.details||"").toLowerCase().indexOf(q)>=0;});}
+    return f;
+  }
+
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+  function renderITable(data){
+    var tb=document.getElementById("i-tbody");
+    if(!data||!data.length){tb.innerHTML="<tr><td colspan='8' class='intel-empty'>No matching activities</td></tr>";return;}
+    var sorted=data.slice().sort(function(a,b){var o={High:0,Medium:1,Low:2};return(o[a.significance]||2)-(o[b.significance]||2)||(b.date||"").localeCompare(a.date||"");});
+    tb.innerHTML=sorted.map(function(c,i){
+      var plat=c.platform||"";
+      var platTag=plat==="Instagram"?"<span class='itag itag-ig'>Instagram</span>":"<span class='itag itag-li'>LinkedIn</span>";
+      var sig=c.significance||"";
+      var sigTag=sig==="High"?"<span class='itag itag-high'>High</span>":sig==="Medium"?"<span class='itag itag-med'>Medium</span>":"<span class='itag itag-low'>Low</span>";
+      var url=c.source_url||"";
+      var titleCell=url&&url.indexOf("http")===0?"<a href='"+esc(url)+"' target='_blank' class='intel-link'>"+esc(c.title||"—")+" &#8599;</a>":"<b>"+esc(c.title||"—")+"</b>";
+      var company=esc(c.company||c.competitor||"");
+      var bg=i%2===0?"background:var(--beige)":"";
+      return "<tr style='"+bg+"'><td>"+platTag+"</td><td style='font-weight:600;white-space:nowrap'>"+company+"</td><td><span class='itag itag-type'>"+esc(c.type||"")+"</span></td><td style='min-width:150px'>"+titleCell+"</td><td style='max-width:250px;font-size:11px;color:var(--text-muted)'>"+esc(c.details||"")+"</td><td>"+sigTag+"</td><td style='text-align:center;color:var(--text-muted)'>"+esc(String(c.engagement||""))+"</td><td style='white-space:nowrap;color:var(--text-muted)'>"+esc(c.date||"")+"</td></tr>";
+    }).join("");
+  }
+
+  window.iFilter=function(v,btn){
+    iFilterVal=v;
+    document.querySelectorAll(".ifbtn").forEach(function(b){b.classList.remove("active");});
+    btn.classList.add("active");
+    renderITable(filterI(allData));
+  };
+  window.iSearch=function(v){iSearchVal=v;renderITable(filterI(allData));};
+
+  // Hook into existing switchSheet to load data when tab is clicked
+  var origSwitch=window.switchSheet;
+  window.switchSheet=function(name,btn){
+    var panel=document.getElementById("intel-panel");
+    if(name==="Market Intel"){
+      document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
+      btn.classList.add("active");
+      // Hide all existing sheet content
+      var mainContent=document.getElementById("mainContent");
+      if(mainContent) mainContent.style.display="none";
+      if(panel){panel.style.display="block";if(allData.length===0)loadIntel();}
+    } else {
+      if(panel) panel.style.display="none";
+      if(mainContent) mainContent.style.display="";
+      if(origSwitch) origSwitch(name,btn);
+    }
+  };
+})();
+</script>
+
 </body>
 </html>
