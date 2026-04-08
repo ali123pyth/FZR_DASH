@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -203,6 +202,19 @@
 
   /* ── MARKET INTELLIGENCE TAB ──────────────────────────────── */
   #intel-panel { display:none; }
+  body[data-tab="Market Intel"] .kpi-row,
+  body[data-tab="Market Intel"] .filter-bar,
+  body[data-tab="Market Intel"] .main-grid,
+  body[data-tab="Market Intel"] .table-panel,
+  body[data-tab="Market Intel"] .bar-panel,
+  body[data-tab="Market Intel"] .summary-box,
+  body[data-tab="Market Intel"] #teamFilter,
+  body[data-tab="Market Intel"] #teamLogoWrap,
+  body[data-tab="Market Intel"] #searchInput,
+  body[data-tab="Market Intel"] #statusFilter,
+  body[data-tab="Market Intel"] #projectFilter,
+  body[data-tab="Startup Project"] .kpi-row { display:none !important; }
+  body[data-tab="Market Intel"] #intel-panel { display:block !important; }
   .intel-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
   .intel-stat { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; padding:16px; text-align:center; }
   .intel-stat .snum { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
@@ -765,7 +777,8 @@ fetchData();
   window.switchSheet=function(name,btn){
     var panel=document.getElementById("intel-panel");
     // Elements to hide when Market Intel is active
-    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row,#teamFilter,#teamLogoWrap");
+    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row,#teamFilter,#teamLogoWrap,#searchInput,#statusFilter,#projectFilter");
+    document.body.setAttribute("data-tab", name);
     if(name==="Market Intel"){
       document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
       btn.classList.add("active");
