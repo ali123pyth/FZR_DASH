@@ -405,6 +405,11 @@ const TEAM_LOGOS = {
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
 
 let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
+    // Re-apply banner hide if Market Intel tab is active
+    if(document.body.getAttribute("data-tab")==="Market Intel"){
+      var mb=document.getElementById("main-banners");
+      if(mb) mb.style.setProperty("display","none","important");
+    }
 
 document.getElementById("bannerDate").textContent = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
 document.getElementById("footerYear").textContent = new Date().getFullYear();
