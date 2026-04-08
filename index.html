@@ -783,14 +783,11 @@ fetchData();
     var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row,#teamFilter,#teamLogoWrap,#searchInput,#statusFilter,#projectFilter");
     document.body.setAttribute("data-tab", name);
     // Directly show/hide banner and countdown using JS (more reliable than CSS)
-    var banner = document.querySelector(".banner");
-    var countdown = document.querySelector(".countdown-bar");
+    var mainBanners = document.getElementById("main-banners");
     if(name==="Market Intel"){
-      if(banner) banner.style.setProperty("display","none","important");
-      if(countdown) countdown.style.setProperty("display","none","important");
+      if(mainBanners) mainBanners.style.setProperty("display","none","important");
     } else {
-      if(banner) banner.style.removeProperty("display");
-      if(countdown) countdown.style.removeProperty("display");
+      if(mainBanners) mainBanners.style.removeProperty("display");
     }
     if(name==="Market Intel"){
       document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
