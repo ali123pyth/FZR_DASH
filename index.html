@@ -289,9 +289,9 @@
 <div class="wrapper">
 
   <div class="sheet-tabs">
-  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
-  <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
-  <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
+  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this); document.getElementById('main-banners').style.cssText='';">FZR Projects</button>
+  <button class="sheet-tab" onclick="switchSheet('Startup Project', this); document.getElementById('main-banners').style.cssText='';">Startup Project</button>
+  <button class="sheet-tab" onclick="switchSheet('Market Intel', this); document.getElementById('main-banners').style.cssText='display:none!important'">Market Intel</button>
 </div>
 <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
   <div class="kpi-row">
