@@ -764,7 +764,7 @@ fetchData();
   window.switchSheet=function(name,btn){
     var panel=document.getElementById("intel-panel");
     // Elements to hide when Market Intel is active
-    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box");
+    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row");
     if(name==="Market Intel"){
       document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
       btn.classList.add("active");
