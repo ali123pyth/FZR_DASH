@@ -30,35 +30,17 @@
     display: flex; align-items: center; gap: 24px;
   }
   .banner-logo {
-    height: 64px;
-    width: auto;
-    object-fit: contain;
-    /* mix-blend-mode removes black bg — white logo shows on green */
-    mix-blend-mode: screen;
+    height: 64px; width: auto; object-fit: contain; mix-blend-mode: screen;
   }
-  .banner-divider {
-    width: 1px; height: 40px;
-    background: rgba(255,255,255,0.12);
-    flex-shrink: 0;
-  }
-  .banner-left .dept {
-    font-size: 11px; font-weight: 300; color: var(--text-light);
-    letter-spacing: 0.1em;
-  }
+  .banner-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+  .banner-left .dept { font-size: 11px; font-weight: 300; color: var(--text-light); letter-spacing: 0.1em; }
   .banner-right {
-    background: var(--green);
-    padding: 18px 40px;
+    background: var(--green); padding: 18px 40px;
     display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
-    min-width: 240px;
-    border-left: none;
+    min-width: 240px; border-left: none;
   }
-  .banner-right .doc-type {
-    font-size: 12px; font-weight: 600; color: var(--beige);
-    letter-spacing: 0.16em; text-transform: uppercase;
-  }
-  .banner-right .doc-date {
-    font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px;
-  }
+  .banner-right .doc-type { font-size: 12px; font-weight: 600; color: var(--beige); letter-spacing: 0.16em; text-transform: uppercase; }
+  .banner-right .doc-date { font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px; }
 
   /* ── BANNER 2 — loading bar ── */
   .loading-bar { display: none; }
@@ -66,11 +48,9 @@
 
   /* ── BANNER 3 — countdown bar ── */
   .countdown-bar {
-    background: var(--green);
-    padding: 9px 40px;
+    background: var(--green); padding: 9px 40px;
     display: flex; align-items: center; justify-content: space-between;
-    font-size: 11px; color: var(--text-light);
-    border-bottom: none;
+    font-size: 11px; color: var(--text-light); border-bottom: none;
   }
   .countdown-left { display: flex; align-items: center; gap: 14px; }
   .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6dbf6d; animation: blink 2s ease-in-out infinite; display: inline-block; }
@@ -195,10 +175,31 @@
   .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
+  /* ── SHEET TABS ── */
   .sheet-tabs { display:flex; gap:0; border-bottom:2px solid var(--green); margin-bottom:28px; }
   .sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
   .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
   .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
+
+  /* ── MARKET INTEL PANEL ── */
+  #dash-content { display:block; }
+  #intel-content { display:none; }
+  .intel-kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:28px; }
+  .intel-filter-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; align-items:center; }
+  .intel-filter-btn { background:var(--white); border:1px solid var(--beige-dark); color:var(--text-muted); font-family:var(--font); font-size:11px; font-weight:600; padding:6px 16px; cursor:pointer; border-radius:3px; text-transform:uppercase; letter-spacing:0.08em; transition:all .2s; }
+  .intel-filter-btn:hover, .intel-filter-btn.active { background:var(--green); color:var(--beige); border-color:var(--green); }
+  .intel-search { border:1px solid var(--beige-dark); background:var(--white); color:var(--text-body); font-family:var(--font); font-size:12px; padding:6px 12px; outline:none; border-radius:3px; flex:1; min-width:150px; max-width:220px; }
+  .intel-brief { background:var(--white); border:1px solid var(--beige-dark); border-left:3px solid var(--green); padding:16px 20px; border-radius:0 4px 4px 0; font-size:13px; line-height:1.8; color:var(--text-body); margin-bottom:0; }
+  .intel-brief p { margin:0 0 8px; } .intel-brief p:last-child { margin:0; }
+  .intel-brief ul { margin:4px 0 8px 18px; } .intel-brief li { margin-bottom:3px; }
+  .plat-ig { background:#5c1033; color:#fff; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+  .plat-li { background:#0a2a4a; color:#fff; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+  .sig-high { background:#5c1a1a; color:#fff; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; }
+  .sig-med  { background:#5c3a10; color:#fff; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; }
+  .sig-low  { background:#1a3a1a; color:#fff; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; }
+  .type-tag { background:var(--beige-mid); color:var(--text-muted); border:1px solid var(--beige-dark); padding:2px 7px; border-radius:3px; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+  .intel-link { color:var(--green); font-weight:600; text-decoration:none; }
+  .intel-link:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -218,7 +219,6 @@
 
 <!-- BANNER 2 — Loading bar -->
 
-
 <!-- BANNER 3 — Countdown -->
 <div class="countdown-bar">
   <div class="countdown-left">
@@ -231,96 +231,163 @@
 
 <div class="wrapper">
 
+  <!-- TAB NAVIGATION -->
   <div class="sheet-tabs">
-  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
-  <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
-</div>
-<div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
-  <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
-    <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
-    <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
-    <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
-    <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
+    <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
+    <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
+    <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
   </div>
 
-  <div class="sec-head">Member Overview <span id="recordCount"></span></div>
-  <div class="filter-bar">
-    <label>Filter:</label>
-    <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
-    <select id="statusFilter" onchange="applyFilters()">
-      <option value="">All Statuses</option>
-      <option value="Ongoing">Ongoing</option>
-      <option value="Done">Done</option>
-      <option value="Hold">Hold</option>
-    </select>
-    <select id="projectFilter" onchange="applyFilters()">
-      <option value="">All Projects</option>
-    </select>
-    <select id="teamFilter" onchange="applyFilters()">
-      <option value="">All Teams</option>
-    </select>
-    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
-      <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
-
+  <!-- ═══════════════════════════════════ -->
+  <!-- EXISTING DASHBOARD CONTENT         -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="dash-content">
+    <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
+      <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
+      <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
+      <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
+      <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
     </div>
-    <button class="btn-reset" onclick="resetFilters()">Reset</button>
+
+    <div class="sec-head">Member Overview <span id="recordCount"></span></div>
+    <div class="filter-bar">
+      <label>Filter:</label>
+      <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
+      <select id="statusFilter" onchange="applyFilters()">
+        <option value="">All Statuses</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Done">Done</option>
+        <option value="Hold">Hold</option>
+      </select>
+      <select id="projectFilter" onchange="applyFilters()">
+        <option value="">All Projects</option>
+      </select>
+      <select id="teamFilter" onchange="applyFilters()">
+        <option value="">All Teams</option>
+      </select>
+      <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
+        <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
+      </div>
+      <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="main-grid">
+      <div class="table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th class="green-th">#</th>
+              <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
+              <th>Pending</th>
+            </tr></thead>
+            <tbody id="tableBody">
+              <tr><td colspan="9" class="no-data">Loading data…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <div class="chart-panel">
+          <div class="chart-title">Completion by Project</div>
+          <div class="donut-wrap">
+            <canvas id="donut" width="150" height="150"></canvas>
+            <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
+          </div>
+          <div id="donutLegend"><div class="no-data">No data.</div></div>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-title">Status Breakdown</div>
+          <div id="statusBars"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head">Completion by Person</div>
+    <div class="bar-panel">
+      <div class="chart-title">Individual progress — all members</div>
+      <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
+    </div>
+
+    <div class="summary-box">
+      <div style="flex:1;min-width:220px">
+        <div class="sum-title">Dashboard Summary</div>
+        <p id="summaryText">Loading live data from Google Sheets…</p>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div class="sum-title">Data Source</div>
+        <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>. Columns: Name, Place, Project, Pending, Percent, Status, Deadline.</p>
+      </div>
+    </div>
   </div>
 
-  <div class="main-grid">
+  <!-- ═══════════════════════════════════ -->
+  <!-- MARKET INTEL CONTENT               -->
+  <!-- ═══════════════════════════════════ -->
+  <div id="intel-content">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-head" style="margin:0;border:none;padding:0">
+        Competitor Intelligence <span id="i-count"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;color:var(--text-muted)">Scan: <strong id="i-date" style="color:var(--text-body)">—</strong></span>
+        <button class="btn-refresh" onclick="loadIntel()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div class="intel-kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Activities</div><div class="kpi-value" id="i-total">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Instagram</div><div class="kpi-value" id="i-ig">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">LinkedIn</div><div class="kpi-value" id="i-li">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">High Impact</div><div class="kpi-value" id="i-high">—</div></div>
+    </div>
+
+    <div class="sec-head">Activity Log</div>
+    <div class="intel-filter-row">
+      <button class="intel-filter-btn active" onclick="iFilter('all',this)">All</button>
+      <button class="intel-filter-btn" onclick="iFilter('Instagram',this)">Instagram</button>
+      <button class="intel-filter-btn" onclick="iFilter('LinkedIn',this)">LinkedIn</button>
+      <button class="intel-filter-btn" onclick="iFilter('High',this)">High Impact</button>
+      <button class="intel-filter-btn" onclick="iFilter('Project Showcase',this)">Projects</button>
+      <button class="intel-filter-btn" onclick="iFilter('Product Launch',this)">Launches</button>
+      <input class="intel-search" type="text" placeholder="Search..." oninput="iSearch(this.value)">
+    </div>
+
     <div class="table-panel">
       <div class="table-wrap">
         <table>
           <thead><tr>
-            <th class="green-th">#</th>
-            <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
-            <th>Pending</th>
+            <th>Platform</th>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Activity</th>
+            <th>Details</th>
+            <th>Impact</th>
+            <th>Likes</th>
+            <th>Date</th>
           </tr></thead>
-          <tbody id="tableBody">
-            <tr><td colspan="9" class="no-data">Loading data…</td></tr>
+          <tbody id="i-tbody">
+            <tr><td colspan="8" class="no-data">Click Refresh to load latest intelligence data</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="right-col">
-      <div class="chart-panel">
-        <div class="chart-title">Completion by Project</div>
-        <div class="donut-wrap">
-          <canvas id="donut" width="150" height="150"></canvas>
-          <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
-        </div>
-        <div id="donutLegend"><div class="no-data">No data.</div></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-title">Status Breakdown</div>
-        <div id="statusBars"></div>
-      </div>
+    <div class="sec-head" style="margin-top:36px">Intelligence Brief</div>
+    <div id="i-brief" class="intel-brief" style="margin-bottom:40px">
+      Click Refresh to load the latest competitive intelligence brief.
     </div>
-  </div>
 
-  <div class="sec-head">Completion by Person</div>
-  <div class="bar-panel">
-    <div class="chart-title">Individual progress — all members</div>
-    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
-  </div>
-
-  <div class="summary-box">
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Dashboard Summary</div>
-      <p id="summaryText">Loading live data from Google Sheets…</p>
-    </div>
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Data Source</div>
-      <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>. Columns: Name, Place, Project, Pending, Percent, Status, Deadline.</p>
-    </div>
   </div>
 
 </div>
@@ -335,6 +402,8 @@ const SHEETS = {
   "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
   "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv"
 };
+const GIST_URL = "https://gist.githubusercontent.com/ali123pyth/ed9b5cdbdab642a6821ef20b2605502f/raw/competitor_intel.json";
+
 let activeSheet = "FZR Projects";
 const REFRESH_INTERVAL = 3 * 60;
 const TEAM_LOGOS = {
@@ -343,14 +412,122 @@ const TEAM_LOGOS = {
   "MYM":       { src: "team-mym.png",        bg: "#ffffff" },
   "Acumen AI": { src: "team-acumenai.png",   bg: "#000000" }
 };
-
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
 
 let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
+let intelData=[], intelFilter="all", intelLoaded=false;
 
 document.getElementById("bannerDate").textContent = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
 document.getElementById("footerYear").textContent = new Date().getFullYear();
 
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+function switchSheet(name, el) {
+  document.querySelectorAll('.sheet-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  if (name === "Market Intel") {
+    document.getElementById("dash-content").style.display = "none";
+    document.getElementById("intel-content").style.display = "block";
+    if (!intelLoaded) loadIntel();
+  } else {
+    document.getElementById("intel-content").style.display = "none";
+    document.getElementById("dash-content").style.display = "block";
+    activeSheet = name;
+    document.getElementById("searchInput").value = "";
+    document.getElementById("statusFilter").value = "";
+    document.getElementById("projectFilter").value = "";
+    document.getElementById("teamFilter").value = "";
+    updateTeamLogo("");
+    fetchData();
+  }
+}
+
+// ── INTEL DATA ────────────────────────────────────────────────────────────────
+window.loadIntel = function() {
+  document.getElementById("i-tbody").innerHTML = "<tr><td colspan='8' class='no-data'>Loading...</td></tr>";
+  document.getElementById("i-brief").textContent = "Loading...";
+  fetch(GIST_URL + "?t=" + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      intelData = d.competitors || [];
+      intelLoaded = true;
+      document.getElementById("i-date").textContent  = d.scan_date || "—";
+      document.getElementById("i-total").textContent = intelData.length;
+      document.getElementById("i-ig").textContent    = d.instagram_count || intelData.filter(function(c){return c.platform==="Instagram";}).length;
+      document.getElementById("i-li").textContent    = d.linkedin_count  || intelData.filter(function(c){return c.platform==="LinkedIn";}).length;
+      document.getElementById("i-high").textContent  = d.high_count      || intelData.filter(function(c){return c.significance==="High";}).length;
+      document.getElementById("i-brief").innerHTML   = d.brief || "—";
+      renderIntel();
+    })
+    .catch(function(e) {
+      document.getElementById("i-tbody").innerHTML = "<tr><td colspan='8' class='no-data'>Error loading data: " + e.message + "</td></tr>";
+      document.getElementById("i-brief").textContent = "Could not load brief.";
+    });
+};
+
+window.iFilter = function(v, btn) {
+  intelFilter = v;
+  document.querySelectorAll(".intel-filter-btn").forEach(function(b) { b.classList.remove("active"); });
+  btn.classList.add("active");
+  renderIntel();
+};
+
+window.iSearch = function(v) { renderIntel(v); };
+
+function renderIntel(search) {
+  var s = search || "";
+  var filtered = intelData.filter(function(c) {
+    if (intelFilter !== "all" && c.platform !== intelFilter && c.significance !== intelFilter && c.type !== intelFilter) return false;
+    if (s) {
+      var q = s.toLowerCase();
+      return (c.company||"").toLowerCase().indexOf(q) >= 0 ||
+             (c.competitor||"").toLowerCase().indexOf(q) >= 0 ||
+             (c.title||"").toLowerCase().indexOf(q) >= 0 ||
+             (c.details||"").toLowerCase().indexOf(q) >= 0;
+    }
+    return true;
+  });
+  filtered.sort(function(a,b) {
+    var o = {"High":0,"Medium":1,"Low":2};
+    return (o[a.significance]||2) - (o[b.significance]||2);
+  });
+  document.getElementById("i-count").textContent = "(" + filtered.length + " entries)";
+  if (!filtered.length) {
+    document.getElementById("i-tbody").innerHTML = "<tr><td colspan='8' class='no-data'>No matching activities</td></tr>";
+    return;
+  }
+  document.getElementById("i-tbody").innerHTML = filtered.map(function(c, i) {
+    var plat = c.platform || "";
+    var platTag = plat === "Instagram"
+      ? "<span class='plat-ig'>Instagram</span>"
+      : "<span class='plat-li'>LinkedIn</span>";
+    var sig = c.significance || "";
+    var sigTag = sig === "High" ? "<span class='sig-high'>High</span>"
+               : sig === "Medium" ? "<span class='sig-med'>Medium</span>"
+               : "<span class='sig-low'>Low</span>";
+    var url = c.source_url || "";
+    var title = url.indexOf("http") === 0
+      ? "<a href='" + url + "' target='_blank' class='intel-link'>" + esc(c.title||"—") + " &#8599;</a>"
+      : "<strong>" + esc(c.title||"—") + "</strong>";
+    var bg = i % 2 === 0 ? "background:var(--beige)" : "background:var(--white)";
+    return "<tr style='" + bg + "'>"
+      + "<td>" + platTag + "</td>"
+      + "<td style='font-weight:600;color:var(--green)'>" + esc(c.company||c.competitor||"") + "</td>"
+      + "<td><span class='type-tag'>" + esc(c.type||"") + "</span></td>"
+      + "<td>" + title + "</td>"
+      + "<td style='font-size:11px;color:var(--text-muted);max-width:240px'>" + esc(c.details||"") + "</td>"
+      + "<td>" + sigTag + "</td>"
+      + "<td style='text-align:center;color:var(--text-muted)'>" + esc(String(c.engagement||"")) + "</td>"
+      + "<td style='white-space:nowrap;font-size:11px;color:var(--text-muted)'>" + esc(c.date||"") + "</td>"
+      + "</tr>";
+  }).join("");
+}
+
+function esc(s) {
+  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+// ── EXISTING DASHBOARD JS ────────────────────────────────────────────────────
 async function fetchData(){
   setLoading(true);
   try{
@@ -387,19 +564,6 @@ function parseCSVRow(row){
 
 function setLoading(on){ const el=document.getElementById("loadingFill"); if(el) el.style.width=on?"100%":"0%"; }
 
-
-function switchSheet(name, el){
-  activeSheet = name;
-  document.querySelectorAll('.sheet-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById("searchInput").value="";
-  document.getElementById("statusFilter").value="";
-  document.getElementById("projectFilter").value="";
-  document.getElementById("teamFilter").value="";
-  updateTeamLogo("");
-  fetchData();
-}
-
 function populateTeamFilter(){
   const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
   const sel=document.getElementById("teamFilter"),cur=sel.value;
@@ -422,16 +586,12 @@ function updateTeamLogo(team){
   const img=document.getElementById("teamLogoImg");
   if(team && TEAM_LOGOS[team]){
     const t=TEAM_LOGOS[team];
-    img.src=t.src;
-    img.alt=team;
-    wrap.style.background=t.bg;
-    wrap.style.border="1px solid "+t.bg;
-    wrap.style.padding="8px 16px";
-    wrap.style.borderRadius="4px";
+    img.src=t.src; img.alt=team;
+    wrap.style.background=t.bg; wrap.style.border="1px solid "+t.bg;
+    wrap.style.padding="8px 16px"; wrap.style.borderRadius="4px";
     wrap.style.display="flex";
   } else {
-    wrap.style.display="none";
-    img.src="";
+    wrap.style.display="none"; img.src="";
   }
 }
 
