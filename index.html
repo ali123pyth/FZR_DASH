@@ -256,7 +256,7 @@
   @media(max-width:600px){ .intel-stats{grid-template-columns:repeat(2,1fr);} .isearch{width:100%;margin-left:0;} }
 </style>
 </head>
-<body>
+<body data-tab="FZR Projects">
 
 <!-- BANNER 1 — Logo -->
 <div class="banner">
@@ -782,6 +782,8 @@ fetchData();
     // Elements to hide when Market Intel is active
     var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box,.kpi-row,#teamFilter,#teamLogoWrap,#searchInput,#statusFilter,#projectFilter");
     document.body.setAttribute("data-tab", name);
+    // Force immediate CSS application
+    document.body.offsetHeight;
     if(name==="Market Intel"){
       document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
       btn.classList.add("active");
