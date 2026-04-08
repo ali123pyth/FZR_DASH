@@ -617,18 +617,17 @@ fetchData();
 
   window.switchSheet = function(name, btn) {
     var panel = document.getElementById("intel-panel");
-    var mainEls = document.querySelectorAll(
-      "#main-content-start, .kpi-row, .filter-bar, .main-grid, .bar-panel, .summary-box"
-    );
     if (name === "Market Intel") {
       document.querySelectorAll(".sheet-tab").forEach(function(t){ t.classList.remove("active"); });
       btn.classList.add("active");
       panel.style.display = "block";
-      mainEls.forEach(function(el){ el.style.display = "none"; });
+      var w = document.querySelector(".wrapper");
+      if (w) { Array.from(w.children).forEach(function(el){ if (el.id !== "intel-panel" && !el.classList.contains("sheet-tabs")) el.style.display = "none"; }); }
       if (allData.length === 0) loadIntel();
     } else {
       panel.style.display = "none";
-      mainEls.forEach(function(el){ el.style.display = ""; });
+      var w = document.querySelector(".wrapper");
+      if (w) { Array.from(w.children).forEach(function(el){ el.style.display = ""; }); }
       if (origSwitch) origSwitch(name, btn);
     }
   };
