@@ -762,16 +762,16 @@ fetchData();
   var origSwitch=window.switchSheet;
   window.switchSheet=function(name,btn){
     var panel=document.getElementById("intel-panel");
+    // Elements to hide when Market Intel is active
+    var hideEls=document.querySelectorAll(".sec-head,.filter-bar,.main-grid,.table-panel,.bar-panel,.summary-box");
     if(name==="Market Intel"){
       document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active");});
       btn.classList.add("active");
-      // Hide all existing sheet content
-      var mainContent=document.getElementById("mainContent");
-      if(mainContent) mainContent.style.display="none";
+      hideEls.forEach(function(el){el.style.display="none";});
       if(panel){panel.style.display="block";if(allData.length===0)loadIntel();}
     } else {
+      hideEls.forEach(function(el){el.style.display="";});
       if(panel) panel.style.display="none";
-      if(mainContent) mainContent.style.display="";
       if(origSwitch) origSwitch(name,btn);
     }
   };
