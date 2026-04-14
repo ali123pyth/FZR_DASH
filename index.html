@@ -674,10 +674,12 @@ fetchData();
       btn.classList.add("intel-active");
       if(dash) dash.style.display = "none";
       if(intel) intel.style.display = "block";
+      document.body.classList.add("intel-mode");
       if(!loaded) loadIntel();
     } else {
       if(dash) dash.style.display = "block";
       if(intel) intel.style.display = "none";
+      document.body.classList.remove("intel-mode");
       if(orig) orig(name, btn);
     }
   };
