@@ -232,11 +232,13 @@
 <div class="wrapper">
 
   <!-- TAB NAVIGATION -->
-  <div class="sheet-tabs">
-    <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
-    <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
-    <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
-  </div>
+<div class="sheet-tabs">
+  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
+  <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
+  <button class="sheet-tab" onclick="switchSheet('MYM Inco', this)">MYM Inco</button>
+  <button class="sheet-tab" onclick="switchSheet('Velur Inco', this)">Velur Inco</button>
+  <button class="sheet-tab" onclick="switchSheet('Lumena Inco', this)">Lumena Inco</button>
+</div>
 
   <!-- ═══════════════════════════════════ -->
   <!-- EXISTING DASHBOARD CONTENT         -->
@@ -400,7 +402,10 @@
 <script>
 const SHEETS = {
   "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
-  "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv"
+  "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv",
+  "MYM Inco":        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1896272570&single=true&output=csv",
+  "Velur Inco":      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1868149419&single=true&output=csv",
+  "Lumena Inco":     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=648374071&single=true&output=csv"
 };
 const GIST_URL = "https://gist.githubusercontent.com/ali123pyth/ed9b5cdbdab642a6821ef20b2605502f/raw/competitor_intel.json";
 
