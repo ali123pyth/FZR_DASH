@@ -546,7 +546,7 @@
             <span>Source of truth</span>
           </div>
           <p style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-bottom:10px">
-            Scores are auto-computed from quarterly evaluations entered in the talent sheet. Click below to add or update an evaluation.
+            Each person's score is the latest evaluation entered in the sheet. To add or update, click below and append a row to the Evaluations tab.
           </p>
           <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pubhtml" target="_blank" class="sheet-link">
             Open evaluation sheet →
@@ -993,8 +993,9 @@ fetchData();
      ════════════════════════════════════════════════════════════ -->
 <script>
 (function(){
-  // Published CSV URL → Tab 3 — Results (gid=702122340)
-  var TALENT_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pub?gid=702122340&single=true&output=csv";
+  // Published CSV URL → Tab 2 — Evaluations (raw evaluation data, gid=1072676461)
+  // Dashboard reads raw evaluations and computes "latest per person" in JS — no Results-tab formulas needed.
+  var TALENT_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pub?gid=1072676461&single=true&output=csv";
 
   var state = {
     data: [],            // all rows from sheet
@@ -1055,10 +1056,11 @@ fetchData();
       .then(function(text){
         var rows = parseCSV(text);
         if(rows.length < 2){
-          renderEmpty('No data in sheet yet. Add rows in the Results tab to see them here.');
+          renderEmpty('No evaluations in sheet yet. Add evaluations in the "2. Evaluations" tab.');
           return;
         }
         var hdrs = rows[0].map(function(h){ return h.trim(); });
+
         // Case-insensitive header lookup that tolerates variations
         function findCol(patterns){
           for(var i = 0; i < hdrs.length; i++){
@@ -1069,23 +1071,28 @@ fetchData();
           }
           return -1;
         }
+
+        // The dashboard now reads raw evaluations from "2. Evaluations" tab.
+        // Columns we expect: Quarter, Company, Employee Name, Role/Function, Evaluator,
+        //                    Performance (1-10), Initiative (1-10).
         var idx = {
           company:   findCol(['company']),
           name:      findCol(['employee name', 'name']),
-          role:      findCol(['role']),
-          quarter:   findCol(['latest quarter', 'quarter']),
-          perf:      findCol(['performance']),
-          init:      findCol(['initiative']),
+          role:      findCol(['role / function', 'role/function', 'role']),
+          quarter:   findCol(['quarter']),
+          perf:      findCol(['performance (1-10)', 'performance']),
+          init:      findCol(['initiative (1-10)', 'initiative']),
           quadrant:  findCol(['quadrant']),
-          evaluator: findCol(['last evaluator', 'evaluator'])
+          evaluator: findCol(['evaluator'])
         };
 
         if(idx.company < 0 || idx.name < 0 || idx.perf < 0 || idx.init < 0){
-          renderEmpty('Sheet headers do not match expected format. Expected: Company, Employee Name, Role, Latest Quarter, Performance, Initiative, Quadrant, Last Evaluator.');
+          renderEmpty('Sheet headers not recognized. Expected an Evaluations tab with columns: Company, Employee Name, Performance, Initiative (and ideally Quarter, Role, Evaluator).');
           return;
         }
 
-        var data = [];
+        // Pass 1: read all valid evaluation rows
+        var allEvals = [];
         for(var r = 1; r < rows.length; r++){
           var row = rows[r];
           var name = (row[idx.name]||'').trim();
@@ -1093,17 +1100,53 @@ fetchData();
           var perf = parseFloat((row[idx.perf]||'').toString().replace(/[^\d.\-]/g,''));
           var init = parseFloat((row[idx.init]||'').toString().replace(/[^\d.\-]/g,''));
           if(isNaN(perf) || isNaN(init)) continue;
-          data.push({
+          allEvals.push({
+            rowIdx:    r,
             company:   (row[idx.company]||'').trim() || 'Unassigned',
             name:      name,
             role:      idx.role >= 0 ? (row[idx.role]||'').trim() : '',
             quarter:   idx.quarter >= 0 ? (row[idx.quarter]||'').trim() : '',
             perf:      perf,
             init:      init,
-            quadrant:  idx.quadrant >= 0 ? ((row[idx.quadrant]||'').trim() || classify(perf, init)) : classify(perf, init),
             evaluator: idx.evaluator >= 0 ? (row[idx.evaluator]||'').trim() : ''
           });
         }
+
+        // Pass 2: keep latest evaluation per (company + name) key.
+        // "Latest" = the row with the highest Quarter value (lex-sortable when format is YYYY-Q#),
+        // with ties broken by row index (later row wins).
+        var latestByPerson = {};
+        allEvals.forEach(function(e){
+          var key = e.company + '||' + e.name;
+          var existing = latestByPerson[key];
+          if(!existing){
+            latestByPerson[key] = e;
+            return;
+          }
+          // Compare by quarter first (YYYY-Q# sorts naturally as text)
+          if(e.quarter && existing.quarter){
+            if(e.quarter > existing.quarter){ latestByPerson[key] = e; return; }
+            if(e.quarter < existing.quarter){ return; }
+          }
+          // Tie or no quarter: later row wins (sheets are append-only)
+          if(e.rowIdx > existing.rowIdx) latestByPerson[key] = e;
+        });
+
+        // Pass 3: build the data array the rest of the dashboard expects, with quadrant computed
+        var data = Object.keys(latestByPerson).map(function(k){
+          var e = latestByPerson[k];
+          return {
+            company:   e.company,
+            name:      e.name,
+            role:      e.role,
+            quarter:   e.quarter,
+            perf:      e.perf,
+            init:      e.init,
+            quadrant:  classify(e.perf, e.init),
+            evaluator: e.evaluator
+          };
+        });
+
         state.data = data;
         window.tmLoaded = true;
 
