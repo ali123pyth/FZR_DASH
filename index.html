@@ -548,7 +548,7 @@
           <p style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-bottom:10px">
             Scores are auto-computed from quarterly evaluations entered in the talent sheet. Click below to add or update an evaluation.
           </p>
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQEhFYpKmTO3Y8B8IWqOLTM1N61Ko99ZncsUleyxbgas_TEnLR6i3x-veDBDF94pdc7RfFrOP-mcfdP/pubhtml" target="_blank" class="sheet-link">
+          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pubhtml" target="_blank" class="sheet-link">
             Open evaluation sheet →
           </a>
         </div>
@@ -994,7 +994,7 @@ fetchData();
 <script>
 (function(){
   // Published CSV URL → Tab 3 — Results
-  var TALENT_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQEhFYpKmTO3Y8B8IWqOLTM1N61Ko99ZncsUleyxbgas_TEnLR6i3x-veDBDF94pdc7RfFrOP-mcfdP/pub?gid=1355648315&single=true&output=csv";
+  var TALENT_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pub?output=csv";
 
   var state = {
     data: [],            // all rows from sheet
@@ -1059,19 +1059,26 @@ fetchData();
           return;
         }
         var hdrs = rows[0].map(function(h){ return h.trim(); });
+        // Case-insensitive header lookup that tolerates variations
+        function findCol(patterns){
+          for(var i = 0; i < hdrs.length; i++){
+            var h = hdrs[i].toLowerCase();
+            for(var p = 0; p < patterns.length; p++){
+              if(h.indexOf(patterns[p]) >= 0) return i;
+            }
+          }
+          return -1;
+        }
         var idx = {
-          company:   hdrs.indexOf('Company'),
-          name:      hdrs.indexOf('Employee Name'),
-          role:      hdrs.indexOf('Role'),
-          quarter:   hdrs.indexOf('Latest Quarter'),
-          perf:      hdrs.indexOf('Performance (1-10)'),
-          init:      hdrs.indexOf('Initiative (1-10)'),
-          quadrant:  hdrs.indexOf('Quadrant'),
-          evaluator: hdrs.indexOf('Last Evaluator')
+          company:   findCol(['company']),
+          name:      findCol(['employee name', 'name']),
+          role:      findCol(['role']),
+          quarter:   findCol(['latest quarter', 'quarter']),
+          perf:      findCol(['performance']),
+          init:      findCol(['initiative']),
+          quadrant:  findCol(['quadrant']),
+          evaluator: findCol(['last evaluator', 'evaluator'])
         };
-        // Be resilient to header variations
-        if(idx.perf < 0) idx.perf = hdrs.findIndex(function(h){ return /performance/i.test(h); });
-        if(idx.init < 0) idx.init = hdrs.findIndex(function(h){ return /initiative/i.test(h); });
 
         if(idx.company < 0 || idx.name < 0 || idx.perf < 0 || idx.init < 0){
           renderEmpty('Sheet headers do not match expected format. Expected: Company, Employee Name, Role, Latest Quarter, Performance, Initiative, Quadrant, Last Evaluator.');
