@@ -1072,9 +1072,10 @@ fetchData();
           return -1;
         }
 
-        // The dashboard now reads raw evaluations from "2. Evaluations" tab.
-        // Columns we expect: Quarter, Company, Employee Name, Role/Function, Evaluator,
-        //                    Performance (1-10), Initiative (1-10).
+        // The dashboard reads raw evaluations from "2. Evaluations" tab.
+        // Primary columns: Quarter, Company, Employee Name, Role/Function, Evaluator.
+        // Score columns: try the formula columns first (Performance/Initiative auto-computed in sheet),
+        // but fall back to averaging the 12 raw indicators (P1-P6 + I1-I6) if those are blank.
         var idx = {
           company:   findCol(['company']),
           name:      findCol(['employee name', 'name']),
@@ -1086,8 +1087,46 @@ fetchData();
           evaluator: findCol(['evaluator'])
         };
 
-        if(idx.company < 0 || idx.name < 0 || idx.perf < 0 || idx.init < 0){
-          renderEmpty('Sheet headers not recognized. Expected an Evaluations tab with columns: Company, Employee Name, Performance, Initiative (and ideally Quarter, Role, Evaluator).');
+        // Find P1..P6 and I1..I6 individual indicator columns as fallback for blank formula cells.
+        function findIndicators(prefix){
+          var found = [];
+          for(var n = 1; n <= 6; n++){
+            for(var i = 0; i < hdrs.length; i++){
+              var h = hdrs[i].toLowerCase().trim();
+              // Match headers like "p1 on-time", "p1", "P1\nOn-time", etc.
+              if(h.indexOf(prefix.toLowerCase() + n) === 0){
+                found.push(i);
+                break;
+              }
+            }
+          }
+          return found.length === 6 ? found : null;
+        }
+        var perfIndicators = findIndicators('p');
+        var initIndicators = findIndicators('i');
+
+        // Helper: read a numeric cell, returning NaN for blanks/errors.
+        function readNum(row, colIdx){
+          if(colIdx < 0) return NaN;
+          var v = (row[colIdx] || '').toString().trim();
+          if(!v) return NaN;
+          var n = parseFloat(v.replace(/[^\d.\-]/g, ''));
+          return isNaN(n) ? NaN : n;
+        }
+        // Helper: average an array of column indices (1-5 each), scale to 1-10. Returns NaN if any blank.
+        function avgIndicators(row, cols){
+          if(!cols) return NaN;
+          var sum = 0;
+          for(var i = 0; i < cols.length; i++){
+            var n = readNum(row, cols[i]);
+            if(isNaN(n)) return NaN;
+            sum += n;
+          }
+          return Math.round((sum / cols.length) * 2 * 10) / 10;  // 1-5 scale → 1-10 scale, rounded to 1dp
+        }
+
+        if(idx.company < 0 || idx.name < 0){
+          renderEmpty('Sheet headers not recognized. Expected an Evaluations tab with at least Company and Employee Name columns.');
           return;
         }
 
@@ -1097,8 +1136,13 @@ fetchData();
           var row = rows[r];
           var name = (row[idx.name]||'').trim();
           if(!name) continue;
-          var perf = parseFloat((row[idx.perf]||'').toString().replace(/[^\d.\-]/g,''));
-          var init = parseFloat((row[idx.init]||'').toString().replace(/[^\d.\-]/g,''));
+
+          // Try formula columns first; fall back to raw indicators if blank.
+          var perf = readNum(row, idx.perf);
+          if(isNaN(perf)) perf = avgIndicators(row, perfIndicators);
+          var init = readNum(row, idx.init);
+          if(isNaN(init)) init = avgIndicators(row, initIndicators);
+
           if(isNaN(perf) || isNaN(init)) continue;
           allEvals.push({
             rowIdx:    r,
