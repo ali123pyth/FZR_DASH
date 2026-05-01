@@ -193,6 +193,21 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
 .pin-link { color: var(--velur-caramel); font-size:11px; text-decoration:none; font-weight:600; }
 .pin-link:hover { color: var(--velur-stone); text-decoration: underline; }
 
+/* Visual image cell */
+.v-img-cell { width: 90px; text-align: center; }
+.v-img-thumb { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid var(--beige-dark); display: block; margin: 0 auto; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+.v-img-thumb:hover { transform: scale(1.06); box-shadow: 0 4px 12px rgba(71,48,30,0.25); }
+.v-img-placeholder { width: 80px; height: 60px; border-radius: 4px; border: 1px dashed var(--velur-earth); background: var(--velur-warm); display: flex; align-items: center; justify-content: center; margin: 0 auto; cursor: default; }
+.v-img-placeholder span { font-size: 9px; color: var(--velur-earth); text-align: center; line-height: 1.4; padding: 4px; }
+
+/* Lightbox overlay */
+#v-lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.82); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+#v-lightbox.open { display:flex; }
+#v-lightbox img { max-width:88vw; max-height:80vh; border-radius:6px; box-shadow:0 8px 40px rgba(0,0,0,0.6); object-fit:contain; }
+#v-lightbox-caption { color:#d7b6a6; font-size:13px; font-family:'Poppins',sans-serif; text-align:center; max-width:600px; }
+#v-lightbox-close { position:fixed; top:20px; right:28px; color:#d7b6a6; font-size:28px; cursor:pointer; font-weight:300; line-height:1; background:none; border:none; font-family:'Poppins',sans-serif; }
+#v-lightbox-close:hover { color:#fff; }
+
 /* Category breakdown bars */
 .v-cat-bar { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--beige-mid); }
 .v-cat-bar:last-child { border-bottom:none; }
@@ -415,6 +430,7 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
                 <th onclick="sortVelur('Status')">Status <span class="sort-arrow">↕</span></th>
                 <th>Est. Cost (AED)</th>
                 <th>Pinterest Ref</th>
+                <th>Visual</th>
               </tr></thead>
               <tbody id="v-tbody"><tr><td colspan="9" class="no-data">Loading…</td></tr></tbody>
             </table>
@@ -450,6 +466,13 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
     </div>
 
   </div><!-- end velur-content -->
+
+<!-- Lightbox -->
+<div id="v-lightbox" onclick="closeVLightbox()">
+  <button id="v-lightbox-close" onclick="closeVLightbox()">✕</button>
+  <img id="v-lightbox-img" src="" alt=""/>
+  <div id="v-lightbox-caption"></div>
+</div>
 
 </div><!-- end wrapper -->
 
@@ -990,7 +1013,7 @@ fetchData();
 
     // Table
     if(!velurFiltered.length){
-      document.getElementById("v-tbody").innerHTML="<tr><td colspan='9' class='no-data'>No items match your filters.</td></tr>";
+      document.getElementById("v-tbody").innerHTML="<tr><td colspan='10' class='no-data'>No items match your filters.</td></tr>";
     } else {
       document.getElementById("v-tbody").innerHTML = velurFiltered.map(function(d,i){
         var pin = d["Notes (Pinterest Reference)"]||"";
@@ -998,16 +1021,22 @@ fetchData();
           ? '<a href="'+esc(pin)+'" target="_blank" class="pin-link">Pinterest ↗</a>'
           : '<span style="color:var(--text-muted);font-size:11px">—</span>';
         var cost = d["Est. Cost (AED)"]||"";
+        var imgUrl = (d["Visual (add image here)"]||d["Visual"]||"").trim();
+        var isReal = imgUrl.indexOf("http")===0;
+        var imgCell = isReal
+          ? '<td class="v-img-cell"><img class="v-img-thumb" src="'+esc(imgUrl)+'" alt="'+esc(d["Item / Description"]||"")+'" onclick="openVLightbox(\''+esc(imgUrl)+'\',\''+esc(d["Item / Description"]||"")+'\')"/></td>'
+          : '<td class="v-img-cell"><div class="v-img-placeholder"><span>Add<br>Image<br>URL</span></div></td>';
         return "<tr>"
           +"<td class='td-num'>"+(i+1)+"</td>"
           +"<td>"+catPill(d["Category"])+"</td>"
           +"<td style='font-size:11px;color:var(--text-muted)'>"+esc(d["Sub-Category"]||"—")+"</td>"
-          +"<td style='font-weight:600;color:var(--velur-dark);max-width:280px'>"+esc(d["Item / Description"]||"—")+"</td>"
+          +"<td style='font-weight:600;color:var(--velur-dark);max-width:260px'>"+esc(d["Item / Description"]||"—")+"</td>"
           +"<td style='font-size:11px;color:var(--text-muted)'>"+esc(d["Channel"]||"—")+"</td>"
           +"<td>"+priTag(d["Priority"])+"</td>"
           +"<td>"+statusBadge(d["Status"])+"</td>"
           +"<td style='font-size:11px;color:var(--text-muted);text-align:right'>"+esc(cost||"—")+"</td>"
           +"<td>"+pinLink+"</td>"
+          +imgCell
           +"</tr>";
       }).join("");
     }
@@ -1047,5 +1076,20 @@ fetchData();
 })();
 </script>
 
-</body>
+<!-- Lightbox functions -->
+<script>
+function openVLightbox(url, caption){
+  document.getElementById("v-lightbox-img").src = url;
+  document.getElementById("v-lightbox-caption").textContent = caption || "";
+  document.getElementById("v-lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeVLightbox(){
+  document.getElementById("v-lightbox").classList.remove("open");
+  document.getElementById("v-lightbox-img").src = "";
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape") closeVLightbox();
+});
 </html>
