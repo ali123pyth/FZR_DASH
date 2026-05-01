@@ -405,6 +405,9 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
           <select id="v-po-filter" onchange="applyVelurFilters()">
             <option value="">All PO Statuses</option>
           </select>
+          <select id="v-ceo-filter" onchange="applyVelurFilters()">
+            <option value="">All CEO Approvals</option>
+          </select>
           <select id="v-pri-filter" onchange="applyVelurFilters()">
             <option value="">All Priorities</option>
             <option value="High">High</option>
@@ -425,6 +428,8 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
                 <th onclick="sortVelur('Category')">Category <span class="sort-arrow">↕</span></th>
                 <th onclick="sortVelur('Name')">Name <span class="sort-arrow">↕</span></th>
                 <th onclick="sortVelur('PO status')">PO Status <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('CEO\'s approval')">CEO Approval <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Pending on:')">Pending On <span class="sort-arrow">↕</span></th>
                 <th onclick="sortVelur('Item / Description')">Item / Description <span class="sort-arrow">↕</span></th>
                 <th onclick="sortVelur('Channel')">Channel <span class="sort-arrow">↕</span></th>
                 <th onclick="sortVelur('Priority')">Priority <span class="sort-arrow">↕</span></th>
@@ -433,7 +438,7 @@ footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing
                 <th>Pinterest Ref</th>
                 <th>Visual</th>
               </tr></thead>
-              <tbody id="v-tbody"><tr><td colspan="11" class="no-data">Loading…</td></tr></tbody>
+              <tbody id="v-tbody"><tr><td colspan="13" class="no-data">Loading…</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -914,6 +919,11 @@ fetchData();
     psel.innerHTML = '<option value="">All PO Statuses</option>' +
       poStatuses.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join("");
 
+    var ceoVals = [...new Set(velurData.map(function(d){return d["CEO's approval"];}).filter(Boolean))].sort();
+    var ceosel = document.getElementById("v-ceo-filter");
+    ceosel.innerHTML = '<option value="">All CEO Approvals</option>' +
+      ceoVals.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join("");
+
     var statuses = [...new Set(velurData.map(function(d){return d["Status"];}).filter(Boolean))].sort();
     var ssel = document.getElementById("v-status-filter");
     ssel.innerHTML = '<option value="">All Statuses</option>' +
@@ -932,19 +942,21 @@ fetchData();
     var search = (document.getElementById("v-search").value||"").toLowerCase();
     var cat    = document.getElementById("v-cat-filter").value;
     var po     = document.getElementById("v-po-filter").value;
+    var ceo    = document.getElementById("v-ceo-filter").value;
     var pri    = document.getElementById("v-pri-filter").value;
     var status = document.getElementById("v-status-filter").value;
 
     populatePOFilter(cat);
 
     velurFiltered = velurData.filter(function(r){
-      var ms = !search || ["Item / Description","Name","Channel","Notes (Pinterest Reference)","Category","PO status"]
+      var ms  = !search || ["Item / Description","Name","Channel","Notes (Pinterest Reference)","Category","PO status","Pending on:","CEO's approval"]
         .some(function(k){ return (r[k]||"").toLowerCase().indexOf(search)>=0; });
       var mc  = !cat    || r["Category"]===cat;
       var mpo = !po     || r["PO status"]===po;
+      var mc2 = !ceo    || r["CEO's approval"]===ceo;
       var mp  = !pri    || r["Priority"]===pri;
       var mst = !status || r["Status"]===status;
-      return ms&&mc&&mpo&&mp&&mst;
+      return ms&&mc&&mpo&&mc2&&mp&&mst;
     });
 
     if(vSortKey) doVSort();
@@ -955,6 +967,7 @@ fetchData();
     document.getElementById("v-search").value="";
     document.getElementById("v-cat-filter").value="";
     document.getElementById("v-po-filter").value="";
+    document.getElementById("v-ceo-filter").value="";
     document.getElementById("v-pri-filter").value="";
     document.getElementById("v-status-filter").value="";
     applyVelurFilters();
@@ -1019,25 +1032,27 @@ fetchData();
 
     // Table
     if(!velurFiltered.length){
-      document.getElementById("v-tbody").innerHTML="<tr><td colspan='11' class='no-data'>No items match your filters.</td></tr>";
+      document.getElementById("v-tbody").innerHTML="<tr><td colspan='13' class='no-data'>No items match your filters.</td></tr>";
     } else {
       document.getElementById("v-tbody").innerHTML = velurFiltered.map(function(d,i){
         var pin = d["Notes (Pinterest Reference)"]||"";
         var pinLink = pin.indexOf("http")===0
           ? '<a href="'+esc(pin)+'" target="_blank" class="pin-link">Pinterest ↗</a>'
           : '<span style="color:var(--text-muted);font-size:11px">—</span>';
-        var cost   = d["Est. Cost (AED)"]||"";
-        var name   = d["Name"]||"";
-        var po     = d["PO status"]||"";
-        var imgUrl = (d["Visual (add image here)"]||d["Visual"]||"").trim();
-        var isReal = imgUrl.indexOf("http")===0;
+        var cost    = d["Est. Cost (AED)"]||"";
+        var name    = d["Name"]||"";
+        var po      = d["PO status"]||"";
+        var ceo     = d["CEO's approval"]||"";
+        var pending = d["Pending on:"]||"";
+        var imgUrl  = (d["Visual (add image here)"]||d["Visual"]||"").trim();
+        var isReal  = imgUrl.indexOf("http")===0;
         var imgCell = isReal
           ? '<td class="v-img-cell"><img class="v-img-thumb" src="'+esc(imgUrl)+'" alt="'+esc(d["Item / Description"]||"")+'" onclick="openVLightbox(\''+esc(imgUrl)+'\',\''+esc(d["Item / Description"]||"")+'\')"/></td>'
           : '<td class="v-img-cell"><div class="v-img-placeholder"><span>Add<br>Image<br>URL</span></div></td>';
 
         // PO Status badge
         var poSl = po.toLowerCase();
-        var poBg="#e8f0e8", poCol="#1a3a1a", poBorder="#a8c8a8";
+        var poBg="#e8f0e8",poCol="#1a3a1a",poBorder="#a8c8a8";
         if(poSl==="ordered"||poSl==="po raised"){poBg="#f0e8e0";poCol="#47301e";poBorder="#c8a888";}
         else if(poSl==="in production"||poSl==="wip"){poBg="#e0ecf5";poCol="#0a3a5a";poBorder="#88b8d8";}
         else if(poSl==="delivered"||poSl==="complete"||poSl==="done"){poBg="var(--velur-dark)";poCol="var(--velur-nude)";poBorder="var(--velur-dark)";}
@@ -1046,12 +1061,29 @@ fetchData();
           ? '<span style="background:'+poBg+';color:'+poCol+';border:1px solid '+poBorder+';font-size:9px;font-weight:600;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">'+esc(po)+'</span>'
           : '<span style="color:var(--text-muted);font-size:11px">—</span>';
 
+        // CEO Approval badge
+        var ceoSl = ceo.toLowerCase();
+        var ceoBg="#e8f0e8",ceoCol="#1a3a1a",ceoBorder="#a8c8a8";
+        if(ceoSl==="approved"||ceoSl==="yes"){ceoBg="#e0f0e0";ceoCol="#1a5e1a";ceoBorder="#80c880";}
+        else if(ceoSl==="pending"||ceoSl==="awaiting"){ceoBg="#f5f0e0";ceoCol="#7a6020";ceoBorder="#d4c080";}
+        else if(ceoSl==="rejected"||ceoSl==="no"){ceoBg="#f5e0e0";ceoCol="#7a1a1a";ceoBorder="#d48080";}
+        var ceoCell = ceo
+          ? '<span style="background:'+ceoBg+';color:'+ceoCol+';border:1px solid '+ceoBorder+';font-size:9px;font-weight:600;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">'+esc(ceo)+'</span>'
+          : '<span style="color:var(--text-muted);font-size:11px">—</span>';
+
+        // Pending On
+        var pendingCell = pending
+          ? '<span style="font-size:11px;color:var(--velur-stone);font-weight:600">'+esc(pending)+'</span>'
+          : '<span style="color:var(--text-muted);font-size:11px">—</span>';
+
         return "<tr>"
           +"<td class='td-num'>"+(i+1)+"</td>"
           +"<td>"+catPill(d["Category"])+"</td>"
           +"<td style='font-weight:600;color:var(--velur-dark);font-size:12px'>"+esc(name||"—")+"</td>"
           +"<td>"+poCell+"</td>"
-          +"<td style='font-weight:500;color:var(--text-body);max-width:240px;font-size:12px'>"+esc(d["Item / Description"]||"—")+"</td>"
+          +"<td>"+ceoCell+"</td>"
+          +"<td>"+pendingCell+"</td>"
+          +"<td style='font-weight:500;color:var(--text-body);max-width:220px;font-size:12px'>"+esc(d["Item / Description"]||"—")+"</td>"
           +"<td style='font-size:11px;color:var(--text-muted)'>"+esc(d["Channel"]||"—")+"</td>"
           +"<td>"+priTag(d["Priority"])+"</td>"
           +"<td>"+statusBadge(d["Status"])+"</td>"
