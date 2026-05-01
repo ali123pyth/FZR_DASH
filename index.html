@@ -6,465 +6,205 @@
 <title>FZR Group — Project Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --green:       #1b221a;
-    --green-mid:   #1b221a;
-    --green-light: #1b221a;
-    --beige:       #f5f5f5;
-    --beige-mid:   #ececec;
-    --beige-dark:  #e0e0e0;
-    --white:       #ffffff;
-    --text-body:   #2a2a2a;
-    --text-muted:  #7a8a79;
-    --text-light:  #a8b8a7;
-    --font:        'Poppins', sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--beige); color: var(--text-body); font-family: var(--font); font-size: 13px; min-height: 100vh; }
+:root {
+  --green: #1b221a;
+  --green-mid: #1b221a;
+  --green-light: #1b221a;
+  --beige: #f5f5f5;
+  --beige-mid: #ececec;
+  --beige-dark: #e0e0e0;
+  --white: #ffffff;
+  --text-body: #2a2a2a;
+  --text-muted: #7a8a79;
+  --text-light: #a8b8a7;
+  --font: 'Poppins', sans-serif;
+  /* Velur palette */
+  --velur-dark:   #47301e;
+  --velur-stone:  #6b241e;
+  --velur-moss:   #3e3c29;
+  --velur-caramel:#ac7b44;
+  --velur-earth:  #a59c76;
+  --velur-olive:  #7e8151;
+  --velur-nude:   #d7b6a6;
+  --velur-warm:   #f5f0eb;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--beige); color: var(--text-body); font-family: var(--font); font-size: 13px; min-height: 100vh; }
 
-  .banner { display: grid; grid-template-columns: 1fr auto; }
-  .banner-left { background: var(--green); padding: 18px 40px; display: flex; align-items: center; gap: 24px; }
-  .banner-logo { height: 64px; width: auto; object-fit: contain; mix-blend-mode: screen; }
-  .banner-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
-  .banner-left .dept { font-size: 11px; font-weight: 300; color: var(--text-light); letter-spacing: 0.1em; }
-  .banner-right { background: var(--green); padding: 18px 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; min-width: 240px; }
-  .banner-right .doc-type { font-size: 12px; font-weight: 600; color: var(--beige); letter-spacing: 0.16em; text-transform: uppercase; }
-  .banner-right .doc-date { font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px; }
+/* ── BANNER 1 ── */
+.banner { display: grid; grid-template-columns: 1fr auto; border-bottom: none; }
+.banner-left { background: var(--green); padding: 18px 40px; display: flex; align-items: center; gap: 24px; }
+.banner-logo { height: 64px; width: auto; object-fit: contain; mix-blend-mode: screen; }
+.banner-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+.banner-left .dept { font-size: 11px; font-weight: 300; color: var(--text-light); letter-spacing: 0.1em; }
+.banner-right { background: var(--green); padding: 18px 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; min-width: 240px; }
+.banner-right .doc-type { font-size: 12px; font-weight: 600; color: var(--beige); letter-spacing: 0.16em; text-transform: uppercase; }
+.banner-right .doc-date { font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px; }
 
-  .countdown-bar { background: var(--green); padding: 9px 40px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--text-light); }
-  .countdown-left { display: flex; align-items: center; gap: 14px; }
-  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6dbf6d; animation: blink 2s ease-in-out infinite; display: inline-block; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .countdown-bar strong { color: var(--beige); }
-  .btn-refresh { background: none; border: 1px solid var(--text-light); color: var(--beige); font-family: var(--font); font-size: 10px; font-weight: 600; padding: 4px 14px; cursor: pointer; border-radius: 2px; letter-spacing: 0.1em; text-transform: uppercase; transition: all .2s; }
-  .btn-refresh:hover { background: var(--beige); color: var(--green); }
+/* ── COUNTDOWN BAR ── */
+.countdown-bar { background: var(--green); padding: 9px 40px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--text-light); }
+.countdown-left { display: flex; align-items: center; gap: 14px; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6dbf6d; animation: blink 2s ease-in-out infinite; display: inline-block; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.countdown-bar strong { color: var(--beige); }
+.btn-refresh { background: none; border: 1px solid var(--text-light); color: var(--beige); font-family: var(--font); font-size: 10px; font-weight: 600; padding: 4px 14px; cursor: pointer; border-radius: 2px; letter-spacing: 0.1em; text-transform: uppercase; transition: all .2s; }
+.btn-refresh:hover { background: var(--beige); color: var(--green); }
 
-  .wrapper { padding: 36px 40px 60px; max-width: 1280px; margin: 0 auto; }
+/* ── WRAPPER ── */
+.wrapper { padding: 36px 40px 60px; max-width: 1400px; margin: 0 auto; }
 
-  .sec-head { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.18em; padding-bottom: 10px; border-bottom: 2px solid var(--green); margin-bottom: 20px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
-  .sec-head:first-of-type { margin-top: 0; }
-  .sec-head span { font-weight: 300; font-size: 10px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: none; }
+/* ── SECTION HEADING ── */
+.sec-head { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.18em; padding-bottom: 10px; border-bottom: 2px solid var(--green); margin-bottom: 20px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+.sec-head:first-of-type { margin-top: 0; }
+.sec-head span { font-weight: 300; font-size: 10px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: none; }
 
-  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin-bottom: 40px; }
-  .kpi-card { background: var(--green); padding: 22px 22px 20px; border-radius: 4px; animation: fadeUp .4s ease both; position: relative; overflow: hidden; }
-  .kpi-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--green-light); }
-  .kpi-card:nth-child(2){animation-delay:.07s} .kpi-card:nth-child(3){animation-delay:.14s}
-  .kpi-card:nth-child(4){animation-delay:.21s} .kpi-card:nth-child(5){animation-delay:.28s} .kpi-card:nth-child(6){animation-delay:.35s}
-  .kpi-label { font-size: 9px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; }
-  .kpi-value { font-size: 34px; font-weight: 700; color: var(--beige); line-height: 1; letter-spacing: -1px; }
-  .kpi-sub   { font-size: 10px; font-weight: 300; color: var(--text-muted); margin-top: 6px; }
+/* ── KPI ROW ── */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin-bottom: 40px; }
+.kpi-card { background: var(--green); padding: 22px 22px 20px; border-radius: 4px; animation: fadeUp .4s ease both; position: relative; overflow: hidden; }
+.kpi-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--green-light); }
+.kpi-card:nth-child(2){animation-delay:.07s} .kpi-card:nth-child(3){animation-delay:.14s}
+.kpi-card:nth-child(4){animation-delay:.21s} .kpi-card:nth-child(5){animation-delay:.28s} .kpi-card:nth-child(6){animation-delay:.35s}
+.kpi-label { font-size: 9px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; }
+.kpi-value { font-size: 34px; font-weight: 700; color: var(--beige); line-height: 1; letter-spacing: -1px; }
+.kpi-sub { font-size: 10px; font-weight: 300; color: var(--text-muted); margin-top: 6px; }
 
-  .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-  .filter-bar label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
-  .filter-bar input, .filter-bar select { border: 1px solid var(--beige-dark); background: var(--white); color: var(--text-body); font-family: var(--font); font-size: 12px; padding: 8px 12px; outline: none; transition: border-color .2s; border-radius: 3px; }
-  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--green); }
-  .filter-bar input { flex: 1; min-width: 180px; }
-  .btn-reset { background: var(--green); color: var(--beige); border: none; font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border-radius: 3px; transition: background .2s; white-space: nowrap; }
-  .btn-reset:hover { background: var(--green-light); }
+/* ── FILTER BAR ── */
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.filter-bar label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+.filter-bar input, .filter-bar select { border: 1px solid var(--beige-dark); background: var(--white); color: var(--text-body); font-family: var(--font); font-size: 12px; padding: 8px 12px; outline: none; transition: border-color .2s; border-radius: 3px; }
+.filter-bar input:focus, .filter-bar select:focus { border-color: var(--green); }
+.filter-bar input { flex: 1; min-width: 180px; }
+.btn-reset { background: var(--green); color: var(--beige); border: none; font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border-radius: 3px; transition: background .2s; white-space: nowrap; }
+.btn-reset:hover { background: var(--green-light); }
 
-  .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; margin-bottom: 28px; }
-  @media(max-width:860px){ .main-grid { grid-template-columns: 1fr; } }
+/* ── MAIN GRID ── */
+.main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; margin-bottom: 28px; }
+@media(max-width:860px){ .main-grid { grid-template-columns: 1fr; } }
 
-  .table-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; overflow: hidden; }
-  .table-wrap  { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: var(--green); }
-  thead th { color: var(--beige); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 13px 14px; text-align: left; white-space: nowrap; cursor: pointer; user-select: none; transition: background .15s; }
-  thead th:hover { background: var(--green-mid); }
-  thead th.green-th { background: var(--green-light); width: 36px; text-align: center; cursor: default; }
-  .sort-arrow { margin-left: 4px; opacity: 0.35; font-size: 9px; }
-  tbody tr { border-bottom: 1px solid var(--beige-mid); transition: background .15s; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:nth-child(even) { background: var(--beige); }
-  tbody tr:hover { background: #e8ede8; }
-  tbody td { padding: 11px 14px; font-size: 12px; }
-  td.td-num  { text-align: center; font-weight: 600; color: var(--green); font-size: 11px; background: var(--beige-mid); }
-  td.td-name { font-weight: 600; color: var(--green); }
-  td.td-pct  { font-weight: 700; color: var(--green); white-space: nowrap; }
+/* ── TABLE ── */
+.table-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; overflow: hidden; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead tr { background: var(--green); }
+thead th { color: var(--beige); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 13px 14px; text-align: left; white-space: nowrap; cursor: pointer; user-select: none; transition: background .15s; }
+thead th:hover { background: var(--green-mid); }
+thead th.green-th { background: var(--green-light); width: 36px; text-align: center; cursor: default; }
+.sort-arrow { margin-left: 4px; opacity: 0.35; font-size: 9px; }
+tbody tr { border-bottom: 1px solid var(--beige-mid); transition: background .15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) { background: var(--beige); }
+tbody tr:hover { background: #e8ede8; }
+tbody td { padding: 11px 14px; font-size: 12px; }
+td.td-num { text-align: center; font-weight: 600; color: var(--green); font-size: 11px; background: var(--beige-mid); }
+td.td-name { font-weight: 600; color: var(--green); }
+td.td-pct { font-weight: 700; color: var(--green); white-space: nowrap; }
+.prog-wrap { display: flex; align-items: center; gap: 10px; }
+.bar-bg { flex: 1; height: 5px; background: var(--beige-dark); overflow: hidden; min-width: 60px; border-radius: 3px; }
+.bar-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+.bar-fill.lo { background: var(--text-light); }
+.tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
+.tag-ongoing { background: #e0ede0; color: #1b5e20; border: 1px solid #a5c8a5; }
+.tag-done { background: var(--green); color: var(--beige); border: 1px solid var(--green); }
+.tag-hold { background: #f5f0e0; color: #7a6020; border: 1px solid #d4c080; }
+.tag-other { background: var(--beige-mid); color: var(--text-muted); border: 1px solid var(--beige-dark); }
+.overdue-row { background: #f8f4f0 !important; }
+.overdue-flag { font-size: 9px; color: #8b5020; font-weight: 600; margin-left: 6px; }
 
-  .prog-wrap { display: flex; align-items: center; gap: 10px; }
-  .bar-bg    { flex: 1; height: 5px; background: var(--beige-dark); overflow: hidden; min-width: 60px; border-radius: 3px; }
-  .bar-fill  { height: 100%; background: var(--green); border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
-  .bar-fill.lo { background: var(--text-light); }
+/* ── RIGHT COL ── */
+.right-col { display: flex; flex-direction: column; gap: 16px; }
+.chart-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
+.chart-title { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--beige-dark); }
+.donut-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 18px; }
+.donut-center { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+.donut-center .big { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; }
+.donut-center .lbl { font-size: 9px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+.leg-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--beige-mid); }
+.leg-row:last-child { border-bottom:none; }
+.leg-dot { width:10px; height:10px; flex-shrink:0; border-radius:2px; }
+.leg-name { font-size:12px; flex:1; color: var(--text-body); }
+.leg-pct { font-size:11px; font-weight:600; color: var(--green); }
 
-  .tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
-  .tag-ongoing { background: #e0ede0; color: #1b5e20; border: 1px solid #a5c8a5; }
-  .tag-done    { background: var(--green); color: var(--beige); border: 1px solid var(--green); }
-  .tag-hold    { background: #f5f0e0; color: #7a6020; border: 1px solid #d4c080; }
-  .tag-other   { background: var(--beige-mid); color: var(--text-muted); border: 1px solid var(--beige-dark); }
-  .overdue-row { background: #f8f4f0 !important; }
-  .overdue-flag { font-size: 9px; color: #8b5020; font-weight: 600; margin-left: 6px; }
+/* ── BARS ── */
+.bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
+.bars-area { display:flex; align-items:flex-end; gap:9px; height:110px; margin-top:14px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
+.b-col { flex:0 0 auto; min-width:40px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+.b-fill { width:32px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
+.b-fill.hi { background: var(--green); }
+.b-label { font-size:9px; color:var(--text-muted); width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
+.b-val { font-size:9px; font-weight:600; color:var(--green); }
 
-  .right-col { display: flex; flex-direction: column; gap: 16px; }
-  .chart-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .chart-title { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--beige-dark); }
-  .donut-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 18px; }
-  .donut-center { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
-  .donut-center .big { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; }
-  .donut-center .lbl { font-size: 9px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+/* ── SUMMARY ── */
+.summary-box { border-top:3px solid var(--green); border-bottom:3px solid var(--green); background:var(--white); padding:22px 28px; margin-top:36px; display:flex; gap:28px; flex-wrap:wrap; }
+.sum-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--green); margin-bottom:8px; }
+.summary-box p { font-size:12px; font-weight:300; line-height:1.8; color:var(--text-body); }
 
-  .leg-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--beige-mid); }
-  .leg-row:last-child { border-bottom:none; }
-  .leg-dot  { width:10px; height:10px; flex-shrink:0; border-radius:2px; }
-  .leg-name { font-size:12px; flex:1; color: var(--text-body); }
-  .leg-pct  { font-size:11px; font-weight:600; color: var(--green); }
+/* ── FOOTER ── */
+footer { background: var(--green); border-top:3px solid var(--green-light); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; }
+.footer-logo { height:32px; width:auto; object-fit:contain; mix-blend-mode: screen; }
+footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing:0.06em; }
+.no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-  .bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-  .bars-area { display:flex; align-items:flex-end; gap:9px; height:110px; margin-top:14px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
-  .b-col  { flex:0 0 auto; min-width:40px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
-  .b-fill { width:32px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
-  .b-fill.hi { background: var(--green); }
-  .b-label { font-size:9px; color:var(--text-muted); width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
-  .b-val   { font-size:9px; font-weight:600; color:var(--green); }
+/* ── SHEET TABS ── */
+.sheet-tabs { display:flex; gap:0; border-bottom:2px solid var(--green); margin-bottom:28px; flex-wrap:wrap; }
+.sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
+.sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
+.sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
+.sheet-tab.intel-active { background:#c46235 !important; color:#fff !important; border-bottom:3px solid #c46235 !important; }
+.sheet-tab.velur-active { background:var(--velur-dark) !important; color:var(--velur-nude) !important; border-bottom:3px solid var(--velur-caramel) !important; }
 
-  .summary-box { border-top:3px solid var(--green); border-bottom:3px solid var(--green); background:var(--white); padding:22px 28px; margin-top:36px; display:flex; gap:28px; flex-wrap:wrap; }
-  .sum-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--green); margin-bottom:8px; }
-  .summary-box p { font-size:12px; font-weight:300; line-height:1.8; color:var(--text-body); }
+/* ── INTEL OVERRIDES ── */
+#intel-content .sec-head { color:#c46235; border-bottom-color:#c46235; }
+#intel-content .table-panel thead tr { background:#c46235; }
+#intel-content #i-brief { border-left-color:#c46235; }
+#intel-content a { color:#c46235; }
 
-  footer { background: var(--green); border-top:3px solid var(--green-light); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; }
-  .footer-logo { height:32px; width:auto; object-fit:contain; mix-blend-mode: screen; }
-  footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing:0.06em; }
+/* ── VELUR MARKETING TAB ── */
+#velur-content .sec-head { color: var(--velur-dark); border-bottom-color: var(--velur-caramel); }
+#velur-content .velur-kpi-card { background: var(--velur-dark); padding: 22px; border-radius: 4px; animation: fadeUp .4s ease both; }
+#velur-content .velur-kpi-card .kpi-label { color: var(--velur-nude); opacity: 0.7; }
+#velur-content .velur-kpi-card .kpi-value { color: var(--velur-nude); }
+#velur-content .velur-kpi-card .kpi-sub { color: var(--velur-earth); }
+#velur-content .table-panel thead tr { background: var(--velur-dark); }
+#velur-content thead th { color: var(--velur-nude); }
+#velur-content thead th:hover { background: var(--velur-stone); }
+#velur-content tbody tr:hover { background: var(--velur-warm); }
+#velur-content .btn-velur { background: var(--velur-dark); color: var(--velur-nude); border: none; font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border-radius: 3px; transition: background .2s; white-space: nowrap; }
+#velur-content .btn-velur:hover { background: var(--velur-stone); }
+#velur-content .filter-bar input:focus, #velur-content .filter-bar select:focus { border-color: var(--velur-caramel); }
 
-  .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+/* Priority badges */
+.pri-high   { background: #f5e0d0; color: #6b241e; border: 1px solid #d4a080; font-size:9px; font-weight:600; padding:3px 9px; border-radius:3px; display:inline-block; text-transform:uppercase; letter-spacing:.06em; }
+.pri-medium { background: #f0ead0; color: #5a4820; border: 1px solid #c8b860; font-size:9px; font-weight:600; padding:3px 9px; border-radius:3px; display:inline-block; text-transform:uppercase; letter-spacing:.06em; }
+.pri-low    { background: var(--beige-mid); color: var(--text-muted); border: 1px solid var(--beige-dark); font-size:9px; font-weight:600; padding:3px 9px; border-radius:3px; display:inline-block; text-transform:uppercase; letter-spacing:.06em; }
 
-  .sheet-tabs { display:flex; gap:0; border-bottom:2px solid var(--green); margin-bottom:28px; flex-wrap:wrap; }
-  .sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
-  .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
-  .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
-  .sheet-tab.intel-active { background:#c46235 !important; color:#fff !important; border-bottom:3px solid #c46235 !important; }
-  .sheet-tab.talent-active { background:#7a4028 !important; color:#fff !important; border-bottom:3px solid #7a4028 !important; }
-  .sheet-tab.velur-active { background:#0F0E0C !important; color:#C46235 !important; border-bottom:3px solid #C46235 !important; }
-  #intel-content .sec-head { color:#c46235; border-bottom-color:#c46235; }
-  #intel-content .table-panel thead tr { background:#c46235; }
-  #intel-content #i-brief { border-left-color:#c46235; }
-  #intel-content a { color:#c46235; }
+/* Category sidebar pills */
+.cat-pill { display:inline-block; font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 10px; border-radius:3px; white-space:nowrap; }
+.cat-packaging  { background:#f0e8e0; color:#47301e; border:1px solid #c8a888; }
+.cat-print      { background:#ede8f0; color:#3a2a5a; border:1px solid #b8a8d0; }
+.cat-retail     { background:#e8f0e8; color:#1a3a1a; border:1px solid #a8c8a8; }
+.cat-stationery { background:#f0ede0; color:#4a3a10; border:1px solid #c8be88; }
+.cat-digital    { background:#e0ecf5; color:#0a3a5a; border:1px solid #88b8d8; }
+.cat-ooh        { background:#f5e8e0; color:#5a2a10; border:1px solid #d8a888; }
+.cat-events     { background:#e8f0ee; color:#1a3a2a; border:1px solid #88c8b8; }
+.cat-b2b        { background:#f0e8f0; color:#3a1a3a; border:1px solid #c8a8c8; }
 
-  /* ════════════════════════════════════════════════════════════
-     TALENT MATRIX TAB
-     ════════════════════════════════════════════════════════════ */
-  #talent-content .tm-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; margin-bottom: 28px; }
-  @media (max-width: 860px) { #talent-content .tm-layout { grid-template-columns: 1fr; } }
+/* Pinterest link */
+.pin-link { color: var(--velur-caramel); font-size:11px; text-decoration:none; font-weight:600; }
+.pin-link:hover { color: var(--velur-stone); text-decoration: underline; }
 
-  #talent-content .tm-matrix-card { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
-
-  #talent-content .tm-matrix-wrap {
-    width: 100%; max-width: 560px; margin: 0 auto;
-    display: grid;
-    grid-template-columns: 24px 24px 1fr;
-    grid-template-rows: 1fr 24px 24px;
-    gap: 0;
-  }
-  #talent-content .tm-axis-y-label {
-    grid-column: 1; grid-row: 1;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--green);
-    writing-mode: vertical-rl; transform: rotate(180deg);
-    white-space: nowrap;
-  }
-  #talent-content .tm-axis-y-ticks {
-    grid-column: 2; grid-row: 1;
-    display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;
-    padding: 2px 6px 2px 0;
-    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-muted); font-weight: 600;
-  }
-  #talent-content .tm-matrix { grid-column: 3; grid-row: 1; position: relative; width: 100%; aspect-ratio: 1 / 1; }
-  #talent-content .tm-axis-x-ticks {
-    grid-column: 3; grid-row: 2;
-    display: flex; justify-content: space-between;
-    padding: 6px 0 0;
-    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-muted); font-weight: 600;
-  }
-  #talent-content .tm-axis-x-label {
-    grid-column: 3; grid-row: 3; text-align: center;
-    font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--green); padding-top: 2px;
-  }
-
-  #talent-content .tm-quadrants {
-    position: absolute; inset: 0;
-    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-    gap: 1px; background: var(--beige-dark);
-    border: 1px solid var(--beige-dark); border-radius: 3px; overflow: hidden;
-  }
-  #talent-content .tm-q { background: var(--white); padding: 12px 14px; text-align: right; position: relative; }
-  #talent-content .tm-q.tm-q-executors { background: var(--beige); }
-  #talent-content .tm-q.tm-q-stars { background: var(--white); }
-  #talent-content .tm-q.tm-q-underperf { background: var(--beige-mid); }
-  #talent-content .tm-q.tm-q-aspirants { background: var(--beige); }
-  #talent-content .tm-q-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
-  #talent-content .tm-q-count { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; margin-top: 4px; letter-spacing: -0.02em; }
-
-  #talent-content .tm-dot {
-    position: absolute; padding: 3px 9px;
-    background: var(--green); color: var(--beige);
-    font-family: var(--font); font-size: 10px; font-weight: 600;
-    letter-spacing: 0.02em; border-radius: 3px;
-    cursor: pointer; transform: translate(-50%, -50%);
-    transition: background 0.15s, box-shadow 0.15s; z-index: 5;
-    white-space: nowrap; max-width: 100px;
-    overflow: hidden; text-overflow: ellipsis;
-    pointer-events: auto; border: 1px solid var(--green);
-  }
-  #talent-content .tm-dot:hover { background: #c46235; border-color: #c46235; z-index: 10; }
-  #talent-content .tm-dot.selected { background: #c46235; border-color: #c46235; box-shadow: 0 0 0 2px var(--white), 0 0 0 3px #c46235; }
-
-  #talent-content .tm-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 20px; }
-  #talent-content .tm-panel + .tm-panel { margin-top: 14px; }
-  #talent-content .tm-panel-title {
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--green);
-    padding-bottom: 8px; border-bottom: 1px solid var(--beige-dark);
-    margin-bottom: 14px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  #talent-content .tm-panel-title .tm-sub {
-    font-weight: 300; letter-spacing: 0.04em;
-    text-transform: none; color: var(--text-muted); font-size: 10px;
-  }
-
-  #talent-content .tm-roster-item {
-    display: flex; align-items: center; gap: 10px; padding: 10px 0;
-    border-bottom: 1px solid var(--beige-mid);
-    cursor: pointer; transition: background 0.15s;
-  }
-  #talent-content .tm-roster-item:last-child { border-bottom: none; }
-  #talent-content .tm-roster-item:hover,
-  #talent-content .tm-roster-item.active {
-    background: var(--beige); margin: 0 -20px;
-    padding-left: 20px; padding-right: 20px;
-  }
-  #talent-content .tm-roster-mark { width: 3px; height: 28px; background: var(--beige-dark); flex-shrink: 0; border-radius: 2px; }
-  #talent-content .tm-roster-item.active .tm-roster-mark { background: #c46235; }
-  #talent-content .tm-roster-info { flex: 1; min-width: 0; }
-  #talent-content .tm-roster-name { font-size: 12px; font-weight: 600; color: var(--green); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #talent-content .tm-roster-role { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-  #talent-content .tm-roster-q { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); }
-  #talent-content .tm-roster-scores { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.04em; white-space: nowrap; }
-
-  #talent-content .tm-score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-  #talent-content .tm-score-block { padding: 12px 14px; background: var(--beige); border-left: 3px solid var(--green); border-radius: 0 3px 3px 0; }
-  #talent-content .tm-score-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-  #talent-content .tm-score-value { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; letter-spacing: -0.02em; }
-  #talent-content .tm-score-value .tm-of { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 2px; }
-  #talent-content .tm-verdict { padding: 14px 16px; background: var(--beige); border-left: 3px solid #c46235; border-radius: 0 3px 3px 0; margin-bottom: 14px; }
-  #talent-content .tm-verdict-label { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-  #talent-content .tm-verdict-title { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
-  #talent-content .tm-verdict-body { font-size: 11px; line-height: 1.6; color: var(--text-body); }
-
-  #talent-content .tm-meta-row {
-    display: flex; gap: 12px; font-size: 10px; color: var(--text-muted);
-    padding: 10px 14px; background: var(--beige-mid); border-radius: 3px;
-    margin-bottom: 14px;
-  }
-  #talent-content .tm-meta-row strong { color: var(--green); font-weight: 600; }
-
-  #talent-content .tm-subtabs {
-    display: flex; gap: 0;
-    border-bottom: 1px solid var(--beige-dark);
-    margin-bottom: 20px; overflow-x: auto;
-  }
-  #talent-content .tm-subtab {
-    padding: 8px 18px; font-family: var(--font);
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    background: transparent; border: none; color: var(--text-muted);
-    cursor: pointer; transition: color 0.15s, background 0.15s;
-    border-bottom: 2px solid transparent; margin-bottom: -1px;
-    white-space: nowrap;
-  }
-  #talent-content .tm-subtab:hover { color: var(--green); }
-  #talent-content .tm-subtab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 700; }
-  #talent-content .tm-subtab .tm-count { font-size: 9px; margin-left: 5px; color: var(--text-light); font-weight: 400; letter-spacing: 0.05em; }
-  #talent-content .tm-subtab.active .tm-count { color: #c46235; font-weight: 700; }
-
-  #talent-content .tm-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
-
-  #talent-content .sec-head { color: var(--green); border-bottom-color: var(--green); }
-  #talent-content a.sheet-link {
-    color: var(--green); font-weight: 600; text-decoration: none;
-    border-bottom: 1px solid var(--green);
-    font-size: 11px;
-  }
-  #talent-content a.sheet-link:hover { color: #c46235; border-bottom-color: #c46235; }
-
-  /* ════════════════════════════════════════════════════════════
-     VELUR KSA PULSE TAB — dark + amber palette
-     ════════════════════════════════════════════════════════════ */
-  #velur-content { background:#0F0E0C; color:#FAF6EF; min-height: calc(100vh - 200px); margin: 0 -40px -60px; padding: 0 40px 60px; }
-  #velur-content .v-wrapper { max-width: 1280px; margin: 0 auto; padding: 28px 0 40px; }
-  #velur-content .v-header { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:20px; border-bottom: 1px solid #C4623533; margin-bottom: 28px; background: linear-gradient(180deg,#1A1410 0%,#0F0E0C 100%); padding: 28px 30px 20px; margin: 0 -30px 28px; border-radius: 0 0 4px 4px; }
-  #velur-content .v-brand { font-size: 11px; letter-spacing: 0.25em; color: #C46235; text-transform: uppercase; margin-bottom: 4px; font-family: var(--font); }
-  #velur-content .v-title { font-size: 26px; font-weight: 400; margin: 0; letter-spacing: 0.03em; color:#FAF6EF; font-family: 'Georgia','Times New Roman',serif; }
-  #velur-content .v-subtitle { font-size: 12px; color: #888; margin-top: 4px; letter-spacing: 0.08em; }
-  #velur-content .v-badge { background: #C4623522; border: 1px solid #C4623566; border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #C46235; letter-spacing: 0.1em; }
-  #velur-content .v-meta { font-size: 11px; color: #888; margin-top:6px; }
-
-  #velur-content .v-sec-head { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #C46235; margin-bottom: 16px; margin-top: 32px; display: flex; align-items: center; gap: 10px; }
-  #velur-content .v-sec-head:first-of-type { margin-top: 0; }
-  #velur-content .v-sec-line { flex: 1; height: 1px; background: #C4623533; }
-
-  #velur-content .v-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
-  @media(max-width:860px){ #velur-content .v-stat-row { grid-template-columns: repeat(2,1fr); } }
-  #velur-content .v-stat-card { background: #FFFFFF04; border: 1px solid #E0D9CF22; border-radius: 8px; padding: 16px 18px; text-align: center; }
-  #velur-content .v-stat-num { font-size: 28px; font-weight: 400; color: #C46235; letter-spacing: 0.02em; font-family: 'Georgia',serif; }
-  #velur-content .v-stat-label { font-size: 10px; color: #888; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
-
-  #velur-content .v-source-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  @media(max-width:860px){ #velur-content .v-source-grid { grid-template-columns: 1fr; } }
-  #velur-content .v-source-card { background: #FFFFFF05; border: 1px solid #E0D9CF33; border-radius: 8px; padding: 20px 22px; }
-  #velur-content .v-source-card.done { border-color: #4CAF7D; background: #4CAF7D15; }
-  #velur-content .v-source-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.05em; color:#FAF6EF; }
-  #velur-content .v-source-status { font-size: 10px; }
-  #velur-content .v-source-status .v-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 6px currentColor; vertical-align: middle; }
-  #velur-content .v-source-desc { font-size: 11px; color: #888; line-height: 1.5; margin-top: 8px; }
-  #velur-content .v-tag-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  #velur-content .v-tag { background:#4CAF7D20; border:1px solid #4CAF7D55; border-radius: 20px; padding: 3px 12px; font-size: 11px; color: #4CAF7D; }
-  #velur-content .v-tag.amber { background:#E8935A20; border-color:#E8935A55; color:#E8935A; }
-  #velur-content .v-tag.muted { background:#88888820; border-color:#88888855; color:#999; }
-  #velur-content .v-tag.muted.trending { background:#C4623520; border-color:#C4623555; color:#C46235; }
-
-  #velur-content .v-brief-box { background: #FFFFFF05; border: 1px solid #C4623544; border-radius: 10px; padding: 28px 32px; line-height: 1.85; font-size: 14px; white-space: pre-wrap; color: #FAF6EF; font-family: var(--font); }
-  #velur-content .v-brief-h { color:#C46235; font-weight:700; font-size:12px; letter-spacing:0.15em; text-transform:uppercase; margin-top:22px; margin-bottom:8px; }
-  #velur-content .v-brief-h:first-child { margin-top: 0; }
-
-  #velur-content .v-product-table { width:100%; border-collapse: collapse; font-size: 12px; }
-  #velur-content .v-product-table thead { background:#1A1410; }
-  #velur-content .v-product-table th { color:#C46235; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 12px 14px; text-align: left; border-bottom: 1px solid #C4623533; }
-  #velur-content .v-product-table td { padding: 11px 14px; border-bottom: 1px solid #FFFFFF08; color:#FAF6EF; }
-  #velur-content .v-product-table tr:hover td { background: #FFFFFF03; }
-  #velur-content .v-product-table .v-stars { color:#E8935A; font-weight:600; }
-  #velur-content .v-product-source-pill { background:#4CAF7D22; color:#4CAF7D; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; }
-  #velur-content .v-product-source-pill.noon { background:#FFD60A22; color:#FFD60A; }
-
-  #velur-content .v-empty { text-align:center; padding:40px 20px; color:#888; font-size: 12px; letter-spacing: 0.05em; }
-  #velur-content .v-error { background: #E0525215; border: 1px solid #E0525244; border-radius: 6px; padding: 14px 18px; font-size: 12px; color: #E05252; margin-bottom: 20px; }
-
-  /* Instagram post groups + cards */
-  #velur-content .v-post-group { margin-bottom: 18px; background: #FFFFFF03; border: 1px solid #C4623533; border-radius: 6px; overflow: hidden; }
-  #velur-content .v-post-group-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: #1A1410; border-bottom: 1px solid #C4623522; }
-  #velur-content .v-post-group-tag { font-size: 13px; font-weight: 600; color: #C46235; letter-spacing: 0.04em; }
-  #velur-content .v-post-group-tag.trending::before { content: '● '; color: #E8935A; }
-  #velur-content .v-post-group-meta { font-size: 10px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; }
-  #velur-content .v-post-group-empty { padding: 12px 16px; color: #666; font-size: 11px; font-style: italic; }
-  #velur-content .v-post-list { padding: 6px 0; }
-  #velur-content .v-post-card { display: block; padding: 10px 16px; border-bottom: 1px solid #FFFFFF06; text-decoration: none; color: inherit; transition: background 0.15s; }
-  #velur-content .v-post-card:last-child { border-bottom: none; }
-  #velur-content .v-post-card:hover { background: #FFFFFF05; }
-  #velur-content .v-post-caption { font-size: 12px; color: #FAF6EF; line-height: 1.5; margin-bottom: 6px; }
-  #velur-content .v-post-caption.empty { font-style: italic; color: #666; }
-  #velur-content .v-post-meta { display: flex; gap: 14px; font-size: 10px; color: #888; align-items: center; flex-wrap: wrap; }
-  #velur-content .v-post-meta .v-post-likes { color: #E8935A; }
-  #velur-content .v-post-meta .v-post-comments { color: #4CAF7D; }
-  #velur-content .v-post-meta .v-post-link { margin-left: auto; color: #C46235; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; font-size: 10px; }
-  #velur-content .v-post-meta .v-post-link::after { content: ' ↗'; }
-
-  #velur-content .v-footer-note { border-top: 1px solid #E0D9CF22; padding-top: 20px; margin-top: 40px; font-size: 11px; color: #88888888; line-height: 1.7; }
-  #velur-content .v-footer-note strong { color: #888; }
-
-  #velur-content .btn-velur-refresh { background: none; border: 1px solid #C46235; color: #C46235; font-family: var(--font); font-size: 10px; font-weight: 600; padding: 5px 14px; cursor: pointer; border-radius: 2px; letter-spacing: 0.1em; text-transform: uppercase; transition: all .2s; }
-  #velur-content .btn-velur-refresh:hover { background: #C46235; color: #0F0E0C; }
-
-  /* Settings gear icon button */
-  #velur-content .btn-velur-gear { background: none; border: 1px solid #C4623555; color: #C46235; font-family: var(--font); font-size: 14px; font-weight: 600; width: 30px; height: 30px; cursor: pointer; border-radius: 50%; transition: all .2s; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
-  #velur-content .btn-velur-gear:hover { background: #C46235; color: #0F0E0C; transform: rotate(45deg); }
-
-  /* Country flag in title */
-  #velur-content .v-country-flag { font-size: 22px; margin-right: 8px; vertical-align: middle; }
-
-  /* Settings modal */
-  .v-modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(15,14,12,0.85); backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: flex-start; justify-content: center; padding: 40px 20px; overflow-y: auto; }
-  .v-modal-overlay.open { display: flex; }
-  .v-modal { background: #14110E; border: 1px solid #C4623544; border-radius: 8px; max-width: 720px; width: 100%; padding: 28px 32px 24px; color:#FAF6EF; font-family: var(--font); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
-  .v-modal h2 { font-size: 18px; font-weight: 400; margin: 0 0 4px; color:#FAF6EF; font-family: 'Georgia',serif; letter-spacing: 0.03em; }
-  .v-modal .v-modal-sub { font-size: 11px; color: #888; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
-  .v-modal-section { margin-bottom: 22px; }
-  .v-modal-section-title { font-size: 10px; font-weight: 700; color:#C46235; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #C4623533; display:flex; align-items:center; justify-content:space-between; }
-  .v-modal-section-title .v-section-help { color:#888; font-weight: 300; font-size: 10px; letter-spacing: 0.05em; text-transform: none; }
-  .v-modal label { display: block; font-size: 11px; color: #999; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-  .v-modal select, .v-modal input[type="text"], .v-modal input[type="number"] {
-    width: 100%; background: #0F0E0C; border: 1px solid #444; color: #FAF6EF; font-family: var(--font); font-size: 13px;
-    padding: 8px 10px; border-radius: 3px; outline: none; transition: border-color 0.15s;
-  }
-  .v-modal select:focus, .v-modal input:focus { border-color: #C46235; }
-  .v-modal select { cursor: pointer; }
-
-  /* Numeric grid */
-  .v-num-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-
-  /* Source toggles */
-  .v-toggle-row { display:flex; gap:14px; flex-wrap: wrap; }
-  .v-toggle { display: inline-flex; align-items: center; gap: 8px; background: #0F0E0C; border: 1px solid #444; padding: 8px 14px; border-radius: 4px; cursor: pointer; user-select: none; transition: all 0.15s; }
-  .v-toggle:hover { border-color: #C46235; }
-  .v-toggle input { accent-color: #C46235; cursor: pointer; }
-  .v-toggle.disabled { opacity: 0.5; }
-
-  /* Editable list */
-  .v-list-wrap { background:#0F0E0C; border: 1px solid #2a2723; border-radius: 4px; padding: 10px; }
-  .v-list-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: center; }
-  .v-list-row:last-child { margin-bottom: 0; }
-  .v-list-row input { flex: 1; }
-  .v-list-row .v-list-remove {
-    background: none; border: 1px solid #6a4040; color: #c46868; font-family: var(--font); font-size: 14px; font-weight: 600;
-    width: 28px; height: 28px; border-radius: 4px; cursor: pointer; line-height: 1; transition: all 0.15s;
-    display: inline-flex; align-items: center; justify-content: center;
-  }
-  .v-list-row .v-list-remove:hover { background: #c46868; color: #0F0E0C; border-color: #c46868; }
-  .v-list-add {
-    background: none; border: 1px dashed #C4623555; color: #C46235; font-family: var(--font); font-size: 11px; font-weight: 600;
-    padding: 6px 12px; border-radius: 3px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase;
-    margin-top: 6px; transition: all 0.15s; width: 100%;
-  }
-  .v-list-add:hover { background: #C4623522; }
-
-  /* Test result panel */
-  .v-test-panel {
-    margin-top: 8px; padding: 10px 14px; background: #0F0E0C; border-left: 3px solid #888;
-    border-radius: 0 4px 4px 0; font-size: 11px; color: #ccc; line-height: 1.6;
-    max-height: 200px; overflow-y: auto;
-  }
-  .v-test-panel.ok      { border-left-color: #4CAF7D; }
-  .v-test-panel.warn    { border-left-color: #E8935A; }
-  .v-test-panel.error   { border-left-color: #c46868; color: #ff9090; }
-  .v-test-panel.loading { border-left-color: #C46235; color: #C46235; }
-  .v-test-panel ul { margin: 4px 0 0 0; padding-left: 18px; }
-  .v-test-panel li { margin: 2px 0; }
-  .v-test-source-row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
-  .v-test-source-row .v-test-btn {
-    background: none; border: 1px solid #888; color: #ccc; font-family: var(--font); font-size: 10px; font-weight: 600;
-    padding: 5px 12px; border-radius: 3px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase;
-    transition: all 0.15s;
-  }
-  .v-test-source-row .v-test-btn:hover { border-color: #C46235; color: #C46235; }
-  .v-test-source-row .v-test-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  /* Modal footer */
-  .v-modal-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid #2a2723; }
-  .v-modal-footer .v-modal-status { font-size: 11px; color: #888; flex: 1; }
-  .v-modal-footer .v-modal-status.ok    { color: #4CAF7D; }
-  .v-modal-footer .v-modal-status.error { color: #c46868; }
-  .v-btn-cancel, .v-btn-save {
-    font-family: var(--font); font-size: 11px; font-weight: 600; padding: 8px 18px; border-radius: 3px; cursor: pointer;
-    letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.15s;
-  }
-  .v-btn-cancel { background: none; border: 1px solid #444; color: #ccc; }
-  .v-btn-cancel:hover { border-color: #888; color: #FAF6EF; }
-  .v-btn-save { background: #C46235; border: 1px solid #C46235; color: #0F0E0C; }
-  .v-btn-save:hover { background: #d97047; }
-  .v-btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  /* Country support hint */
-  .v-country-support { background: #0F0E0C; border-left: 3px solid #C46235; padding: 8px 12px; border-radius: 0 4px 4px 0; font-size: 11px; color: #ccc; margin-top: 8px; line-height: 1.5; }
-  .v-country-support strong { color: #C46235; }
-  .v-country-support .v-warn { color: #E8935A; }
+/* Category breakdown bars */
+.v-cat-bar { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--beige-mid); }
+.v-cat-bar:last-child { border-bottom:none; }
+.v-cat-name { font-size:11px; flex:0 0 160px; color:var(--text-body); }
+.v-cat-track { flex:1; height:6px; background:var(--beige-dark); border-radius:3px; overflow:hidden; }
+.v-cat-fill { height:100%; background:var(--velur-caramel); border-radius:3px; transition:width 1s ease; }
+.v-cat-count { font-size:11px; font-weight:600; color:var(--velur-dark); min-width:28px; text-align:right; }
 </style>
 </head>
 <body>
 
+<!-- BANNER -->
 <div class="banner">
   <div class="banner-left">
     <img src="logo.png" alt="FZR Group" class="banner-logo"/>
@@ -477,6 +217,7 @@
   </div>
 </div>
 
+<!-- COUNTDOWN -->
 <div class="countdown-bar">
   <div class="countdown-left">
     <span class="live-dot"></span>
@@ -488,6 +229,7 @@
 
 <div class="wrapper">
 
+  <!-- TABS -->
   <div class="sheet-tabs">
     <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
     <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
@@ -497,477 +239,228 @@
     <button class="sheet-tab" onclick="switchSheet('Talent Matrix', this)">Talent Matrix</button>
     <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
     <button class="sheet-tab" onclick="switchSheet('Velur KSA', this)">Velur KSA</button>
+    <button class="sheet-tab" onclick="switchSheet('Velur Marketing', this)">Velur Marketing</button>
   </div>
 
-<div id="dash-content">
-  <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
-  <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
-    <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
-    <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
-    <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
-    <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
-    <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
-  </div>
-
-  <div class="sec-head">Member Overview <span id="recordCount"></span></div>
-  <div class="filter-bar">
-    <label>Filter:</label>
-    <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
-    <select id="statusFilter" onchange="applyFilters()">
-      <option value="">All Statuses</option>
-      <option value="Ongoing">Ongoing</option>
-      <option value="Done">Done</option>
-      <option value="Hold">Hold</option>
-    </select>
-    <select id="projectFilter" onchange="applyFilters()">
-      <option value="">All Projects</option>
-    </select>
-    <select id="teamFilter" onchange="applyFilters()">
-      <option value="">All Teams</option>
-    </select>
-    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;">
-      <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
-    </div>
-    <button class="btn-reset" onclick="resetFilters()">Reset</button>
-  </div>
-
-  <div class="main-grid">
-    <div class="table-panel">
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="green-th">#</th>
-            <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
-            <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
-            <th>Pending</th>
-          </tr></thead>
-          <tbody id="tableBody">
-            <tr><td colspan="9" class="no-data">Loading data…</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="right-col">
-      <div class="chart-panel">
-        <div class="chart-title">Completion by Project</div>
-        <div class="donut-wrap">
-          <canvas id="donut" width="150" height="150"></canvas>
-          <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
-        </div>
-        <div id="donutLegend"><div class="no-data">No data.</div></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-title">Status Breakdown</div>
-        <div id="statusBars"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-head">Completion by Person</div>
-  <div class="bar-panel">
-    <div class="chart-title">Individual progress — all members</div>
-    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
-  </div>
-
-  <div class="summary-box">
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Dashboard Summary</div>
-      <p id="summaryText">Loading live data from Google Sheets…</p>
-    </div>
-    <div style="flex:1;min-width:220px">
-      <div class="sum-title">Data Source</div>
-      <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>.</p>
-    </div>
-  </div>
-</div><!-- end dash-content -->
-
-<!-- ════════════════════════════════════════════════════════════
-     TALENT MATRIX TAB — read-only, reads from published Sheet
-     ════════════════════════════════════════════════════════════ -->
-<div id="talent-content" style="display:none">
-  <div class="wrapper" style="padding:0 40px 60px">
-
-    <div class="sec-head" style="padding-top:20px">
-      Talent Matrix <span id="tm-headline"></span>
-    </div>
-
-    <!-- KPI cards -->
+  <!-- MAIN DASH CONTENT -->
+  <div id="dash-content">
+    <div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
     <div class="kpi-row">
-      <div class="kpi-card">
-        <div class="kpi-label">Total Evaluated</div>
-        <div class="kpi-value" id="tm-kpi-total">—</div>
-        <div class="kpi-sub">People in roster</div>
+      <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
+      <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
+      <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
+      <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
+      <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
+      <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
+    </div>
+    <div class="sec-head">Member Overview <span id="recordCount"></span></div>
+    <div class="filter-bar">
+      <label>Filter:</label>
+      <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
+      <select id="statusFilter" onchange="applyFilters()">
+        <option value="">All Statuses</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Done">Done</option>
+        <option value="Hold">Hold</option>
+      </select>
+      <select id="projectFilter" onchange="applyFilters()"><option value="">All Projects</option></select>
+      <select id="teamFilter" onchange="applyFilters()"><option value="">All Teams</option></select>
+      <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
+        <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Stars</div>
-        <div class="kpi-value" id="tm-kpi-stars">—</div>
-        <div class="kpi-sub" id="tm-kpi-stars-pct">—</div>
+      <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="main-grid">
+      <div class="table-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th class="green-th">#</th>
+              <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
+              <th>Pending</th>
+            </tr></thead>
+            <tbody id="tableBody"><tr><td colspan="9" class="no-data">Loading data…</td></tr></tbody>
+          </table>
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Performance</div>
-        <div class="kpi-value" id="tm-kpi-avg-perf">—</div>
-        <div class="kpi-sub">Out of 10</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Initiative</div>
-        <div class="kpi-value" id="tm-kpi-avg-init">—</div>
-        <div class="kpi-sub">Out of 10</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Underperformers</div>
-        <div class="kpi-value" id="tm-kpi-under">—</div>
-        <div class="kpi-sub" id="tm-kpi-under-pct">—</div>
+      <div class="right-col">
+        <div class="chart-panel">
+          <div class="chart-title">Completion by Project</div>
+          <div class="donut-wrap">
+            <canvas id="donut" width="150" height="150"></canvas>
+            <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
+          </div>
+          <div id="donutLegend"><div class="no-data">No data.</div></div>
+        </div>
+        <div class="chart-panel">
+          <div class="chart-title">Status Breakdown</div>
+          <div id="statusBars"></div>
+        </div>
       </div>
     </div>
-
-    <!-- Sub-tabs (companies) -->
-    <div class="tm-subtabs" id="tm-subtabs"></div>
-
-    <!-- Layout -->
-    <div class="tm-layout">
-      <section class="tm-matrix-card">
-        <div class="tm-panel-title" style="padding:0;border:none;margin-bottom:14px">
-          <span id="tm-company-title">—</span>
-          <span class="tm-sub">Performance × Initiative</span>
-        </div>
-
-        <div class="tm-matrix-wrap">
-          <div class="tm-axis-y-label">Performance</div>
-          <div class="tm-axis-y-ticks">
-            <span>High</span>
-            <span>Low</span>
-          </div>
-          <div class="tm-matrix">
-            <div class="tm-quadrants">
-              <div class="tm-q tm-q-executors">
-                <div class="tm-q-label">Reliable</div>
-                <div class="tm-q-count" id="tm-count-executors">0</div>
-              </div>
-              <div class="tm-q tm-q-stars">
-                <div class="tm-q-label">Stars</div>
-                <div class="tm-q-count" id="tm-count-stars">0</div>
-              </div>
-              <div class="tm-q tm-q-underperf">
-                <div class="tm-q-label">Underperformers</div>
-                <div class="tm-q-count" id="tm-count-underperformers">0</div>
-              </div>
-              <div class="tm-q tm-q-aspirants">
-                <div class="tm-q-label">Aspirants</div>
-                <div class="tm-q-count" id="tm-count-aspirants">0</div>
-              </div>
-            </div>
-            <div id="tm-dots-layer" style="position:absolute;inset:0;pointer-events:none"></div>
-          </div>
-          <div class="tm-axis-x-ticks">
-            <span>Low</span>
-            <span>High</span>
-          </div>
-          <div class="tm-axis-x-label">Initiative</div>
-        </div>
-      </section>
-
-      <aside>
-        <div class="tm-panel" id="tm-scorecard-panel" style="display:none">
-          <div class="tm-panel-title">
-            <span id="tm-sc-name">—</span>
-            <span class="tm-sub" id="tm-sc-role">—</span>
-          </div>
-
-          <div class="tm-meta-row">
-            <span>Latest: <strong id="tm-sc-quarter">—</strong></span>
-            <span>· Evaluator: <strong id="tm-sc-evaluator">—</strong></span>
-          </div>
-
-          <div class="tm-score-grid">
-            <div class="tm-score-block">
-              <div class="tm-score-label">Performance</div>
-              <div class="tm-score-value"><span id="tm-sc-perf">—</span><span class="tm-of">/10</span></div>
-            </div>
-            <div class="tm-score-block">
-              <div class="tm-score-label">Initiative</div>
-              <div class="tm-score-value"><span id="tm-sc-init">—</span><span class="tm-of">/10</span></div>
-            </div>
-          </div>
-
-          <div class="tm-verdict">
-            <div class="tm-verdict-label">Quadrant</div>
-            <div class="tm-verdict-title" id="tm-sc-quadrant">—</div>
-            <div class="tm-verdict-body" id="tm-sc-action">—</div>
-          </div>
-        </div>
-
-        <div class="tm-panel">
-          <div class="tm-panel-title">
-            <span>Roster</span>
-            <span class="tm-sub"><span id="tm-roster-count">0</span> members</span>
-          </div>
-          <div id="tm-roster-list">
-            <div class="tm-empty">Loading…</div>
-          </div>
-        </div>
-
-        <div class="tm-panel">
-          <div class="tm-panel-title" style="border:none;padding:0;margin-bottom:10px">
-            <span>Source of truth</span>
-          </div>
-          <p style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-bottom:10px">
-            Each person's score is the latest evaluation entered in the sheet. To add or update, click below and append a row to the Evaluations tab.
-          </p>
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pubhtml" target="_blank" class="sheet-link">
-            Open evaluation sheet →
-          </a>
-        </div>
-      </aside>
+    <div class="sec-head">Completion by Person</div>
+    <div class="bar-panel">
+      <div class="chart-title">Individual progress — all members</div>
+      <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
     </div>
-
     <div class="summary-box">
       <div style="flex:1;min-width:220px">
-        <div class="sum-title">Quadrant guide</div>
-        <p><strong>Stars:</strong> retain aggressively, fast-track. <strong>Reliable:</strong> coach for proactivity, pair with stars. <strong>Aspirants:</strong> diagnose the gap, invest in mentorship — strong upside. <strong>Underperformers:</strong> direct conversation, 60–90 day improvement plan, prepare to exit if no movement.</p>
+        <div class="sum-title">Dashboard Summary</div>
+        <p id="summaryText">Loading live data from Google Sheets…</p>
       </div>
       <div style="flex:1;min-width:220px">
-        <div class="sum-title">Data source</div>
-        <p>Live connection to <strong>Tab 3 — Results</strong> of the FZR Talent Evaluation sheet. Read-only. To add or update: open the sheet, fill the Evaluations tab — Results auto-update from formulas.</p>
+        <div class="sum-title">Data Source</div>
+        <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>.</p>
       </div>
     </div>
+  </div><!-- end dash-content -->
 
-  </div>
-</div><!-- end #talent-content -->
-
-<!-- ════════════════════════════════════════════════════════════
-     VELUR KSA PULSE TAB — fetches Velur KSA Gist
-     ════════════════════════════════════════════════════════════ -->
-<div id="velur-content" style="display:none">
-  <div class="v-wrapper">
-
-    <div class="v-header">
-      <div>
-        <div class="v-brand">Velur · Market Intelligence</div>
-        <h1 class="v-title"><span class="v-country-flag" id="v-header-flag">🇸🇦</span><span id="v-header-title">KSA Fragrance Pulse</span></h1>
-        <div class="v-subtitle" id="v-header-subtitle">Electric Aroma Diffuser · Saudi Arabia</div>
-      </div>
-      <div style="text-align:right; display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-        <div class="v-badge" id="v-badge">○ READY</div>
-        <div class="v-meta">Last scan: <strong id="v-scan-date" style="color:#FAF6EF">—</strong></div>
-        <div class="v-meta" id="v-data-source-row" style="display:none">Data shown: <strong id="v-data-source" style="color:#FAF6EF">—</strong></div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="btn-velur-gear" onclick="window.velurOpenSettings()" title="Settings — keywords, hashtags, country">⚙</button>
-          <button class="btn-velur-refresh" onclick="window.velurLoad()">↻ Refresh</button>
-          <button class="btn-velur-refresh" id="v-scan-btn" onclick="window.velurTriggerScan()" style="background:#C46235;color:#0F0E0C;border-color:#C46235">▶ Run Scan</button>
-        </div>
-        <div id="v-scan-status" style="font-size:11px;color:#888;letter-spacing:0.05em;display:none;text-align:right;max-width:280px"></div>
+  <!-- INTEL CONTENT -->
+  <div id="intel-content" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div class="sec-head" style="margin:0;border:none;padding:0">Competitor Intelligence <span id="i-count" style="font-weight:300;font-size:11px;color:var(--text-muted)"></span></div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;color:var(--text-muted)">Scan: <strong id="i-date" style="color:var(--text-body)">—</strong></span>
+        <button class="btn-refresh" onclick="loadIntel()">↻ Refresh</button>
       </div>
     </div>
-
-    <div id="v-error-box"></div>
-
-    <!-- Stats -->
-    <div class="v-stat-row">
-      <div class="v-stat-card">
-        <div class="v-stat-num" id="v-stat-reviews">—</div>
-        <div class="v-stat-label">Reviews Analyzed</div>
-      </div>
-      <div class="v-stat-card">
-        <div class="v-stat-num" id="v-stat-igposts">—</div>
-        <div class="v-stat-label">Instagram Posts</div>
-      </div>
-      <div class="v-stat-card">
-        <div class="v-stat-num" id="v-stat-products">—</div>
-        <div class="v-stat-label">Products Scanned</div>
-      </div>
-      <div class="v-stat-card">
-        <div class="v-stat-num" id="v-stat-hashtags">—</div>
-        <div class="v-stat-label">Hashtags Tracked</div>
-      </div>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Activities</div><div class="kpi-value" id="i-total">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">Instagram</div><div class="kpi-value" id="i-ig">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">LinkedIn</div><div class="kpi-value" id="i-li">—</div></div>
+      <div class="kpi-card"><div class="kpi-label">High Impact</div><div class="kpi-value" id="i-high">—</div></div>
     </div>
-
-    <!-- Data Sources -->
-    <div class="v-sec-head">Data Sources<div class="v-sec-line"></div></div>
-    <div class="v-source-grid">
-      <div class="v-source-card done" id="v-src-amazon">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div class="v-source-title" id="v-src-amazon-title">Amazon.sa</div>
-          <div class="v-source-status" style="color:#4CAF7D"><span class="v-dot" style="background:#4CAF7D"></span><span id="v-src-amazon-state">—</span></div>
-        </div>
-        <div class="v-source-desc" id="v-src-amazon-desc">Product listings, star ratings, review text · Arabic + English</div>
-        <div class="v-tag-row">
-          <span class="v-tag">reviews</span><span class="v-tag">ratings</span><span class="v-tag">pain points</span><span class="v-tag">pricing</span>
-        </div>
-      </div>
-      <div class="v-source-card done" id="v-src-noon">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div class="v-source-title" id="v-src-noon-title">Noon.com Saudi</div>
-          <div class="v-source-status" style="color:#4CAF7D"><span class="v-dot" style="background:#4CAF7D"></span><span id="v-src-noon-state">—</span></div>
-        </div>
-        <div class="v-source-desc" id="v-src-noon-desc">Regional e-commerce reviews · GCC buyer sentiment · Arabic native reviews · gifting patterns</div>
-        <div class="v-tag-row">
-          <span class="v-tag">noon reviews</span><span class="v-tag">gifting</span><span class="v-tag">sentiment</span><span class="v-tag">GCC data</span>
-        </div>
-      </div>
-      <div class="v-source-card done" id="v-src-instagram">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div class="v-source-title" id="v-src-instagram-title">Instagram KSA</div>
-          <div class="v-source-status" style="color:#E8935A"><span class="v-dot" style="background:#E8935A"></span><span id="v-src-instagram-state">—</span></div>
-        </div>
-        <div class="v-source-desc" id="v-src-instagram-desc">Arabic hashtag monitoring · trend detection</div>
-        <div class="v-tag-row">
-          <span class="v-tag amber">trending</span><span class="v-tag amber">health signals</span><span class="v-tag amber">sentiment</span><span class="v-tag amber">engagement</span>
-        </div>
-      </div>
+    <div class="sec-head">Activity Log</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
+      <button class="btn-reset" id="if-all" onclick="iFilter('all',this)">All</button>
+      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('Instagram',this)">Instagram</button>
+      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('LinkedIn',this)">LinkedIn</button>
+      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('High',this)">High Impact</button>
+      <input type="text" placeholder="Search..." oninput="iSearch(this.value)" style="flex:1;min-width:120px;max-width:200px;padding:8px 12px;border:1px solid var(--beige-dark);border-radius:3px;font-size:12px;font-family:var(--font);background:var(--white);color:var(--text-body);outline:none">
     </div>
-
-    <!-- Brief -->
-    <div class="v-sec-head">Weekly Intelligence Brief · Claude Analysis<div class="v-sec-line"></div></div>
-    <div class="v-brief-box" id="v-brief">
-      <div class="v-empty">No brief loaded yet. Click ↻ Refresh to fetch the latest scan,<br/>or click ▶ Run Scan to trigger a fresh pipeline run.</div>
-    </div>
-
-    <!-- Tracked Hashtags -->
-    <div class="v-sec-head" id="v-hashtags-head" style="display:none">Tracked Hashtags<div class="v-sec-line"></div></div>
-    <div class="v-tag-row" id="v-hashtags-row" style="margin-bottom:24px"></div>
-
-    <!-- Recent Posts (grouped by hashtag) -->
-    <div class="v-sec-head" id="v-posts-head" style="display:none">Recent Instagram Posts<div class="v-sec-line"></div></div>
-    <div id="v-posts-wrap" style="display:none; margin-bottom:24px"></div>
-
-    <!-- Top Products -->
-    <div class="v-sec-head" id="v-products-head" style="display:none">Top Products Scanned<div class="v-sec-line"></div></div>
-    <div id="v-products-wrap" style="background:#1A1410;border:1px solid #C4623533;border-radius:8px;overflow:hidden;display:none">
-      <table class="v-product-table" id="v-products-table">
-        <thead><tr>
-          <th>Source</th><th>Product</th><th>Rating</th><th>Reviews</th><th>Price</th><th>Top Pain Point</th><th>Top Praise</th>
-        </tr></thead>
-        <tbody id="v-products-tbody"></tbody>
+    <div class="table-panel"><div class="table-wrap">
+      <table>
+        <thead><tr><th>Platform</th><th>Company</th><th>Type</th><th>Activity</th><th>Details</th><th>Impact</th><th>Likes</th><th>Date</th></tr></thead>
+        <tbody id="i-tbody"><tr><td colspan="8" class="no-data">Click Refresh to load latest data</td></tr></tbody>
       </table>
-    </div>
-
-    <div class="v-footer-note">
-      <strong>Pipeline:</strong> Apify Amazon.sa Scraper · Apify Noon Scraper · Apify Instagram Hashtag Scraper · Claude Sonnet synthesis<br/>
-      Scans run on-demand via the <strong>▶ Run Scan</strong> button above. The button calls a Railway webhook with a shared secret. Results pushed to Gist data bridge. Refresh button reloads from Gist.
-    </div>
-
+    </div></div>
+    <div class="sec-head" style="margin-top:36px">Intelligence Brief</div>
+    <div id="i-brief" style="background:var(--white);border:1px solid var(--beige-dark);border-left:3px solid var(--green);padding:16px 20px;border-radius:0 4px 4px 0;font-size:13px;line-height:1.8;color:var(--text-body);margin-bottom:40px">—</div>
   </div>
-</div><!-- end #velur-content -->
 
-<!-- ════════════════════════════════════════════════════════════
-     VELUR SETTINGS MODAL
-     ════════════════════════════════════════════════════════════ -->
-<div class="v-modal-overlay" id="v-modal-overlay" onclick="if(event.target===this)window.velurCloseSettings()">
-  <div class="v-modal" id="v-modal">
-    <h2>Velur Pulse · Settings</h2>
-    <div class="v-modal-sub">Tune what we scan, where, and how</div>
+  <!-- ── VELUR MARKETING CONTENT ── -->
+  <div id="velur-content" style="display:none">
 
-    <!-- Country -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Target Market</span>
-        <span class="v-section-help">Country to scan</span>
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:20px 24px;background:var(--velur-dark);border-radius:6px;">
+      <div>
+        <div style="font-size:18px;font-weight:700;color:var(--velur-nude);letter-spacing:0.12em;text-transform:uppercase;">VELUR — Marketing & Branding Materials</div>
+        <div style="font-size:11px;color:var(--velur-earth);margin-top:4px;font-weight:300;">Where Memories Whisper · Live from Google Sheets</div>
       </div>
-      <select id="v-cfg-country" onchange="window.velurUpdateCountrySupport()"></select>
-      <div class="v-country-support" id="v-cfg-country-support">—</div>
+      <button class="btn-refresh" onclick="loadVelur()" style="border-color:var(--velur-nude);color:var(--velur-nude);">↻ Refresh</button>
     </div>
 
-    <!-- Source toggles -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Sources Enabled</span>
-        <span class="v-section-help">Toggle scrapers on/off</span>
-      </div>
-      <div class="v-toggle-row">
-        <label class="v-toggle"><input type="checkbox" id="v-cfg-src-amazon"/> Amazon</label>
-        <label class="v-toggle"><input type="checkbox" id="v-cfg-src-noon"/> Noon</label>
-        <label class="v-toggle"><input type="checkbox" id="v-cfg-src-instagram"/> Instagram</label>
-      </div>
+    <!-- KPIs -->
+    <div class="kpi-row" id="velur-kpis">
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">Total Items</div><div class="kpi-value" id="v-total">—</div><div class="kpi-sub">Across all categories</div></div>
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">High Priority</div><div class="kpi-value" id="v-high">—</div><div class="kpi-sub">Action first</div></div>
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">Categories</div><div class="kpi-value" id="v-cats">—</div><div class="kpi-sub">8 brand areas</div></div>
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">Completed</div><div class="kpi-value" id="v-done">—</div><div class="kpi-sub">Status = Done</div></div>
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">In Progress</div><div class="kpi-value" id="v-progress">—</div><div class="kpi-sub">Status = In Progress</div></div>
+      <div class="kpi-card velur-kpi-card"><div class="kpi-label">Pending</div><div class="kpi-value" id="v-pending">—</div><div class="kpi-sub">Not yet started</div></div>
     </div>
 
-    <!-- Amazon keywords -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Amazon Search Keywords</span>
-        <span class="v-section-help">One per line, max 30</span>
-      </div>
-      <div class="v-list-wrap" id="v-cfg-amazon-list"></div>
-      <button class="v-list-add" onclick="window.velurAddListItem('amazon')">+ Add Amazon keyword</button>
-      <div class="v-test-source-row" style="margin-top:8px">
-        <button class="v-test-btn" onclick="window.velurTestSource('amazon')">▷ Test Amazon (1 keyword, 3 results)</button>
-      </div>
-      <div class="v-test-panel" id="v-test-amazon" style="display:none"></div>
-    </div>
+    <!-- Category breakdown + filters side by side -->
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:28px;">
 
-    <!-- Noon keywords -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Noon Search Keywords</span>
-        <span class="v-section-help">One per line, max 30</span>
-      </div>
-      <div class="v-list-wrap" id="v-cfg-noon-list"></div>
-      <button class="v-list-add" onclick="window.velurAddListItem('noon')">+ Add Noon keyword</button>
-      <div class="v-test-source-row" style="margin-top:8px">
-        <button class="v-test-btn" onclick="window.velurTestSource('noon')">▷ Test Noon (1 keyword, 3 results)</button>
-      </div>
-      <div class="v-test-panel" id="v-test-noon" style="display:none"></div>
-    </div>
-
-    <!-- Instagram hashtags -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Instagram Hashtags</span>
-        <span class="v-section-help">No # prefix, no spaces</span>
-      </div>
-      <div class="v-list-wrap" id="v-cfg-ig-list"></div>
-      <button class="v-list-add" onclick="window.velurAddListItem('ig')">+ Add hashtag</button>
-      <div class="v-test-source-row" style="margin-top:8px">
-        <button class="v-test-btn" onclick="window.velurTestSource('instagram')">▷ Test Instagram (1 hashtag, 3 posts)</button>
-      </div>
-      <div class="v-test-panel" id="v-test-instagram" style="display:none"></div>
-    </div>
-
-    <!-- Numeric tuning -->
-    <div class="v-modal-section">
-      <div class="v-modal-section-title">
-        <span>Tuning</span>
-        <span class="v-section-help">Per-source result limits</span>
-      </div>
-      <div class="v-num-grid">
-        <div>
-          <label>Products / Keyword</label>
-          <input type="number" id="v-cfg-max-products" min="1" max="30"/>
+      <!-- Filters + Table -->
+      <div>
+        <div class="sec-head">Materials List <span id="v-record-count"></span></div>
+        <div class="filter-bar" style="margin-bottom:16px;">
+          <input id="v-search" type="text" placeholder="Search item, channel, notes…" oninput="applyVelurFilters()"/>
+          <select id="v-cat-filter" onchange="applyVelurFilters()">
+            <option value="">All Categories</option>
+          </select>
+          <select id="v-subcat-filter" onchange="applyVelurFilters()">
+            <option value="">All Sub-Categories</option>
+          </select>
+          <select id="v-pri-filter" onchange="applyVelurFilters()">
+            <option value="">All Priorities</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <select id="v-status-filter" onchange="applyVelurFilters()">
+            <option value="">All Statuses</option>
+          </select>
+          <button class="btn-velur" onclick="resetVelurFilters()">Reset</button>
         </div>
-        <div>
-          <label>IG Posts / Hashtag</label>
-          <input type="number" id="v-cfg-max-ig-posts" min="1" max="100"/>
-        </div>
-        <div>
-          <label>IG Trending Threshold</label>
-          <input type="number" id="v-cfg-ig-threshold" min="1" max="1000"/>
+
+        <div class="table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th class="green-th">#</th>
+                <th onclick="sortVelur('Category')">Category <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Sub-Category')">Sub-Category <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Item / Description')">Item / Description <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Channel')">Channel <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Priority')">Priority <span class="sort-arrow">↕</span></th>
+                <th onclick="sortVelur('Status')">Status <span class="sort-arrow">↕</span></th>
+                <th>Est. Cost (AED)</th>
+                <th>Pinterest Ref</th>
+              </tr></thead>
+              <tbody id="v-tbody"><tr><td colspan="9" class="no-data">Loading…</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+      <!-- Right panel: category breakdown -->
+      <div>
+        <div class="sec-head" style="margin-top:0">By Category</div>
+        <div class="chart-panel" style="padding:16px 20px;">
+          <div class="chart-title">Items per category</div>
+          <div id="v-cat-breakdown"><div class="no-data">Loading…</div></div>
+        </div>
+        <div class="chart-panel" style="margin-top:16px;padding:16px 20px;">
+          <div class="chart-title">Priority breakdown</div>
+          <div id="v-pri-breakdown"><div class="no-data">Loading…</div></div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Footer -->
-    <div class="v-modal-footer">
-      <div class="v-modal-status" id="v-modal-status"></div>
-      <button class="v-btn-cancel" onclick="window.velurCloseSettings()">Cancel</button>
-      <button class="v-btn-save" id="v-btn-save" onclick="window.velurSaveSettings()">Save</button>
+    <!-- Summary footer -->
+    <div class="summary-box" style="border-top-color:var(--velur-caramel);border-bottom-color:var(--velur-caramel);">
+      <div style="flex:1;min-width:220px">
+        <div class="sum-title" style="color:var(--velur-dark);">About This List</div>
+        <p id="v-summary">Loading…</p>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div class="sum-title" style="color:var(--velur-dark);">Data Source</div>
+        <p>Live connection to <strong>Velur Marketing Materials</strong> tab in FZR Group Google Sheet. Click any Pinterest link to browse visual references. Use the Status column to track production progress.</p>
+      </div>
     </div>
-  </div>
-</div>
+
+  </div><!-- end velur-content -->
+
+</div><!-- end wrapper -->
 
 <footer>
   <img src="logo.png" alt="FZR Group" class="footer-logo"/>
   <span class="pg">Live Dashboard — <span id="footerYear"></span></span>
 </footer>
 
-<!-- ════════════════════════════════════════════════════════════
-     ORIGINAL DASHBOARD SCRIPT (projects/teams/etc.)
-     ════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════
+     MAIN DASHBOARD JS (unchanged)
+════════════════════════════════════════════════════ -->
 <script>
 const SHEETS = {
   "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
@@ -976,13 +469,16 @@ const SHEETS = {
   "Velur Inco":      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1868149419&single=true&output=csv",
   "Lumena Inco":     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=648374071&single=true&output=csv"
 };
+
+const VELUR_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=896430628&single=true&output=csv";
+
 let activeSheet = "FZR Projects";
 const REFRESH_INTERVAL = 3 * 60;
 const TEAM_LOGOS = {
   "FZR":       { src: "team-fzr.png",       bg: "#1b221a" },
-  "Velur":     { src: "team-velur.png",      bg: "#1b221a" },
-  "MYM":       { src: "team-mym.png",        bg: "#ffffff" },
-  "Acumen AI": { src: "team-acumenai.png",   bg: "#000000" }
+  "Velur":     { src: "team-velur.png",     bg: "#1b221a" },
+  "MYM":       { src: "team-mym.png",       bg: "#ffffff" },
+  "Acumen AI": { src: "team-acumenai.png",  bg: "#000000" }
 };
 const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
 let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
@@ -991,26 +487,26 @@ document.getElementById("bannerDate").textContent = new Date().toLocaleDateStrin
 document.getElementById("footerYear").textContent = new Date().getFullYear();
 
 async function fetchData(){
+  setLoading(true);
   try{
-    const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
-    const text=await res.text();
-    const rows=text.trim().split("\n").map(r=>parseCSVRow(r));
-    const hdrs=rows[0];
-    allData=rows.slice(1).map(row=>{
+    const res = await fetch(SHEETS[activeSheet]+"&t="+Date.now());
+    const text = await res.text();
+    const rows = text.trim().split("\n").map(r=>parseCSVRow(r));
+    const hdrs = rows[0];
+    allData = rows.slice(1).map(row=>{
       const o={}; hdrs.forEach((h,i)=>{o[h.trim()]=(row[i]||"").trim();});
-      o.Percent=parseFloat(String(o.Percent).replace("%",""))||0;
+      o.Percent = parseFloat(String(o.Percent).replace("%",""))||0;
       return o;
     }).filter(r=>r.Name);
-    document.getElementById("lastUpdated").textContent=new Date().toLocaleTimeString("en-GB");
-    countdown=REFRESH_INTERVAL;
+    document.getElementById("lastUpdated").textContent = new Date().toLocaleTimeString("en-GB");
+    countdown = REFRESH_INTERVAL;
     populateProjectFilter();
     populateTeamFilter();
     applyFilters();
   }catch(e){
     document.getElementById("tableBody").innerHTML=`<tr><td colspan="9" class="no-data">⚠️ Could not load data.</td></tr>`;
   }
-  // Also refresh talent data if it's been loaded once
-  if(window.tmLoaded) window.tmFetch();
+  setLoading(false);
 }
 
 function parseCSVRow(row){
@@ -1024,93 +520,66 @@ function parseCSVRow(row){
   result.push(cur); return result;
 }
 
+function setLoading(on){}
+
 function switchSheet(name, el){
+  const dash  = document.getElementById("dash-content");
+  const intel = document.getElementById("intel-content");
+  const velur = document.getElementById("velur-content");
+
   document.querySelectorAll('.sheet-tab').forEach(t=>{
-    t.classList.remove('active');
-    t.classList.remove('intel-active');
-    t.classList.remove('talent-active');
-    t.classList.remove('velur-active');
+    t.classList.remove('active','intel-active','velur-active');
   });
   el.classList.add('active');
 
-  var dash = document.getElementById("dash-content");
-  var intel = document.getElementById("intel-content");
-  var talent = document.getElementById("talent-content");
-  var velur = document.getElementById("velur-content");
+  dash.style.display  = "none";
+  intel.style.display = "none";
+  velur.style.display = "none";
 
-  if (name === "Market Intel") {
-    el.classList.add("intel-active");
-    if(dash) dash.style.display = "none";
-    if(talent) talent.style.display = "none";
-    if(velur) velur.style.display = "none";
-    if(intel) intel.style.display = "block";
-    if(window.intelLoad && !window.intelLoaded) window.intelLoad();
-    return;
+  if(name === "Market Intel"){
+    el.classList.add('intel-active');
+    intel.style.display = "block";
+    if(!intelLoaded) loadIntel();
+  } else if(name === "Velur Marketing"){
+    el.classList.add('velur-active');
+    velur.style.display = "block";
+    loadVelur();
+  } else {
+    dash.style.display = "block";
+    activeSheet = name;
+    document.getElementById("searchInput").value="";
+    document.getElementById("statusFilter").value="";
+    document.getElementById("projectFilter").value="";
+    document.getElementById("teamFilter").value="";
+    updateTeamLogo("");
+    fetchData();
   }
-  if (name === "Talent Matrix") {
-    el.classList.add("talent-active");
-    if(dash) dash.style.display = "none";
-    if(intel) intel.style.display = "none";
-    if(velur) velur.style.display = "none";
-    if(talent) talent.style.display = "block";
-    if(window.tmFetch) window.tmFetch();
-    return;
-  }
-  if (name === "Velur KSA") {
-    el.classList.add("velur-active");
-    if(dash) dash.style.display = "none";
-    if(intel) intel.style.display = "none";
-    if(talent) talent.style.display = "none";
-    if(velur) velur.style.display = "block";
-    if(window.velurLoad && !window.velurLoaded) window.velurLoad();
-    return;
-  }
-
-  // Project/team tab
-  if(dash) dash.style.display = "block";
-  if(intel) intel.style.display = "none";
-  if(talent) talent.style.display = "none";
-  if(velur) velur.style.display = "none";
-  activeSheet = name;
-  document.getElementById("searchInput").value="";
-  document.getElementById("statusFilter").value="";
-  document.getElementById("projectFilter").value="";
-  document.getElementById("teamFilter").value="";
-  updateTeamLogo("");
-  fetchData();
 }
 
 function populateTeamFilter(){
   const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
   const sel=document.getElementById("teamFilter"),cur=sel.value;
-  sel.innerHTML='<option value="">All Teams</option>'+
-    teams.map(t=>`<option value="${t}" ${t===cur?"selected":""}>${t}</option>`).join("");
+  sel.innerHTML='<option value="">All Teams</option>'+teams.map(t=>`<option value="${t}" ${t===cur?"selected":""}>${t}</option>`).join("");
 }
 
 function populateProjectFilter(){
-  const selectedTeam = document.getElementById("teamFilter").value;
-  const filtered = selectedTeam ? allData.filter(d=>d.Team===selectedTeam) : allData;
+  const selectedTeam=document.getElementById("teamFilter").value;
+  const filtered=selectedTeam?allData.filter(d=>d.Team===selectedTeam):allData;
   const projects=[...new Set(filtered.map(d=>d.Project).filter(Boolean))].sort();
   const sel=document.getElementById("projectFilter"),cur=sel.value;
-  sel.innerHTML='<option value="">All Projects</option>'+
-    projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
-  if(cur && !projects.includes(cur)) sel.value="";
+  sel.innerHTML='<option value="">All Projects</option>'+projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
+  if(cur&&!projects.includes(cur)) sel.value="";
 }
 
 function updateTeamLogo(team){
   const wrap=document.getElementById("teamLogoWrap");
   const img=document.getElementById("teamLogoImg");
-  if(team && TEAM_LOGOS[team]){
+  if(team&&TEAM_LOGOS[team]){
     const t=TEAM_LOGOS[team];
     img.src=t.src; img.alt=team;
-    wrap.style.background=t.bg;
-    wrap.style.border="1px solid "+t.bg;
-    wrap.style.padding="8px 16px";
-    wrap.style.borderRadius="4px";
-    wrap.style.display="flex";
-  } else {
-    wrap.style.display="none"; img.src="";
-  }
+    wrap.style.background=t.bg; wrap.style.border="1px solid "+t.bg;
+    wrap.style.padding="8px 16px"; wrap.style.borderRadius="4px"; wrap.style.display="flex";
+  } else { wrap.style.display="none"; img.src=""; }
 }
 
 function applyFilters(){
@@ -1284,81 +753,43 @@ setInterval(()=>{
 fetchData();
 </script>
 
-<!-- ════════════════════════════════════════════════════════════
-     MARKET INTEL TAB — existing
-     ════════════════════════════════════════════════════════════ -->
-<div id="intel-content" style="display:none">
-  <div class="wrapper" style="padding:0 40px 60px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:20px">
-      <div class="sec-head" style="margin:0;border:none;padding:0">Competitor Intelligence <span id="i-count" style="font-weight:300;font-size:11px;color:var(--text-muted)"></span></div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:11px;color:var(--text-muted)">Scan: <strong id="i-date" style="color:var(--text-body)">—</strong></span>
-        <button class="btn-refresh" onclick="window.intelLoad()">↻ Refresh</button>
-      </div>
-    </div>
-    <div class="kpi-row">
-      <div class="kpi-card"><div class="kpi-label">Activities</div><div class="kpi-value" id="i-total">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">Instagram</div><div class="kpi-value" id="i-ig">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">LinkedIn</div><div class="kpi-value" id="i-li">—</div></div>
-      <div class="kpi-card"><div class="kpi-label">High Impact</div><div class="kpi-value" id="i-high">—</div></div>
-    </div>
-    <div class="sec-head">Activity Log</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
-      <button class="btn-reset" id="if-all" onclick="iFilter('all',this)">All</button>
-      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('Instagram',this)">Instagram</button>
-      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('LinkedIn',this)">LinkedIn</button>
-      <button class="btn-reset" style="background:var(--beige-mid);color:var(--text-muted)" onclick="iFilter('High',this)">High Impact</button>
-      <input type="text" placeholder="Search..." oninput="iSearch(this.value)" style="flex:1;min-width:120px;max-width:200px;padding:8px 12px;border:1px solid var(--beige-dark);border-radius:3px;font-size:12px;font-family:var(--font);background:var(--white);color:var(--text-body);outline:none">
-    </div>
-    <div class="table-panel"><div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>Platform</th><th>Company</th><th>Type</th><th>Activity</th>
-          <th>Details</th><th>Impact</th><th>Likes</th><th>Date</th>
-        </tr></thead>
-        <tbody id="i-tbody"><tr><td colspan="8" class="no-data">Click Refresh to load latest data</td></tr></tbody>
-      </table>
-    </div></div>
-    <div class="sec-head" style="margin-top:36px">Intelligence Brief</div>
-    <div id="i-brief" style="background:var(--white);border:1px solid var(--beige-dark);border-left:3px solid var(--green);padding:16px 20px;border-radius:0 4px 4px 0;font-size:13px;line-height:1.8;color:var(--text-body);margin-bottom:40px">—</div>
-  </div>
-</div>
-
+<!-- ════════════════════════════════════════════════════
+     INTEL JS
+════════════════════════════════════════════════════ -->
 <script>
 (function(){
   var GIST="https://gist.githubusercontent.com/ali123pyth/ed9b5cdbdab642a6821ef20b2605502f/raw/competitor_intel.json";
-  var allData=[], iF="all";
+  var allIntelData=[], iF="all";
+  var intelLoaded=false;
   window.intelLoaded = false;
 
-  window.intelLoad = function() {
-    document.getElementById("i-tbody").innerHTML = "<tr><td colspan='8' class='no-data'>Loading...</td></tr>";
+  window.loadIntel = function(){
+    document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='no-data'>Loading...</td></tr>";
     fetch(GIST+"?t="+Date.now())
       .then(function(r){return r.json();})
       .then(function(d){
-        allData = d.competitors||[];
-        window.intelLoaded = true;
-        document.getElementById("i-date").textContent = d.scan_date||"—";
-        document.getElementById("i-total").textContent = allData.length;
-        document.getElementById("i-ig").textContent = d.instagram_count||allData.filter(function(c){return c.platform==="Instagram";}).length;
-        document.getElementById("i-li").textContent = d.linkedin_count||allData.filter(function(c){return c.platform==="LinkedIn";}).length;
-        document.getElementById("i-high").textContent = d.high_count||allData.filter(function(c){return c.significance==="High";}).length;
-        document.getElementById("i-brief").innerHTML = d.brief||"—";
-        renderI(allData);
+        allIntelData=d.competitors||[];
+        window.intelLoaded=true;
+        document.getElementById("i-date").textContent=d.scan_date||"—";
+        document.getElementById("i-total").textContent=allIntelData.length;
+        document.getElementById("i-ig").textContent=d.instagram_count||allIntelData.filter(function(c){return c.platform==="Instagram";}).length;
+        document.getElementById("i-li").textContent=d.linkedin_count||allIntelData.filter(function(c){return c.platform==="LinkedIn";}).length;
+        document.getElementById("i-high").textContent=d.high_count||allIntelData.filter(function(c){return c.significance==="High";}).length;
+        document.getElementById("i-brief").innerHTML=d.brief||"—";
+        renderI(allIntelData);
       })
       .catch(function(e){
         document.getElementById("i-tbody").innerHTML="<tr><td colspan='8' class='no-data'>Error: "+e.message+"</td></tr>";
       });
   };
 
-  window.iFilter = function(v,btn) {
+  window.iFilter=function(v,btn){
     iF=v;
-    document.querySelectorAll("#intel-content .btn-reset").forEach(function(b){
-      b.style.background="var(--beige-mid)"; b.style.color="var(--text-muted)";
-    });
-    btn.style.background="var(--green)"; btn.style.color="var(--beige)";
-    renderI(allData);
+    document.querySelectorAll("#intel-content .btn-reset").forEach(function(b){b.style.background="var(--beige-mid)";b.style.color="var(--text-muted)";});
+    btn.style.background="var(--green)";btn.style.color="var(--beige)";
+    renderI(allIntelData);
   };
-  window.iSearch = function(v){renderI(allData,v);};
+  window.iSearch=function(v){renderI(allIntelData,v);};
 
   function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
@@ -1393,1084 +824,226 @@ fetchData();
 })();
 </script>
 
-<!-- ════════════════════════════════════════════════════════════
-     TALENT MATRIX SCRIPT — read-only, fetches Tab 3 — Results
-     ════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════
+     VELUR MARKETING JS
+════════════════════════════════════════════════════ -->
 <script>
 (function(){
-  // Published CSV URL → Tab 2 — Evaluations (raw evaluation data, gid=2115806458)
-  // Dashboard reads raw evaluations and computes "latest per person" in JS — no Results-tab formulas needed.
-  var TALENT_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_V61HSKTwsW7wi4argunf47MH1FwdRFF8R30HK6nUGZRseIhvB2fGj50BjW5FVg/pub?gid=2115806458&single=true&output=csv";
+  var velurData = [], velurFiltered = [], vSortKey="", vSortAsc=true;
 
-  var state = {
-    data: [],            // all rows from sheet
-    activeCompany: null, // which company tab
-    selected: null       // selected employee name
+  var CAT_CLASS = {
+    "PACKAGING & PRODUCT": "cat-packaging",
+    "PRINT COLLATERAL":    "cat-print",
+    "RETAIL & SHELVING":   "cat-retail",
+    "STATIONERY":          "cat-stationery",
+    "DIGITAL & ONLINE":    "cat-digital",
+    "OOH & DUBAI ADS":     "cat-ooh",
+    "EVENTS & ACTIVATIONS":"cat-events",
+    "B2B & TRADE":         "cat-b2b"
   };
 
-  window.tmLoaded = false;
+  var VELUR_BAR_COLORS = [
+    "#47301e","#6b241e","#3e3c29","#ac7b44",
+    "#a59c76","#7e8151","#aa5318","#d7b6a6"
+  ];
 
-  var META = {
-    Star: { action: 'Future leader — retain aggressively, give stretch assignments, fast-track into strategy. Primary risk is losing them; invest in development and meaningful ownership.' },
-    Reliable: { action: 'Backbone of execution — delivers but waits to be told. Coach on proactivity, create safe spaces for ideas, pair with a star. Do not confuse quietness with lack of capability.' },
-    Aspirant: { action: 'Full of energy, not yet delivering — diagnose the gap (skill, role fit, or clarity). Invest in training and mentorship. Strong upside: can move to star within 6 to 12 months.' },
-    Underperformer: { action: 'Neither delivering nor driving. Have a direct conversation, set a 60 to 90 day improvement plan with clear metrics, and be prepared to exit. Tolerance here signals mediocrity to your A-players.' }
-  };
-
-  function parseCSV(text){
-    var rows = [];
-    var lines = text.split(/\r?\n/);
-    for(var l=0; l<lines.length; l++){
-      var line = lines[l];
-      if(!line.trim()) continue;
-      var row = [], cur = '', inQ = false;
-      for(var i=0; i<line.length; i++){
-        var c = line[i];
-        if(c === '"'){
-          if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
-          else inQ = !inQ;
-        } else if(c === ',' && !inQ){ row.push(cur); cur = ''; }
-        else cur += c;
-      }
-      row.push(cur);
-      rows.push(row);
-    }
-    return rows;
-  }
-
-  function esc(s){
-    return String(s||'').replace(/[&<>"']/g, function(c){
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-    });
-  }
-  function firstName(n){
-    var f = (n||'').split(/\s+/).filter(Boolean)[0] || n;
-    return f.length > 12 ? f.slice(0,11) + '…' : f;
-  }
-  function classify(p, i){
-    var hp = p >= 6, hi = i >= 6;
-    if(hp && hi) return 'Star';
-    if(hp) return 'Reliable';
-    if(hi) return 'Aspirant';
-    return 'Underperformer';
-  }
-
-  window.tmFetch = function(){
-    fetch(TALENT_CSV + "&t=" + Date.now())
+  window.loadVelur = function(){
+    document.getElementById("v-tbody").innerHTML = "<tr><td colspan='9' class='no-data'>Loading from Google Sheets…</td></tr>";
+    fetch(VELUR_CSV + "&t=" + Date.now())
       .then(function(r){ return r.text(); })
       .then(function(text){
-        var rows = parseCSV(text);
-        if(rows.length < 2){
-          renderEmpty('No evaluations in sheet yet. Add evaluations in the "2. Evaluations" tab.');
-          return;
-        }
-        var hdrs = rows[0].map(function(h){ return h.trim(); });
+        var rows = text.trim().split("\n").map(function(r){ return parseVCSV(r); });
+        var hdrs = rows[0];
+        velurData = rows.slice(1).map(function(row){
+          var o = {};
+          hdrs.forEach(function(h,i){ o[h.trim()] = (row[i]||"").trim(); });
+          return o;
+        }).filter(function(r){ return r["Item / Description"] && r["Category"]; });
 
-        // Case-insensitive header lookup that tolerates variations
-        function findCol(patterns){
-          for(var i = 0; i < hdrs.length; i++){
-            var h = hdrs[i].toLowerCase();
-            for(var p = 0; p < patterns.length; p++){
-              if(h.indexOf(patterns[p]) >= 0) return i;
-            }
-          }
-          return -1;
-        }
-
-        // The dashboard reads raw evaluations from "2. Evaluations" tab.
-        // Primary columns: Quarter, Company, Employee Name, Role/Function, Evaluator.
-        // Score columns: try the formula columns first (Performance/Initiative auto-computed in sheet),
-        // but fall back to averaging the 12 raw indicators (P1-P6 + I1-I6) if those are blank.
-        var idx = {
-          company:   findCol(['company']),
-          name:      findCol(['employee name', 'name']),
-          role:      findCol(['role / function', 'role/function', 'role']),
-          quarter:   findCol(['quarter']),
-          perf:      findCol(['performance (1-10)', 'performance']),
-          init:      findCol(['initiative (1-10)', 'initiative']),
-          quadrant:  findCol(['quadrant']),
-          evaluator: findCol(['evaluator'])
-        };
-
-        // Find P1..P6 and I1..I6 individual indicator columns as fallback for blank formula cells.
-        function findIndicators(prefix){
-          var found = [];
-          for(var n = 1; n <= 6; n++){
-            for(var i = 0; i < hdrs.length; i++){
-              var h = hdrs[i].toLowerCase().trim();
-              // Match headers like "p1 on-time", "p1", "P1\nOn-time", etc.
-              if(h.indexOf(prefix.toLowerCase() + n) === 0){
-                found.push(i);
-                break;
-              }
-            }
-          }
-          return found.length === 6 ? found : null;
-        }
-        var perfIndicators = findIndicators('p');
-        var initIndicators = findIndicators('i');
-
-        // Helper: read a numeric cell, returning NaN for blanks/errors.
-        function readNum(row, colIdx){
-          if(colIdx < 0) return NaN;
-          var v = (row[colIdx] || '').toString().trim();
-          if(!v) return NaN;
-          var n = parseFloat(v.replace(/[^\d.\-]/g, ''));
-          return isNaN(n) ? NaN : n;
-        }
-        // Helper: average an array of column indices (1-5 each), scale to 1-10. Returns NaN if any blank.
-        function avgIndicators(row, cols){
-          if(!cols) return NaN;
-          var sum = 0;
-          for(var i = 0; i < cols.length; i++){
-            var n = readNum(row, cols[i]);
-            if(isNaN(n)) return NaN;
-            sum += n;
-          }
-          return Math.round((sum / cols.length) * 2 * 10) / 10;  // 1-5 scale → 1-10 scale, rounded to 1dp
-        }
-
-        if(idx.company < 0 || idx.name < 0){
-          renderEmpty('Sheet headers not recognized. Expected an Evaluations tab with at least Company and Employee Name columns.');
-          return;
-        }
-
-        // Pass 1: read all valid evaluation rows
-        var allEvals = [];
-        for(var r = 1; r < rows.length; r++){
-          var row = rows[r];
-          var name = (row[idx.name]||'').trim();
-          if(!name) continue;
-
-          // Try formula columns first; fall back to raw indicators if blank.
-          var perf = readNum(row, idx.perf);
-          if(isNaN(perf)) perf = avgIndicators(row, perfIndicators);
-          var init = readNum(row, idx.init);
-          if(isNaN(init)) init = avgIndicators(row, initIndicators);
-
-          if(isNaN(perf) || isNaN(init)) continue;
-          allEvals.push({
-            rowIdx:    r,
-            company:   (row[idx.company]||'').trim() || 'Unassigned',
-            name:      name,
-            role:      idx.role >= 0 ? (row[idx.role]||'').trim() : '',
-            quarter:   idx.quarter >= 0 ? (row[idx.quarter]||'').trim() : '',
-            perf:      perf,
-            init:      init,
-            evaluator: idx.evaluator >= 0 ? (row[idx.evaluator]||'').trim() : ''
-          });
-        }
-
-        // Pass 2: keep latest evaluation per (company + name) key.
-        // "Latest" = the row with the highest Quarter value (lex-sortable when format is YYYY-Q#),
-        // with ties broken by row index (later row wins).
-        var latestByPerson = {};
-        allEvals.forEach(function(e){
-          var key = e.company + '||' + e.name;
-          var existing = latestByPerson[key];
-          if(!existing){
-            latestByPerson[key] = e;
-            return;
-          }
-          // Compare by quarter first (YYYY-Q# sorts naturally as text)
-          if(e.quarter && existing.quarter){
-            if(e.quarter > existing.quarter){ latestByPerson[key] = e; return; }
-            if(e.quarter < existing.quarter){ return; }
-          }
-          // Tie or no quarter: later row wins (sheets are append-only)
-          if(e.rowIdx > existing.rowIdx) latestByPerson[key] = e;
-        });
-
-        // Pass 3: build the data array the rest of the dashboard expects, with quadrant computed
-        var data = Object.keys(latestByPerson).map(function(k){
-          var e = latestByPerson[k];
-          return {
-            company:   e.company,
-            name:      e.name,
-            role:      e.role,
-            quarter:   e.quarter,
-            perf:      e.perf,
-            init:      e.init,
-            quadrant:  classify(e.perf, e.init),
-            evaluator: e.evaluator
-          };
-        });
-
-        state.data = data;
-        window.tmLoaded = true;
-
-        // Set active company if not set or no longer exists
-        var companies = uniqueCompanies();
-        if(!state.activeCompany || companies.indexOf(state.activeCompany) < 0){
-          state.activeCompany = companies[0] || null;
-        }
-        render();
+        populateVelurFilters();
+        applyVelurFilters();
       })
       .catch(function(e){
-        renderEmpty('Could not load data: ' + e.message);
+        document.getElementById("v-tbody").innerHTML = "<tr><td colspan='9' class='no-data'>⚠️ Could not load data: "+e.message+"</td></tr>";
       });
   };
 
-  function uniqueCompanies(){
-    var set = {};
-    state.data.forEach(function(d){ set[d.company] = true; });
-    return Object.keys(set).sort();
-  }
-
-  function renderEmpty(msg){
-    document.getElementById('tm-subtabs').innerHTML = '';
-    document.getElementById('tm-roster-list').innerHTML = '<div class="tm-empty">'+esc(msg)+'</div>';
-    ['tm-count-stars','tm-count-executors','tm-count-aspirants','tm-count-underperformers',
-     'tm-kpi-total','tm-kpi-stars','tm-kpi-avg-perf','tm-kpi-avg-init','tm-kpi-under']
-      .forEach(function(id){ var el = document.getElementById(id); if(el) el.textContent = '—'; });
-    document.getElementById('tm-company-title').textContent = '—';
-    document.getElementById('tm-headline').textContent = '';
-    document.getElementById('tm-dots-layer').innerHTML = '';
-    document.getElementById('tm-scorecard-panel').style.display = 'none';
-  }
-
-  function render(){
-    renderKPIs();
-    renderSubtabs();
-    renderMatrix();
-    renderRoster();
-    renderScorecard();
-    document.getElementById('tm-company-title').textContent = state.activeCompany || '—';
-    document.getElementById('tm-headline').textContent =
-      '(' + state.data.length + ' members across ' + uniqueCompanies().length + ' teams)';
-  }
-
-  function renderKPIs(){
-    var data = state.data;
-    var n = data.length;
-    document.getElementById('tm-kpi-total').textContent = n;
-    if(n === 0){
-      ['tm-kpi-stars','tm-kpi-avg-perf','tm-kpi-avg-init','tm-kpi-under']
-        .forEach(function(id){ document.getElementById(id).textContent = '—'; });
-      return;
+  function parseVCSV(row){
+    var result=[], cur="", inQ=false;
+    for(var i=0;i<row.length;i++){
+      var c=row[i];
+      if(c==='"'){inQ=!inQ;}
+      else if(c===','&&!inQ){result.push(cur);cur="";}
+      else{cur+=c;}
     }
-    var stars = data.filter(function(d){ return d.quadrant === 'Star'; }).length;
-    var under = data.filter(function(d){ return d.quadrant === 'Underperformer'; }).length;
-    var avgP = data.reduce(function(s,d){ return s + d.perf; }, 0) / n;
-    var avgI = data.reduce(function(s,d){ return s + d.init; }, 0) / n;
-    document.getElementById('tm-kpi-stars').textContent = stars;
-    document.getElementById('tm-kpi-stars-pct').textContent = Math.round(stars/n*100) + '% of roster';
-    document.getElementById('tm-kpi-avg-perf').textContent = avgP.toFixed(1);
-    document.getElementById('tm-kpi-avg-init').textContent = avgI.toFixed(1);
-    document.getElementById('tm-kpi-under').textContent = under;
-    document.getElementById('tm-kpi-under-pct').textContent = Math.round(under/n*100) + '% of roster';
+    result.push(cur); return result;
   }
 
-  function renderSubtabs(){
-    var wrap = document.getElementById('tm-subtabs');
-    var companies = uniqueCompanies();
-    if(!companies.length){ wrap.innerHTML = ''; return; }
-    wrap.innerHTML = '';
-    companies.forEach(function(name){
-      var count = state.data.filter(function(d){ return d.company === name; }).length;
-      var b = document.createElement('button');
-      b.className = 'tm-subtab' + (name === state.activeCompany ? ' active' : '');
-      b.innerHTML = esc(name) + '<span class="tm-count">' + count + '</span>';
-      b.onclick = function(){
-        state.activeCompany = name;
-        state.selected = null;
-        render();
-      };
-      wrap.appendChild(b);
+  function populateVelurFilters(){
+    var cats = [...new Set(velurData.map(function(d){return d["Category"];}).filter(Boolean))].sort();
+    var csel = document.getElementById("v-cat-filter");
+    csel.innerHTML = '<option value="">All Categories</option>' +
+      cats.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join("");
+
+    var statuses = [...new Set(velurData.map(function(d){return d["Status"];}).filter(Boolean))].sort();
+    var ssel = document.getElementById("v-status-filter");
+    ssel.innerHTML = '<option value="">All Statuses</option>' +
+      statuses.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join("");
+  }
+
+  function populateSubcatFilter(cat){
+    var data = cat ? velurData.filter(function(d){return d["Category"]===cat;}) : velurData;
+    var subcats = [...new Set(data.map(function(d){return d["Sub-Category"];}).filter(Boolean))].sort();
+    var sel = document.getElementById("v-subcat-filter");
+    sel.innerHTML = '<option value="">All Sub-Categories</option>' +
+      subcats.map(function(s){return '<option value="'+s+'">'+s+'</option>';}).join("");
+  }
+
+  window.applyVelurFilters = function(){
+    var search = (document.getElementById("v-search").value||"").toLowerCase();
+    var cat    = document.getElementById("v-cat-filter").value;
+    var subcat = document.getElementById("v-subcat-filter").value;
+    var pri    = document.getElementById("v-pri-filter").value;
+    var status = document.getElementById("v-status-filter").value;
+
+    populateSubcatFilter(cat);
+
+    velurFiltered = velurData.filter(function(r){
+      var ms = !search || ["Item / Description","Channel","Notes (Pinterest Reference)","Sub-Category","Category"]
+        .some(function(k){ return (r[k]||"").toLowerCase().indexOf(search)>=0; });
+      var mc = !cat    || r["Category"]===cat;
+      var msc= !subcat || r["Sub-Category"]===subcat;
+      var mp = !pri    || r["Priority"]===pri;
+      var mst= !status || r["Status"]===status;
+      return ms&&mc&&msc&&mp&&mst;
+    });
+
+    if(vSortKey) doVSort();
+    renderVelur();
+  };
+
+  window.resetVelurFilters = function(){
+    document.getElementById("v-search").value="";
+    document.getElementById("v-cat-filter").value="";
+    document.getElementById("v-subcat-filter").value="";
+    document.getElementById("v-pri-filter").value="";
+    document.getElementById("v-status-filter").value="";
+    applyVelurFilters();
+  };
+
+  window.sortVelur = function(key){
+    if(vSortKey===key){vSortAsc=!vSortAsc;}else{vSortKey=key;vSortAsc=true;}
+    doVSort(); renderVelur();
+  };
+
+  function doVSort(){
+    velurFiltered.sort(function(a,b){
+      var va=(a[vSortKey]||"").toLowerCase();
+      var vb=(b[vSortKey]||"").toLowerCase();
+      return vSortAsc?(va>vb?1:-1):(va<vb?1:-1);
     });
   }
 
-  function renderMatrix(){
-    var members = state.data.filter(function(d){ return d.company === state.activeCompany; });
-    var counts = {Star:0, Reliable:0, Aspirant:0, Underperformer:0};
-    members.forEach(function(m){ counts[m.quadrant] = (counts[m.quadrant]||0) + 1; });
-    document.getElementById('tm-count-stars').textContent = counts.Star;
-    document.getElementById('tm-count-executors').textContent = counts.Reliable;
-    document.getElementById('tm-count-aspirants').textContent = counts.Aspirant;
-    document.getElementById('tm-count-underperformers').textContent = counts.Underperformer;
-
-    var layer = document.getElementById('tm-dots-layer');
-    layer.innerHTML = '';
-
-    // Bucket by coordinate to handle overlaps
-    var buckets = {};
-    members.forEach(function(m){
-      // Round to 1 decimal for bucketing so 7 and 7.0 land together
-      var k = m.perf.toFixed(1) + '-' + m.init.toFixed(1);
-      (buckets[k] = buckets[k] || []).push(m);
-    });
-    Object.keys(buckets).forEach(function(k){
-      var g = buckets[k];
-      g.forEach(function(m, i){
-        // Map 1–10 score → 0–100% with margin so dots don't sit on the edge
-        var x = ((m.init - 0.5) / 10) * 100;
-        var y = 100 - ((m.perf - 0.5) / 10) * 100;
-        var dy = g.length > 1 ? (i - (g.length - 1)/2) * 26 : 0;
-        var d = document.createElement('div');
-        d.className = 'tm-dot' + (m.name === state.selected ? ' selected' : '');
-        d.style.left = x + '%';
-        d.style.top = 'calc(' + y + '% + ' + dy + 'px)';
-        d.textContent = firstName(m.name);
-        d.title = m.name + ' — Performance: ' + m.perf + ', Initiative: ' + m.init;
-        d.onclick = function(){ selectMember(m.name); };
-        layer.appendChild(d);
-      });
-    });
+  function priTag(p){
+    if((p||"").toLowerCase()==="high")   return '<span class="pri-high">High</span>';
+    if((p||"").toLowerCase()==="medium") return '<span class="pri-medium">Medium</span>';
+    if((p||"").toLowerCase()==="low")    return '<span class="pri-low">Low</span>';
+    return '<span class="pri-low">'+(p||"—")+'</span>';
   }
 
-  function renderRoster(){
-    var members = state.data.filter(function(d){ return d.company === state.activeCompany; });
-    document.getElementById('tm-roster-count').textContent = members.length;
-    var list = document.getElementById('tm-roster-list');
-    if(!members.length){
-      list.innerHTML = '<div class="tm-empty">No members in this team</div>';
-      return;
-    }
-    var order = {Star:0, Reliable:1, Aspirant:2, Underperformer:3};
-    var sorted = members.slice().sort(function(a,b){
-      if(order[a.quadrant] !== order[b.quadrant]) return order[a.quadrant] - order[b.quadrant];
-      return a.name.localeCompare(b.name);
-    });
-    list.innerHTML = '';
-    sorted.forEach(function(m){
-      var item = document.createElement('div');
-      item.className = 'tm-roster-item' + (m.name === state.selected ? ' active' : '');
-      item.innerHTML =
-        '<span class="tm-roster-mark"></span>' +
-        '<div class="tm-roster-info">' +
-          '<div class="tm-roster-name">' + esc(m.name) + '</div>' +
-          '<div class="tm-roster-role">' + esc(m.role || '—') + ' · <span class="tm-roster-q">' + esc(m.quadrant) + '</span></div>' +
-        '</div>' +
-        '<div class="tm-roster-scores">' + m.perf + ' · ' + m.init + '</div>';
-      item.onclick = function(){ selectMember(m.name); };
-      list.appendChild(item);
-    });
+  function catPill(cat){
+    var cls = CAT_CLASS[cat] || "cat-b2b";
+    return '<span class="cat-pill '+cls+'">'+esc(cat)+'</span>';
   }
 
-  function renderScorecard(){
-    var p = document.getElementById('tm-scorecard-panel');
-    if(!state.selected){ p.style.display = 'none'; return; }
-    var m = state.data.filter(function(d){ return d.company === state.activeCompany && d.name === state.selected; })[0];
-    if(!m){ p.style.display = 'none'; state.selected = null; return; }
-    p.style.display = 'block';
-    document.getElementById('tm-sc-name').textContent = m.name;
-    document.getElementById('tm-sc-role').textContent = m.role || '—';
-    document.getElementById('tm-sc-quarter').textContent = m.quarter || '—';
-    document.getElementById('tm-sc-evaluator').textContent = m.evaluator || '—';
-    document.getElementById('tm-sc-perf').textContent = m.perf;
-    document.getElementById('tm-sc-init').textContent = m.init;
-    document.getElementById('tm-sc-quadrant').textContent = m.quadrant;
-    document.getElementById('tm-sc-action').textContent = (META[m.quadrant] || {}).action || '—';
+  function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  function statusBadge(s){
+    var sl=(s||"").toLowerCase();
+    if(!s) return '<span style="color:var(--text-muted);font-size:11px">—</span>';
+    var bg="#e0ede0",col="#1b5e20",border="#a5c8a5";
+    if(sl==="done"||sl==="complete"||sl==="completed"){bg="var(--velur-dark)";col="var(--velur-nude)";border="var(--velur-dark)";}
+    else if(sl==="in progress"||sl==="wip"){bg="#f0e8e0";col="#47301e";border="#c8a888";}
+    else if(sl==="hold"||sl==="on hold"){bg="#f5f0e0";col="#7a6020";border="#d4c080";}
+    return '<span style="background:'+bg+';color:'+col+';border:1px solid '+border+';font-size:9px;font-weight:600;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em">'+esc(s)+'</span>';
   }
 
-  function selectMember(name){
-    state.selected = (state.selected === name) ? null : name;
-    render();
-  }
-})();
-</script>
+  function renderVelur(){
+    var total = velurData.length;
+    var high  = velurData.filter(function(d){return (d["Priority"]||"").toLowerCase()==="high";}).length;
+    var cats  = [...new Set(velurData.map(function(d){return d["Category"];}).filter(Boolean))].length;
+    var done  = velurData.filter(function(d){var s=(d["Status"]||"").toLowerCase();return s==="done"||s==="complete"||s==="completed";}).length;
+    var prog  = velurData.filter(function(d){var s=(d["Status"]||"").toLowerCase();return s==="in progress"||s==="wip";}).length;
+    var pend  = velurData.filter(function(d){return !(d["Status"]||"").trim();}).length;
 
-<!-- ════════════════════════════════════════════════════════════
-     VELUR KSA PULSE SCRIPT — fetches Velur KSA Gist
-     ════════════════════════════════════════════════════════════ -->
-<script>
-(function(){
-  // ─── CONFIGURATION ──────────────────────────────────────────────────────
-  // 1) Velur KSA Pulse data Gist (raw URL, file: velur_ksa_pulse.json)
-  var VELUR_GIST = "https://gist.githubusercontent.com/ali123pyth/28d0532c0df0df14b912458201eea97b/raw/velur_ksa_pulse.json";
+    document.getElementById("v-total").textContent    = total;
+    document.getElementById("v-high").textContent     = high;
+    document.getElementById("v-cats").textContent     = cats;
+    document.getElementById("v-done").textContent     = done;
+    document.getElementById("v-progress").textContent = prog;
+    document.getElementById("v-pending").textContent  = pend;
+    document.getElementById("v-record-count").textContent = velurFiltered.length+" item"+(velurFiltered.length!==1?"s":"");
 
-  // 2) Railway webhook that triggers a fresh scan AND hosts the config endpoints.
-  //    Both leave-as-is markers are safe — the buttons will show a friendly "not configured" message.
-  var VELUR_WEBHOOK_URL    = "https://acumen-intel-scanner-production.up.railway.app/scan/velur-ksa";
-  var VELUR_WEBHOOK_SECRET = "velur-lzjDo-wHvkPqJNnuDRUHcn3KzJ3rrgGmuOpW1BKH5_c";
-  // ────────────────────────────────────────────────────────────────────────
+    document.getElementById("v-summary").textContent =
+      "Velur's marketing universe spans "+total+" items across "+cats+" brand categories. "+
+      high+" items are high priority. "+done+" completed, "+prog+" in progress, and "+pend+" awaiting action.";
 
-  window.velurLoaded = false;
-  var pollHandle = null;
-
-  function esc(s){ return String(s||'').replace(/[&<>"']/g, function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-  }); }
-
-  function showError(msg){
-    document.getElementById('v-error-box').innerHTML =
-      '<div class="v-error">⚠ ' + esc(msg) + '</div>';
-  }
-  function clearError(){
-    document.getElementById('v-error-box').innerHTML = '';
-  }
-  function setStatus(msg, color){
-    var el = document.getElementById('v-scan-status');
-    if(!msg){ el.style.display = 'none'; el.textContent = ''; return; }
-    el.style.display = 'block';
-    el.textContent = msg;
-    el.style.color = color || '#888';
-  }
-  function setScanBtnDisabled(disabled){
-    var btn = document.getElementById('v-scan-btn');
-    if(!btn) return;
-    btn.disabled = disabled;
-    btn.style.opacity = disabled ? '0.5' : '1';
-    btn.style.cursor  = disabled ? 'not-allowed' : 'pointer';
-    if(disabled) btn.textContent = '⟳ Scanning…';
-    else btn.textContent = '▶ Run Scan';
-  }
-
-  function setSourceState(srcId, label, color){
-    var el = document.getElementById('v-src-' + srcId + '-state');
-    if(el) el.textContent = label;
-    var card = document.getElementById('v-src-' + srcId);
-    if(card){
-      card.classList.remove('done');
-      if(label === 'Complete') card.classList.add('done');
-    }
-    var parent = el && el.parentElement;
-    if(parent){
-      parent.style.color = color;
-      var dot = parent.querySelector('.v-dot');
-      if(dot) dot.style.background = color;
-    }
-  }
-
-  function renderBrief(briefText){
-    var box = document.getElementById('v-brief');
-    if(!briefText){
-      box.innerHTML = '<div class="v-empty">No brief available in the latest scan.</div>';
-      return;
-    }
-    var lines = briefText.split('\n');
-    var html = '';
-    lines.forEach(function(line){
-      if(line.indexOf('## ') === 0){
-        html += '<div class="v-brief-h">' + esc(line.replace('## ','')) + '</div>';
-      } else if(line.trim() === ''){
-        html += '<div style="height:6px"></div>';
-      } else {
-        html += '<div>' + esc(line) + '</div>';
-      }
-    });
-    box.innerHTML = html;
-  }
-
-  function renderHashtags(hashtags){
-    if(!hashtags || !hashtags.length){
-      document.getElementById('v-hashtags-head').style.display = 'none';
-      document.getElementById('v-posts-head').style.display = 'none';
-      document.getElementById('v-posts-wrap').style.display = 'none';
-      return;
-    }
-
-    // 1) Pills row (top of section) — same as before
-    document.getElementById('v-hashtags-head').style.display = 'flex';
-    var row = document.getElementById('v-hashtags-row');
-    row.innerHTML = hashtags.map(function(h){
-      var cls = h.trending ? 'v-tag muted trending' : 'v-tag muted';
-      var marker = h.trending ? '● ' : '';
-      var posts = (h.posts || 0).toLocaleString();
-      return '<span class="' + cls + '">' + marker + esc(h.hashtag || '') + ' · ' + posts + '</span>';
-    }).join('');
-
-    // 2) Post groups — only render hashtags that actually have samples
-    renderInstagramPosts(hashtags);
-  }
-
-  // Render Instagram post samples grouped by hashtag.
-  // Each scan stores up to 5 sample posts per hashtag in the Gist as
-  // hashtag.samples[i] = { caption, likes, comments, url }. We render
-  // those as a clickable list, grouped by hashtag.
-  function renderInstagramPosts(hashtags){
-    var head = document.getElementById('v-posts-head');
-    var wrap = document.getElementById('v-posts-wrap');
-
-    // Filter to hashtags that have at least one sample
-    var withSamples = hashtags.filter(function(h){
-      return h.samples && h.samples.length;
-    });
-
-    if(!withSamples.length){
-      head.style.display = 'none';
-      wrap.style.display = 'none';
-      return;
-    }
-
-    head.style.display = 'flex';
-    wrap.style.display = 'block';
-
-    wrap.innerHTML = withSamples.map(function(h){
-      var tagCls = h.trending ? 'v-post-group-tag trending' : 'v-post-group-tag';
-      var samples = h.samples || [];
-      var totalCount = (h.posts || samples.length).toLocaleString();
-
-      var cards = samples.map(function(p){
-        var url = p.url || '';
-        var captionRaw = (p.caption || '').trim();
-        var captionDisplay = captionRaw
-          ? esc(captionRaw.length > 220 ? captionRaw.slice(0, 220) + '…' : captionRaw)
-          : '<span class="empty">(no caption)</span>';
-        var likes    = (p.likes    || 0).toLocaleString();
-        var comments = (p.comments || 0).toLocaleString();
-
-        var inner =
-          '<div class="v-post-caption' + (captionRaw ? '' : ' empty') + '">' + captionDisplay + '</div>' +
-          '<div class="v-post-meta">' +
-            '<span class="v-post-likes">♥ ' + likes + '</span>' +
-            '<span class="v-post-comments">💬 ' + comments + '</span>' +
-            (url ? '<span class="v-post-link">View on Instagram</span>' : '') +
-          '</div>';
-
-        // If we have a URL, the entire card is a link. Otherwise just a div.
-        if(url && /^https?:\/\//.test(url)){
-          return '<a class="v-post-card" href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + inner + '</a>';
-        }
-        return '<div class="v-post-card">' + inner + '</div>';
-      }).join('');
-
-      return '<div class="v-post-group">' +
-        '<div class="v-post-group-head">' +
-          '<span class="' + tagCls + '">' + esc(h.hashtag || '') + '</span>' +
-          '<span class="v-post-group-meta">' + totalCount + ' posts · showing ' + samples.length + '</span>' +
-        '</div>' +
-        '<div class="v-post-list">' + cards + '</div>' +
-      '</div>';
-    }).join('');
-  }
-
-  function renderProducts(products){
-    if(!products || !products.length){
-      document.getElementById('v-products-head').style.display = 'none';
-      document.getElementById('v-products-wrap').style.display = 'none';
-      return;
-    }
-    document.getElementById('v-products-head').style.display = 'flex';
-    document.getElementById('v-products-wrap').style.display = 'block';
-    var tbody = document.getElementById('v-products-tbody');
-    tbody.innerHTML = products.map(function(p){
-      var sourceCls = (p.source || '').toLowerCase().indexOf('noon') >= 0 ? 'noon' : '';
-      return '<tr>' +
-        '<td><span class="v-product-source-pill ' + sourceCls + '">' + esc(p.source || '') + '</span></td>' +
-        '<td style="font-weight:600">' + esc(p.product || '—') + '</td>' +
-        '<td class="v-stars">' + esc(String(p.rating || '—')) + ' ★</td>' +
-        '<td>' + esc(String((p.review_count || p.reviewCount || 0)).toLocaleString()) + '</td>' +
-        '<td>' + esc(p.price || '—') + '</td>' +
-        '<td style="font-size:11px;color:#888">' + esc((p.pain_points || p.painPoints || [])[0] || '—') + '</td>' +
-        '<td style="font-size:11px;color:#888">' + esc((p.praises || [])[0] || '—') + '</td>' +
-      '</tr>';
-    }).join('');
-  }
-
-  // ─── HEADER UPDATE LOGIC ─────────────────────────────────────────────────
-  // The header (flag + title + subtitle) reflects the CURRENTLY SAVED config —
-  // i.e. what country a fresh scan WOULD target. The "Data shown:" line under
-  // the badge reflects what country the data on screen actually came from.
-  // These two can disagree (e.g. you switched to UAE in settings but the data
-  // displayed is still from a previous KSA scan), and that's fine — the
-  // disagreement is exactly what tells you "you should run a new scan".
-  function setHeaderForCountry(countryCode){
-    var name = COUNTRY_NAMES[countryCode] || 'Saudi Arabia';
-    var flag = COUNTRY_FLAGS[countryCode] || '🇸🇦';
-    document.getElementById('v-header-flag').textContent = flag;
-    document.getElementById('v-header-title').textContent = name + ' Fragrance Pulse';
-    document.getElementById('v-header-subtitle').textContent = 'Electric Aroma Diffuser · ' + name;
-  }
-  function setScanSourceLabel(scannedCountryCode, savedCountryCode){
-    var row = document.getElementById('v-data-source-row');
-    var lbl = document.getElementById('v-data-source');
-    if(!scannedCountryCode){ row.style.display = 'none'; return; }
-    var scanName = COUNTRY_NAMES[scannedCountryCode] || scannedCountryCode;
-    var scanFlag = COUNTRY_FLAGS[scannedCountryCode] || '';
-    row.style.display = 'block';
-    if(savedCountryCode && savedCountryCode !== scannedCountryCode){
-      // Mismatch — flag it so the user knows the data is from a different country
-      var savedName = COUNTRY_NAMES[savedCountryCode] || savedCountryCode;
-      lbl.innerHTML = scanFlag + ' ' + esc(scanName) +
-        ' <span style="color:#E8935A">(settings target ' + esc(savedName) + ' — run scan to update)</span>';
+    // Table
+    if(!velurFiltered.length){
+      document.getElementById("v-tbody").innerHTML="<tr><td colspan='9' class='no-data'>No items match your filters.</td></tr>";
     } else {
-      lbl.innerHTML = scanFlag + ' ' + esc(scanName);
+      document.getElementById("v-tbody").innerHTML = velurFiltered.map(function(d,i){
+        var pin = d["Notes (Pinterest Reference)"]||"";
+        var pinLink = pin.indexOf("http")===0
+          ? '<a href="'+esc(pin)+'" target="_blank" class="pin-link">Pinterest ↗</a>'
+          : '<span style="color:var(--text-muted);font-size:11px">—</span>';
+        var cost = d["Est. Cost (AED)"]||"";
+        return "<tr>"
+          +"<td class='td-num'>"+(i+1)+"</td>"
+          +"<td>"+catPill(d["Category"])+"</td>"
+          +"<td style='font-size:11px;color:var(--text-muted)'>"+esc(d["Sub-Category"]||"—")+"</td>"
+          +"<td style='font-weight:600;color:var(--velur-dark);max-width:280px'>"+esc(d["Item / Description"]||"—")+"</td>"
+          +"<td style='font-size:11px;color:var(--text-muted)'>"+esc(d["Channel"]||"—")+"</td>"
+          +"<td>"+priTag(d["Priority"])+"</td>"
+          +"<td>"+statusBadge(d["Status"])+"</td>"
+          +"<td style='font-size:11px;color:var(--text-muted);text-align:right'>"+esc(cost||"—")+"</td>"
+          +"<td>"+pinLink+"</td>"
+          +"</tr>";
+      }).join("");
     }
-  }
 
-  // Static fallback for when the Gist hasn't been written by v2 yet.
-  var COUNTRY_NAMES = {ksa:'Saudi Arabia', uae:'UAE', egy:'Egypt', qat:'Qatar', kwt:'Kuwait', bhr:'Bahrain'};
-  var COUNTRY_FLAGS = {ksa:'🇸🇦', uae:'🇦🇪', egy:'🇪🇬', qat:'🇶🇦', kwt:'🇰🇼', bhr:'🇧🇭'};
-
-  // Source-card title and description data per country.
-  // Three categories of country: native marketplace (KSA/UAE/Egypt), partial coverage
-  // with Amazon fallback (Qatar/Kuwait/Bahrain), and Instagram which is country-agnostic
-  // but the description references the country to make the geo-targeting visible.
-  var COUNTRY_AMAZON_TLD = {ksa:'sa', uae:'ae', egy:'eg', qat:null, kwt:null, bhr:null};
-  var COUNTRY_NOON_NAME  = {ksa:'Saudi', uae:'UAE', egy:'Egypt', qat:null, kwt:null, bhr:null};
-
-  // Update the three source-card titles and descriptions to reflect the country
-  // of the data on screen. Called from velurLoad after Gist data lands. Falls
-  // back gracefully if the country isn't recognized.
-  function setSourceCardLabels(countryCode){
-    var country = COUNTRY_NAMES[countryCode] || 'Saudi Arabia';
-
-    // Amazon
-    var amzTld = COUNTRY_AMAZON_TLD[countryCode];
-    var amzTitle = amzTld
-      ? 'Amazon.' + amzTld
-      : 'Amazon.sa (' + country + ' fallback)';
-    var amzDesc = amzTld
-      ? 'Product listings, star ratings, review text · ' + country + ' marketplace'
-      : 'Product listings on Amazon.sa · ' + country + ' has no native Amazon, falls back to KSA';
-    document.getElementById('v-src-amazon-title').textContent = amzTitle;
-    document.getElementById('v-src-amazon-desc').textContent  = amzDesc;
-
-    // Noon
-    var noonName = COUNTRY_NOON_NAME[countryCode];
-    var noonTitle = noonName
-      ? 'Noon.com ' + noonName
-      : 'Noon — not available';
-    var noonDesc = noonName
-      ? 'Regional e-commerce reviews · ' + country + ' buyer sentiment · gifting patterns'
-      : 'Noon does not operate in ' + country + ' — this source is skipped';
-    document.getElementById('v-src-noon-title').textContent = noonTitle;
-    document.getElementById('v-src-noon-desc').textContent  = noonDesc;
-
-    // Instagram (country-agnostic but we still label it for clarity)
-    document.getElementById('v-src-instagram-title').textContent = 'Instagram — ' + country;
-    document.getElementById('v-src-instagram-desc').textContent  = 'Hashtag monitoring · trend detection · geo-targeted via hashtag choice';
-  }
-
-  // ─── SETTINGS MODAL ─────────────────────────────────────────────────────
-  // The modal reads the current config from the scanner via GET /config/velur-ksa,
-  // pre-fills all fields, lets the user edit, then POSTs the new config back.
-  // Country support metadata also comes from the GET response so we don't
-  // hardcode it on the frontend (single source of truth: the scanner).
-  var _modalState = {
-    open: false,
-    countriesMeta: null,  // { ksa: {name, flag, amazon_tld, ...}, ... }
-  };
-
-  function configEndpoint(){
-    // Derive /config/velur-ksa from the existing webhook URL — they share a host.
-    return VELUR_WEBHOOK_URL.replace('/scan/velur-ksa', '/config/velur-ksa');
-  }
-  function testEndpoint(){
-    return VELUR_WEBHOOK_URL + '/test';  // /scan/velur-ksa/test
-  }
-
-  function setModalStatus(msg, kind){
-    var el = document.getElementById('v-modal-status');
-    el.textContent = msg || '';
-    el.className = 'v-modal-status' + (kind ? ' ' + kind : '');
-  }
-
-  window.velurOpenSettings = function(){
-    if(VELUR_WEBHOOK_URL.indexOf('REPLACE_ME') >= 0 || VELUR_WEBHOOK_SECRET.indexOf('REPLACE_ME') >= 0){
-      showError('Webhook not configured yet. Settings cannot load until VELUR_WEBHOOK_URL and VELUR_WEBHOOK_SECRET are set.');
-      return;
-    }
-    _modalState.open = true;
-    document.getElementById('v-modal-overlay').classList.add('open');
-    setModalStatus('Loading current config…', '');
-    document.getElementById('v-btn-save').disabled = true;
-
-    // Hide any stale test panels
-    ['amazon','noon','instagram'].forEach(function(s){
-      var p = document.getElementById('v-test-' + s);
-      if(p){ p.style.display = 'none'; p.textContent = ''; }
+    // Category breakdown
+    var catGroups={};
+    velurData.forEach(function(d){
+      var c=d["Category"]||"Other";
+      catGroups[c]=(catGroups[c]||0)+1;
     });
+    var maxCat=Math.max.apply(null,Object.values(catGroups))||1;
+    var catEntries=Object.entries(catGroups).sort(function(a,b){return b[1]-a[1];});
+    document.getElementById("v-cat-breakdown").innerHTML = catEntries.map(function(entry,i){
+      var pct=Math.round(entry[1]/maxCat*100);
+      return '<div class="v-cat-bar">'
+        +'<div class="v-cat-name" style="font-size:10px">'+esc(entry[0])+'</div>'
+        +'<div class="v-cat-track"><div class="v-cat-fill" style="width:'+pct+'%;background:'+VELUR_BAR_COLORS[i%VELUR_BAR_COLORS.length]+'"></div></div>'
+        +'<div class="v-cat-count">'+entry[1]+'</div>'
+        +'</div>';
+    }).join("");
 
-    fetch(configEndpoint() + '?t=' + Date.now())
-      .then(function(r){
-        if(!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function(data){
-        _modalState.countriesMeta = data.supported_countries || {};
-        populateModal(data.config || {});
-        setModalStatus('Loaded — edit and Save', '');
-        document.getElementById('v-btn-save').disabled = false;
-      })
-      .catch(function(e){
-        setModalStatus('Could not load config: ' + e.message, 'error');
-        document.getElementById('v-btn-save').disabled = true;
-      });
-  };
-
-  window.velurCloseSettings = function(){
-    _modalState.open = false;
-    document.getElementById('v-modal-overlay').classList.remove('open');
-  };
-
-  function populateModal(cfg){
-    // Country dropdown
-    var sel = document.getElementById('v-cfg-country');
-    sel.innerHTML = '';
-    var meta = _modalState.countriesMeta;
-    Object.keys(meta).forEach(function(code){
-      var c = meta[code];
-      var opt = document.createElement('option');
-      opt.value = code;
-      opt.textContent = c.flag + '  ' + c.name;
-      if(code === cfg.country) opt.selected = true;
-      sel.appendChild(opt);
-    });
-    velurUpdateCountrySupport();
-
-    // Source toggles
-    var src = cfg.sources_enabled || {};
-    document.getElementById('v-cfg-src-amazon').checked    = src.amazon    !== false;
-    document.getElementById('v-cfg-src-noon').checked      = src.noon      !== false;
-    document.getElementById('v-cfg-src-instagram').checked = src.instagram !== false;
-
-    // Lists
-    renderList('amazon', cfg.amazon_keywords || []);
-    renderList('noon',   cfg.noon_keywords || []);
-    renderList('ig',     cfg.instagram_hashtags || []);
-
-    // Numeric
-    document.getElementById('v-cfg-max-products').value  = cfg.max_products_per_kw   ?? 5;
-    document.getElementById('v-cfg-max-ig-posts').value  = cfg.max_ig_posts_per_tag  ?? 20;
-    document.getElementById('v-cfg-ig-threshold').value  = cfg.ig_trending_threshold ?? 15;
+    // Priority breakdown
+    var priGroups={High:0,Medium:0,Low:0};
+    velurData.forEach(function(d){ var p=d["Priority"]||""; if(priGroups[p]!==undefined) priGroups[p]++; });
+    var totalPri=velurData.length||1;
+    var priColors={High:"#6b241e",Medium:"#ac7b44",Low:"#a59c76"};
+    document.getElementById("v-pri-breakdown").innerHTML=Object.entries(priGroups).map(function(entry){
+      return '<div style="margin-bottom:12px">'
+        +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px">'
+        +'<span>'+priTag(entry[0])+'</span><span style="font-weight:600;color:var(--velur-dark)">'+entry[1]+'</span></div>'
+        +'<div style="height:6px;background:var(--beige-dark);border-radius:3px;overflow:hidden">'
+        +'<div style="height:100%;width:'+Math.round(entry[1]/totalPri*100)+'%;background:'+priColors[entry[0]]+';transition:width 1s ease;border-radius:3px"></div>'
+        +'</div></div>';
+    }).join("");
   }
 
-  // Country dropdown changed → show what's supported for this country
-  window.velurUpdateCountrySupport = function(){
-    var code = document.getElementById('v-cfg-country').value;
-    var meta = (_modalState.countriesMeta || {})[code];
-    var box = document.getElementById('v-cfg-country-support');
-    if(!meta){ box.textContent = '—'; return; }
-    var msgs = [];
-    if(meta.amazon_tld){
-      msgs.push('Amazon: <strong>amazon.' + esc(meta.amazon_tld) + '</strong> (native)');
-    } else {
-      msgs.push('<span class="v-warn">Amazon: falls back to <strong>amazon.' + esc(meta.fallback_amazon_tld || 'sa') + '</strong> (no native marketplace)</span>');
-    }
-    if(meta.noon_code){
-      msgs.push('Noon: <strong>' + esc(meta.noon_code) + '</strong>');
-    } else {
-      msgs.push('<span class="v-warn">Noon: not supported for ' + esc(meta.name) + '</span>');
-    }
-    msgs.push('Instagram: hashtag-targeted (country-agnostic)');
-    box.innerHTML = msgs.join('<br/>');
-  };
-
-  // ─── EDITABLE LISTS ─────────────────────────────────────────────────────
-  function renderList(which, items){
-    var wrap = document.getElementById('v-cfg-' + which + '-list');
-    wrap.innerHTML = '';
-    if(!items.length) items = [''];
-    items.forEach(function(val){ appendListRow(which, val); });
-  }
-  function appendListRow(which, val){
-    var wrap = document.getElementById('v-cfg-' + which + '-list');
-    var row = document.createElement('div');
-    row.className = 'v-list-row';
-    var inp = document.createElement('input');
-    inp.type = 'text';
-    inp.value = val || '';
-    inp.placeholder = which === 'ig' ? 'hashtag (no #)' : 'keyword';
-    var btn = document.createElement('button');
-    btn.className = 'v-list-remove';
-    btn.textContent = '×';
-    btn.title = 'Remove';
-    btn.onclick = function(){ row.parentNode.removeChild(row); };
-    row.appendChild(inp);
-    row.appendChild(btn);
-    wrap.appendChild(row);
-  }
-  window.velurAddListItem = function(which){
-    appendListRow(which, '');
-  };
-
-  function readList(which){
-    var wrap = document.getElementById('v-cfg-' + which + '-list');
-    var inputs = wrap.querySelectorAll('input[type="text"]');
-    var seen = {}, out = [];
-    for(var i = 0; i < inputs.length; i++){
-      var v = (inputs[i].value || '').trim();
-      if(!v || seen[v]) continue;
-      seen[v] = true;
-      out.push(v);
-    }
-    return out;
-  }
-
-  // ─── SAVE SETTINGS ──────────────────────────────────────────────────────
-  window.velurSaveSettings = function(){
-    var btn = document.getElementById('v-btn-save');
-    btn.disabled = true;
-    setModalStatus('Saving…', '');
-
-    var payload = {
-      country:               document.getElementById('v-cfg-country').value,
-      amazon_keywords:       readList('amazon'),
-      noon_keywords:         readList('noon'),
-      instagram_hashtags:    readList('ig'),
-      max_products_per_kw:   parseInt(document.getElementById('v-cfg-max-products').value, 10) || 5,
-      max_ig_posts_per_tag:  parseInt(document.getElementById('v-cfg-max-ig-posts').value, 10) || 20,
-      ig_trending_threshold: parseInt(document.getElementById('v-cfg-ig-threshold').value, 10) || 15,
-      sources_enabled: {
-        amazon:    document.getElementById('v-cfg-src-amazon').checked,
-        noon:      document.getElementById('v-cfg-src-noon').checked,
-        instagram: document.getElementById('v-cfg-src-instagram').checked,
-      },
-    };
-
-    fetch(configEndpoint(), {
-      method:  'POST',
-      headers: {'Content-Type': 'application/json', 'X-Scan-Secret': VELUR_WEBHOOK_SECRET},
-      body:    JSON.stringify(payload),
-    })
-    .then(function(r){
-      if(r.status === 401) throw new Error('Webhook rejected the secret. Check VELUR_WEBHOOK_SECRET.');
-      if(!r.ok) return r.json().then(function(j){ throw new Error(j.error || ('HTTP ' + r.status)); });
-      return r.json();
-    })
-    .then(function(){
-      setModalStatus('✓ Saved. Click ▶ Run Scan to apply.', 'ok');
-      btn.disabled = false;
-
-      // Reflect the newly-saved country in the header right away. The data
-      // on screen is still from the last scan, so we re-call setScanSourceLabel
-      // with the new saved country so the user sees the "settings target X — run
-      // scan to update" hint if there's a mismatch.
-      var newCountry = payload.country;
-      setHeaderForCountry(newCountry);
-      // Re-read the badge's last-scanned country if we have it in state. We
-      // stored the last loaded data on window for exactly this — but to keep it
-      // simple, just trigger a fresh velurLoad to re-sync the data-source label
-      // (this re-fetches the Gist but doesn't trigger a new scan).
-      if(window.velurLoaded){
-        // The Gist hasn't changed its data, only the config — so the
-        // products/hashtags/brief stay the same, but the data-source row will
-        // now show the mismatch warning.
-        setTimeout(function(){ window.velurLoad(); }, 300);
-      }
-
-      // Auto-close after a moment so user gets feedback
-      setTimeout(function(){ if(_modalState.open) window.velurCloseSettings(); }, 1500);
-    })
-    .catch(function(e){
-      setModalStatus('Save failed: ' + e.message, 'error');
-      btn.disabled = false;
-    });
-  };
-
-  // ─── TEST A SINGLE SOURCE ───────────────────────────────────────────────
-  window.velurTestSource = function(source){
-    var panelId = 'v-test-' + source;
-    var panel = document.getElementById(panelId);
-    panel.style.display = 'block';
-    panel.className = 'v-test-panel loading';
-    panel.innerHTML = '⟳ Running quick test against <strong>' + esc(source) + '</strong>… (~30s)';
-
-    // We send the CURRENT form values rather than the saved config, so users can
-    // test before saving. To do that: save a temporary "stash" of form values to
-    // server first? No — simpler: just save to Gist first then test, and accept
-    // that "test" reflects the latest saved config. Better UX: warn user they
-    // need to save first if their changes aren't saved yet.
-    //
-    // Cleanest: just call the test endpoint which uses the saved config. If the
-    // user wants to test new keywords, they save first then test.
-    //
-    // For v1 of this feature, we go with: tests use the saved config. The button
-    // label says "Test Saved Config". This avoids a whole new endpoint to accept
-    // ad-hoc test inputs.
-
-    fetch(testEndpoint(), {
-      method:  'POST',
-      headers: {'Content-Type': 'application/json', 'X-Scan-Secret': VELUR_WEBHOOK_SECRET},
-      body:    JSON.stringify({source: source}),
-    })
-    .then(function(r){
-      if(r.status === 401) throw new Error('Webhook rejected the secret.');
-      return r.json().then(function(j){
-        if(!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
-        return j;
-      });
-    })
-    .then(function(d){
-      renderTestResult(panel, source, d);
-    })
-    .catch(function(e){
-      panel.className = 'v-test-panel error';
-      panel.textContent = '⚠ Test failed: ' + e.message;
-    });
-  };
-
-  function renderTestResult(panel, source, d){
-    var results = d.results || [];
-    var note = d.note ? '<div style="color:#E8935A;margin-top:6px"><em>' + esc(d.note) + '</em></div>' : '';
-
-    if(d.fallback){
-      note = '<div style="color:#E8935A;margin-top:6px"><em>Fallback: this country has no native Amazon, scraping <strong>amazon.' + esc(d.tld) + '</strong> instead.</em></div>' + note;
-    }
-
-    if(!results.length){
-      panel.className = 'v-test-panel warn';
-      panel.innerHTML = '<strong>0 results.</strong> The query returned no items. Try a different keyword/hashtag.' + note;
-      return;
-    }
-
-    panel.className = 'v-test-panel ok';
-    var lines = ['<strong>✓ ' + results.length + ' result' + (results.length>1?'s':'') + '</strong> from <strong>' + esc(source) + '</strong>'];
-    if(d.keyword)  lines.push('<div>Keyword: <strong>' + esc(d.keyword) + '</strong></div>');
-    if(d.hashtag)  lines.push('<div>Hashtag: <strong>#' + esc(d.hashtag) + '</strong></div>');
-    if(d.tld)      lines.push('<div>Marketplace: <strong>amazon.' + esc(d.tld) + '</strong></div>');
-    if(d.noon_code) lines.push('<div>Noon: <strong>' + esc(d.noon_code) + '</strong></div>');
-    lines.push('<ul>');
-    results.forEach(function(r){
-      var label = r.title || r.caption || '—';
-      if(label.length > 100) label = label.slice(0, 100) + '…';
-      var meta = [];
-      if(r.rating)        meta.push('★' + r.rating);
-      if(r.review_count)  meta.push(r.review_count + ' reviews');
-      if(r.price)         meta.push(esc(r.price));
-      if(r.likes != null) meta.push(r.likes + ' likes');
-      lines.push('<li>' + esc(label) + (meta.length ? ' <span style="color:#888">— ' + meta.join(' · ') + '</span>' : '') + '</li>');
-    });
-    lines.push('</ul>');
-    panel.innerHTML = lines.join('') + note;
-  }
-
-  // ─── LOAD FROM GIST ─────────────────────────────────────────────────────
-  window.velurLoad = function(){
-    clearError();
-    document.getElementById('v-badge').textContent = '⟳ LOADING';
-
-    if(VELUR_GIST.indexOf('REPLACE_ME') >= 0){
-      document.getElementById('v-badge').textContent = '○ SETUP';
-      showError('Gist URL not configured yet. Edit index.html and replace REPLACE_ME with your actual Gist hash. See README_velur_ksa.md for setup instructions.');
-      document.getElementById('v-brief').innerHTML =
-        '<div class="v-empty">Setup required.<br/><br/>' +
-        '1. Create a public Gist with file <strong style="color:#C46235">velur_ksa_pulse.json</strong><br/>' +
-        '2. Replace <strong style="color:#C46235">REPLACE_ME</strong> in index.html with the Gist hash<br/>' +
-        '3. Configure the Railway webhook URL and secret in this file<br/>' +
-        '4. Click <strong style="color:#C46235">▶ Run Scan</strong> to trigger the first scan</div>';
-      return Promise.resolve(false);
-    }
-
-    return fetch(VELUR_GIST + "?t=" + Date.now())
-      .then(function(r){
-        if(!r.ok) throw new Error('Gist returned HTTP ' + r.status + '. Has the first scan run yet?');
-        return r.json();
-      })
-      .then(function(d){
-        window.velurLoaded = true;
-        document.getElementById('v-badge').textContent = '● LIVE';
-        document.getElementById('v-scan-date').textContent = d.scan_date || '—';
-
-        // Header reflects what's CONFIGURED (next scan target).
-        // Data-source label reflects what was ACTUALLY SCANNED.
-        // Source cards (Amazon/Noon/Instagram) reflect the SCANNED country
-        // because they describe the data on screen, not the next scan.
-        // If they disagree, the label will note the mismatch.
-        var savedCountry   = (d.config && d.config.country) || d.country || 'ksa';
-        var scannedCountry = d.country || null;
-        setHeaderForCountry(savedCountry);
-        setScanSourceLabel(scannedCountry, savedCountry);
-        setSourceCardLabels(scannedCountry || savedCountry);
-
-        document.getElementById('v-stat-reviews').textContent  = (d.total_reviews    || 0).toLocaleString();
-        document.getElementById('v-stat-igposts').textContent  = (d.instagram_posts  || 0).toLocaleString();
-        document.getElementById('v-stat-products').textContent = d.products_scanned   || 0;
-        document.getElementById('v-stat-hashtags').textContent = d.hashtags_monitored || 0;
-
-        var sources = d.sources || {};
-        setSourceState('amazon',    sources.amazon    || 'Complete', '#4CAF7D');
-        setSourceState('noon',      sources.noon      || 'Complete', '#4CAF7D');
-        setSourceState('instagram', sources.instagram || 'Complete', '#E8935A');
-
-        renderBrief(d.brief);
-        renderHashtags(d.hashtags || []);
-        renderProducts(d.products || []);
-        return d;
-      })
-      .catch(function(e){
-        document.getElementById('v-badge').textContent = '⚠ ERROR';
-        showError('Could not load data: ' + e.message);
-        document.getElementById('v-brief').innerHTML =
-          '<div class="v-empty">No scan data available yet.<br/><br/>Click <strong style="color:#C46235">▶ Run Scan</strong> to trigger the first scan.</div>';
-        return false;
-      });
-  };
-
-  // ─── TRIGGER A FRESH SCAN VIA RAILWAY WEBHOOK ───────────────────────────
-  window.velurTriggerScan = function(){
-    if(VELUR_WEBHOOK_URL.indexOf('REPLACE_ME') >= 0 || VELUR_WEBHOOK_SECRET.indexOf('REPLACE_ME') >= 0){
-      showError('Webhook not configured yet. Edit index.html and set VELUR_WEBHOOK_URL and VELUR_WEBHOOK_SECRET. See README_velur_ksa.md.');
-      return;
-    }
-
-    if(pollHandle){ clearTimeout(pollHandle); pollHandle = null; }
-    setScanBtnDisabled(true);
-    clearError();
-    setStatus('Triggering scan on Railway…', '#C46235');
-
-    // The webhook responds 202 immediately and runs the scan in the background.
-    // We then poll the Gist for up to ~3 minutes to detect the new scan_date.
-    var beforeDate = document.getElementById('v-scan-date').textContent || '';
-
-    fetch(VELUR_WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Scan-Secret': VELUR_WEBHOOK_SECRET
-      },
-      body: JSON.stringify({ source: 'dashboard' })
-    })
-    .then(function(r){
-      if(r.status === 401 || r.status === 403){
-        throw new Error('Webhook rejected the secret. Check VELUR_WEBHOOK_SECRET matches Railway env var SCAN_SECRET.');
-      }
-      if(r.status === 429){
-        throw new Error('A scan is already running. Wait for it to finish, then refresh.');
-      }
-      if(!r.ok && r.status !== 202){
-        throw new Error('Webhook returned HTTP ' + r.status);
-      }
-      return r.json().catch(function(){ return {}; });
-    })
-    .then(function(){
-      setStatus('Scan running on Railway. Polling for results…', '#C46235');
-      pollForUpdate(beforeDate, 0);
-    })
-    .catch(function(e){
-      setScanBtnDisabled(false);
-      setStatus('', '#888');
-      showError('Could not trigger scan: ' + e.message);
-    });
-  };
-
-  function pollForUpdate(beforeDate, attempt){
-    // Poll every 10s for up to 24 attempts (~4 minutes total).
-    var MAX_ATTEMPTS = 24;
-    var INTERVAL_MS  = 10000;
-
-    if(attempt >= MAX_ATTEMPTS){
-      setScanBtnDisabled(false);
-      setStatus('Scan still running. Click ↻ Refresh in a minute or two.', '#E8935A');
-      pollHandle = null;
-      return;
-    }
-
-    setStatus('Scan running — checking for results (attempt ' + (attempt+1) + '/' + MAX_ATTEMPTS + ')', '#C46235');
-
-    pollHandle = setTimeout(function(){
-      fetch(VELUR_GIST + '?t=' + Date.now())
-        .then(function(r){ return r.ok ? r.json() : null; })
-        .then(function(d){
-          if(d && d.scan_date && d.scan_date !== beforeDate){
-            // New scan landed — reload everything.
-            setScanBtnDisabled(false);
-            setStatus('Scan complete · ' + d.scan_date, '#4CAF7D');
-            window.velurLoad().then(function(){
-              setTimeout(function(){ setStatus('', '#888'); }, 5000);
-            });
-            pollHandle = null;
-            return;
-          }
-          pollForUpdate(beforeDate, attempt + 1);
-        })
-        .catch(function(){
-          pollForUpdate(beforeDate, attempt + 1);
-        });
-    }, INTERVAL_MS);
-  }
 })();
 </script>
 
