@@ -1047,7 +1047,7 @@ fetchData();
         var imgUrl  = (d["Visual (add image here)"]||d["Visual"]||"").trim();
         var isReal  = imgUrl.indexOf("http")===0;
         var imgCell = isReal
-          ? '<td class="v-img-cell"><img class="v-img-thumb" src="'+esc(imgUrl)+'" alt="'+esc(d["Item / Description"]||"")+'" onclick="openVLightbox(\''+esc(imgUrl)+'\',\''+esc(d["Item / Description"]||"")+'\')"/></td>'
+          ? '<td class="v-img-cell"><img class="v-img-thumb v-lightbox-trigger" src="'+esc(imgUrl)+'" data-src="'+esc(imgUrl)+'" data-caption="'+esc(d["Item / Description"]||"")+'" alt="'+esc(d["Item / Description"]||"")+'"/></td>'
           : '<td class="v-img-cell"><div class="v-img-placeholder"><span>Add<br>Image<br>URL</span></div></td>';
 
         // PO Status badge
@@ -1131,10 +1131,21 @@ fetchData();
 
 <!-- Lightbox functions -->
 <script>
+// Event delegation — handles any URL safely regardless of special characters
+document.addEventListener("click", function(e){
+  var trigger = e.target.closest(".v-lightbox-trigger");
+  if(trigger){
+    openVLightbox(trigger.getAttribute("data-src"), trigger.getAttribute("data-caption"));
+  }
+});
+
 function openVLightbox(url, caption){
-  document.getElementById("v-lightbox-img").src = url;
-  document.getElementById("v-lightbox-caption").textContent = caption || "";
-  document.getElementById("v-lightbox").classList.add("open");
+  var lb  = document.getElementById("v-lightbox");
+  var img = document.getElementById("v-lightbox-img");
+  var cap = document.getElementById("v-lightbox-caption");
+  img.src = url || "";
+  cap.textContent = caption || "";
+  lb.classList.add("open");
   document.body.style.overflow = "hidden";
 }
 function closeVLightbox(){
@@ -1145,4 +1156,5 @@ function closeVLightbox(){
 document.addEventListener("keydown", function(e){
   if(e.key === "Escape") closeVLightbox();
 });
+</script>
 </html>
