@@ -672,6 +672,27 @@ function switchSheet(name, el){
   var intel = document.getElementById("intel-content");
   var talent = document.getElementById("talent-content");
 
+  if (name === "Knowledge") {
+    document.querySelectorAll(".sheet-tab").forEach(function(t){
+      t.classList.remove("active","intel-active","talent-active","velur-active","know-active");
+    });
+    el.classList.add("know-active");
+    var kn=document.getElementById("know-content");
+    var da=document.getElementById("dash-content");
+    var it=document.getElementById("intel-content");
+    var ta=document.getElementById("talent-content");
+    var ve=document.getElementById("velur-content");
+    if(da) da.style.display="none";
+    if(it) it.style.display="none";
+    if(ta) ta.style.display="none";
+    if(ve) ve.style.display="none";
+    if(kn) kn.style.display="block";
+    if(typeof init==="function") init();
+    if(document.getElementById("knowPills") && !document.getElementById("knowPills").hasChildNodes()) {
+      window.knowInit && window.knowInit();
+    }
+    return;
+  }
   if (name === "Market Intel") {
     el.classList.add("intel-active");
     if(dash) dash.style.display = "none";
