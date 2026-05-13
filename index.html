@@ -1438,7 +1438,7 @@ fetchData();
   var KS=[{name:"FZR Projects"},{name:"Startup Project"},{name:"MYM Inco"},{name:"Velur Inco"},{name:"Lumena Inco"},{name:"Velur Marketing Materials"}];
   var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
   var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
-  var AK=sessionStorage.getItem("fzr_ak")||"",SD={},hist=[],LD={},AC={};
+  var AK="",SD={},hist=[],LD={},AC={};
 
   window.knowInit=function(){
     var p=document.getElementById("knowPills");
@@ -1516,7 +1516,7 @@ fetchData();
     var inp=document.getElementById("knowInput");
     var q=(inp?inp.value:"").trim();
     if(!q)return;
-    if(!AK){AK=prompt("Enter your Anthropic API key (sk-ant-...):");if(!AK)return;sessionStorage.setItem("fzr_ak",AK);}
+    
     var act=Object.keys(AC).filter(function(k){return AC[k];});
     if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
     var pend=act.filter(function(n){return !LD[n];});
@@ -1555,12 +1555,54 @@ fetchData();
     });
   };
 
+  function renderMd(text){
+    // Tables
+    var lines=text.split("\n");
+    var out=[],inTable=false,tableLines=[];
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];
+      if(l.trim().startsWith("|")){
+        if(!inTable){inTable=true;tableLines=[];}
+        tableLines.push(l);
+      } else {
+        if(inTable){out.push(renderTable(tableLines));inTable=false;tableLines=[];}
+        // Bold
+        l=l.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+        // Italic
+        l=l.replace(/\*([^*]+)\*/g,"<em>$1</em>");
+        out.push(l);
+      }
+    }
+    if(inTable) out.push(renderTable(tableLines));
+    return out.join("\n");
+  }
+  function renderTable(lines){
+    var rows=lines.filter(function(l){return !l.match(/^\|[-| ]+\|$/);});
+    var html="<table style=\"width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;\">";
+    rows.forEach(function(row,i){
+      var cells=row.split("|").filter(function(c,idx){return idx>0&&idx<row.split("|").length-1;});
+      var tag=i===0?"th":"td";
+      var bg=i===0?"background:#1b221a;color:#f5f5f5;":"background:"+(i%2===0?"#f5f9f5":"#fff")+";color:#2a2a2a;";
+      html+="<tr>"+cells.map(function(c){
+        return "<"+tag+" style=\"padding:7px 12px;border:1px solid #e0e0e0;text-align:left;"+bg+"\">"+c.trim().replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")+"</"+tag+">";
+      }).join("")+"</tr>";
+    });
+    return html+"</table>";
+  }
   function bub(role,text,src){
     var area=document.getElementById("knowChatArea");if(!area)return;
     var w=document.createElement("div");
     var b=document.createElement("div");
     b.className=role==="user"?"know-bubble-user":"know-bubble-ai";
-    b.textContent=text;
+    if(role==="assistant"){
+      b.innerHTML=renderMd(text).split("\n").map(function(l){
+        return l.startsWith("<table")||l.startsWith("</table")||l.startsWith("<tr")||l.startsWith("<th")||l.startsWith("<td")?"":("<span>"+l+"</span><br/>");
+      }).join("").replace(/<br\/>(<table)/g,"$1").replace(/(<\/table>)<br\/>/g,"$1");
+      // Simpler: just set innerHTML with rendered md
+      b.innerHTML=renderMd(text).replace(/\n/g,"<br/>");
+    } else {
+      b.textContent=text;
+    }
     w.appendChild(b);
     if(role==="assistant"&&src&&src.length){
       var sr=document.createElement("div");sr.className="know-sources";
