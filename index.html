@@ -1497,5 +1497,23 @@ fetchData();
   };
 })();
 </script>
+
+<div id="know-content" style="display:none">
+  <div class="wrapper" style="padding-top:28px;">
+    <div class="sec-head" style="margin-top:0;">Knowledge — Chat with Live Sheets<span id="knowDataStatus">Select sheets below to begin</span></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+      <span style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-right:4px;">Load:</span>
+      <div id="knowPills" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+      <button class="know-reload-btn" onclick="knowReloadSheets()">&#8635; Reload</button>
+    </div>
+    <div id="knowSuggestions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"></div>
+    <div class="know-chat-area" id="knowChatArea"></div>
+    <div style="display:flex;gap:0;margin-bottom:8px;">
+      <input class="know-input" id="knowInput" type="text" placeholder="Ask anything about your live sheet data..." onkeydown="if(event.key==='Enter') knowSend()"/>
+      <button class="know-send-btn" id="knowSendBtn" onclick="knowSend()">Ask</button>
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);">Answers grounded in your live Google Sheets. Data fetched fresh on pill select and manual reload.</div>
+  </div>
+</div>
 </body>
 </html>
