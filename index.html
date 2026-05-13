@@ -1435,7 +1435,7 @@ fetchData();
 </div>
 <script>
 (function(){
-  var KS=[{name:"FZR Projects"},{name:"Startup Project"},{name:"MYM Inco"},{name:"Velur Inco"},{name:"Lumena Inco"},{name:"Velur Marketing Materials"}];
+  var KS=[{name:"FZR Projects"},{name:"Velur Marketing Materials"}];
   var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
   var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
   var AK="",SD={},hist=[],LD={},AC={};
@@ -1443,13 +1443,14 @@ fetchData();
   window.knowInit=function(){
     var p=document.getElementById("knowPills");
     if(!p||p.hasChildNodes())return;
+    // Auto-activate all sheets silently
     KS.forEach(function(s){
-      var b=document.createElement("button");
-      b.className="know-pill";
-      b.textContent=s.name;
-      b.onclick=function(){tog(s.name,b);};
-      p.appendChild(b);
+      AC[s.name]=true;
+      fetchS(s.name);
     });
+    // Hide pills row entirely
+    var pillRow=p.parentElement;
+    if(pillRow) pillRow.style.display="none";
     var sg=document.getElementById("knowSuggestions");
     if(sg){
       SG.forEach(function(q){
