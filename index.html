@@ -1,1 +1,615 @@
-404: Not Found
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FZR Group — Project Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green:       #1b221a;
+    --green-mid:   #1b221a;
+    --green-light: #1b221a;
+    --beige:       #f5f5f5;
+    --beige-mid:   #ececec;
+    --beige-dark:  #e0e0e0;
+    --white:       #ffffff;
+    --text-body:   #2a2a2a;
+    --text-muted:  #7a8a79;
+    --text-light:  #a8b8a7;
+    --font:        'Poppins', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--beige); color: var(--text-body); font-family: var(--font); font-size: 13px; min-height: 100vh; }
+
+  /* ── BANNER 1 — main logo banner ── */
+  .banner { display: grid; grid-template-columns: 1fr auto; border-bottom: none; }
+  .banner-left {
+    background: var(--green);
+    padding: 18px 40px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .banner-logo {
+    height: 64px;
+    width: auto;
+    object-fit: contain;
+    /* mix-blend-mode removes black bg — white logo shows on green */
+    mix-blend-mode: screen;
+  }
+  .banner-divider {
+    width: 1px; height: 40px;
+    background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
+  }
+  .banner-left .dept {
+    font-size: 11px; font-weight: 300; color: var(--text-light);
+    letter-spacing: 0.1em;
+  }
+  .banner-right {
+    background: var(--green);
+    padding: 18px 40px;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
+    min-width: 240px;
+    border-left: none;
+  }
+  .banner-right .doc-type {
+    font-size: 12px; font-weight: 600; color: var(--beige);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .banner-right .doc-date {
+    font-size: 11px; font-weight: 300; color: var(--text-light); margin-top: 5px;
+  }
+
+  /* ── BANNER 2 — loading bar ── */
+  .loading-bar { display: none; }
+  .loading-fill { height: 100%; background: var(--beige); width: 0%; transition: width 0.3s ease; }
+
+  /* ── BANNER 3 — countdown bar ── */
+  .countdown-bar {
+    background: var(--green);
+    padding: 9px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; color: var(--text-light);
+    border-bottom: none;
+  }
+  .countdown-left { display: flex; align-items: center; gap: 14px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6dbf6d; animation: blink 2s ease-in-out infinite; display: inline-block; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .countdown-bar strong { color: var(--beige); }
+  .btn-refresh {
+    background: none; border: 1px solid var(--text-light); color: var(--beige);
+    font-family: var(--font); font-size: 10px; font-weight: 600;
+    padding: 4px 14px; cursor: pointer; border-radius: 2px;
+    letter-spacing: 0.1em; text-transform: uppercase; transition: all .2s;
+  }
+  .btn-refresh:hover { background: var(--beige); color: var(--green); }
+
+  /* ── WRAPPER ── */
+  .wrapper { padding: 36px 40px 60px; max-width: 1280px; margin: 0 auto; }
+
+  /* ── SECTION HEADING ── */
+  .sec-head {
+    font-size: 10px; font-weight: 700; color: var(--green);
+    text-transform: uppercase; letter-spacing: 0.18em;
+    padding-bottom: 10px; border-bottom: 2px solid var(--green);
+    margin-bottom: 20px; margin-top: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .sec-head:first-of-type { margin-top: 0; }
+  .sec-head span { font-weight: 300; font-size: 10px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: none; }
+
+  /* ── KPI ROW ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; margin-bottom: 40px; }
+  .kpi-card { background: var(--green); padding: 22px 22px 20px; border-radius: 4px; animation: fadeUp .4s ease both; position: relative; overflow: hidden; }
+  .kpi-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--green-light); }
+  .kpi-card:nth-child(2){animation-delay:.07s} .kpi-card:nth-child(3){animation-delay:.14s}
+  .kpi-card:nth-child(4){animation-delay:.21s} .kpi-card:nth-child(5){animation-delay:.28s} .kpi-card:nth-child(6){animation-delay:.35s}
+  .kpi-label { font-size: 9px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; }
+  .kpi-value { font-size: 34px; font-weight: 700; color: var(--beige); line-height: 1; letter-spacing: -1px; }
+  .kpi-sub   { font-size: 10px; font-weight: 300; color: var(--text-muted); margin-top: 6px; }
+
+  /* ── FILTER BAR ── */
+  .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .filter-bar label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+  .filter-bar input, .filter-bar select {
+    border: 1px solid var(--beige-dark); background: var(--white); color: var(--text-body);
+    font-family: var(--font); font-size: 12px; padding: 8px 12px; outline: none;
+    transition: border-color .2s; border-radius: 3px;
+  }
+  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--green); }
+  .filter-bar input { flex: 1; min-width: 180px; }
+  .btn-reset { background: var(--green); color: var(--beige); border: none; font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; cursor: pointer; border-radius: 3px; transition: background .2s; white-space: nowrap; }
+  .btn-reset:hover { background: var(--green-light); }
+
+  /* ── MAIN GRID ── */
+  .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; margin-bottom: 28px; }
+  @media(max-width:860px){ .main-grid { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .table-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; overflow: hidden; }
+  .table-wrap  { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--green); }
+  thead th { color: var(--beige); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 13px 14px; text-align: left; white-space: nowrap; cursor: pointer; user-select: none; transition: background .15s; }
+  thead th:hover { background: var(--green-mid); }
+  thead th.green-th { background: var(--green-light); width: 36px; text-align: center; cursor: default; }
+  .sort-arrow { margin-left: 4px; opacity: 0.35; font-size: 9px; }
+  tbody tr { border-bottom: 1px solid var(--beige-mid); transition: background .15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--beige); }
+  tbody tr:hover { background: #e8ede8; }
+  tbody td { padding: 11px 14px; font-size: 12px; }
+  td.td-num  { text-align: center; font-weight: 600; color: var(--green); font-size: 11px; background: var(--beige-mid); }
+  td.td-name { font-weight: 600; color: var(--green); }
+  td.td-pct  { font-weight: 700; color: var(--green); white-space: nowrap; }
+
+  .prog-wrap { display: flex; align-items: center; gap: 10px; }
+  .bar-bg    { flex: 1; height: 5px; background: var(--beige-dark); overflow: hidden; min-width: 60px; border-radius: 3px; }
+  .bar-fill  { height: 100%; background: var(--green); border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+  .bar-fill.lo { background: var(--text-light); }
+
+  .tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
+  .tag-ongoing { background: #e0ede0; color: #1b5e20; border: 1px solid #a5c8a5; }
+  .tag-done    { background: var(--green); color: var(--beige); border: 1px solid var(--green); }
+  .tag-hold    { background: #f5f0e0; color: #7a6020; border: 1px solid #d4c080; }
+  .tag-other   { background: var(--beige-mid); color: var(--text-muted); border: 1px solid var(--beige-dark); }
+
+  .overdue-row { background: #f8f4f0 !important; }
+  .overdue-flag { font-size: 9px; color: #8b5020; font-weight: 600; margin-left: 6px; }
+
+  /* ── RIGHT COL ── */
+  .right-col { display: flex; flex-direction: column; gap: 16px; }
+  .chart-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
+  .chart-title { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--beige-dark); }
+
+  .donut-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 18px; }
+  .donut-center { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+  .donut-center .big { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1; }
+  .donut-center .lbl { font-size: 9px; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+
+  .leg-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--beige-mid); }
+  .leg-row:last-child { border-bottom:none; }
+  .leg-dot  { width:10px; height:10px; flex-shrink:0; border-radius:2px; }
+  .leg-name { font-size:12px; flex:1; color: var(--text-body); }
+  .leg-pct  { font-size:11px; font-weight:600; color: var(--green); }
+
+  /* ── BARS ── */
+  .bar-panel { background: var(--white); border: 1px solid var(--beige-dark); border-radius: 4px; padding: 22px; }
+  .bars-area { display:flex; align-items:flex-end; gap:9px; height:110px; margin-top:14px; border-bottom:1px solid var(--beige-dark); overflow-x:auto; }
+  .b-col  { flex:0 0 auto; min-width:40px; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+  .b-fill { width:32px; background:var(--green-light); transition:height 1.2s cubic-bezier(.4,0,.2,1); min-height:2px; border-radius:3px 3px 0 0; }
+  .b-fill.hi { background: var(--green); }
+  .b-label { font-size:9px; color:var(--text-muted); width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:5px; }
+  .b-val   { font-size:9px; font-weight:600; color:var(--green); }
+
+  /* ── SUMMARY ── */
+  .summary-box { border-top:3px solid var(--green); border-bottom:3px solid var(--green); background:var(--white); padding:22px 28px; margin-top:36px; display:flex; gap:28px; flex-wrap:wrap; }
+  .sum-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--green); margin-bottom:8px; }
+  .summary-box p { font-size:12px; font-weight:300; line-height:1.8; color:var(--text-body); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--green); border-top:3px solid var(--green-light); padding:14px 40px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-logo { height:32px; width:auto; object-fit:contain; mix-blend-mode: screen; }
+  footer .pg { font-size:10px; font-weight:600; color:var(--beige); letter-spacing:0.06em; }
+
+  .no-data { padding:32px; text-align:center; color:var(--text-muted); font-size:12px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .sheet-tabs { display:flex; gap:0; border-bottom:2px solid var(--green); margin-bottom:28px; }
+  .sheet-tab { padding:10px 24px; font-family:var(--font); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; background:transparent; color:var(--text-muted); transition:all .2s; border-radius:4px 4px 0 0; }
+  .sheet-tab:hover { color:var(--green); background:var(--beige-mid); }
+  .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
+</style>
+</head>
+<body>
+
+<!-- BANNER 1 — Logo -->
+<div class="banner">
+  <div class="banner-left">
+    <img src="logo.png" alt="FZR Group" class="banner-logo"/>
+    <div class="banner-divider"></div>
+    <div class="dept">Project Management Division</div>
+  </div>
+  <div class="banner-right">
+    <div class="doc-type">Live Dashboard</div>
+    <div class="doc-date" id="bannerDate"></div>
+  </div>
+</div>
+
+<!-- BANNER 2 — Loading bar -->
+
+
+<!-- BANNER 3 — Countdown -->
+<div class="countdown-bar">
+  <div class="countdown-left">
+    <span class="live-dot"></span>
+    <span>Live data · last updated: <strong id="lastUpdated">—</strong></span>
+    <span>· next refresh in: <strong id="countdown">3:00</strong></span>
+  </div>
+  <button class="btn-refresh" onclick="fetchData()">↻ Refresh Now</button>
+</div>
+
+<div class="wrapper">
+
+  <div class="sheet-tabs">
+  <button class="sheet-tab active" onclick="switchSheet('FZR Projects', this)">FZR Projects</button>
+  <button class="sheet-tab" onclick="switchSheet('Startup Project', this)">Startup Project</button>
+  <button class="sheet-tab" onclick="switchSheet('MYM Inco', this)">MYM Inco</button>
+  <button class="sheet-tab" onclick="switchSheet('Velur Inco', this)">Velur Inco</button>
+  <button class="sheet-tab" onclick="switchSheet('Lumena Inco', this)">Lumena Inco</button>
+</div>
+<div class="sec-head">Key Performance Indicators <span id="kpiNote"></span></div>
+  <div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">Total Members</div><div class="kpi-value" id="s-total">—</div><div class="kpi-sub">Across all projects</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg. Completion</div><div class="kpi-value" id="s-avg">—</div><div class="kpi-sub">Percent complete</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Projects</div><div class="kpi-value" id="s-projects">—</div><div class="kpi-sub">Unique project groups</div></div>
+    <div class="kpi-card"><div class="kpi-label">Ongoing</div><div class="kpi-value" id="s-ongoing">—</div><div class="kpi-sub">Currently in progress</div></div>
+    <div class="kpi-card"><div class="kpi-label">On Hold</div><div class="kpi-value" id="s-hold">—</div><div class="kpi-sub">Awaiting action</div></div>
+    <div class="kpi-card"><div class="kpi-label">Overdue</div><div class="kpi-value" id="s-overdue">—</div><div class="kpi-sub">Past deadline</div></div>
+  </div>
+
+  <div class="sec-head">Member Overview <span id="recordCount"></span></div>
+  <div class="filter-bar">
+    <label>Filter:</label>
+    <input id="searchInput" type="text" placeholder="Search name, place, project…" oninput="applyFilters()"/>
+    <select id="statusFilter" onchange="applyFilters()">
+      <option value="">All Statuses</option>
+      <option value="Ongoing">Ongoing</option>
+      <option value="Done">Done</option>
+      <option value="Hold">Hold</option>
+    </select>
+    <select id="projectFilter" onchange="applyFilters()">
+      <option value="">All Projects</option>
+    </select>
+    <select id="teamFilter" onchange="applyFilters()">
+      <option value="">All Teams</option>
+    </select>
+    <div id="teamLogoWrap" style="display:none;align-items:center;gap:10px;padding:6px 14px;background:transparent;border:none;border-radius:0;">
+      <img id="teamLogoImg" src="" alt="" style="height:48px;width:auto;object-fit:contain;"/>
+
+    </div>
+    <button class="btn-reset" onclick="resetFilters()">Reset</button>
+  </div>
+
+  <div class="main-grid">
+    <div class="table-panel">
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th class="green-th">#</th>
+            <th onclick="sortTable('Team')">Team <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Name')">Name <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Place')">Place <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Project')">Project <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Percent')">Completion <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Status')">Status <span class="sort-arrow">↕</span></th>
+            <th onclick="sortTable('Deadline')">Deadline <span class="sort-arrow">↕</span></th>
+            <th>Pending</th>
+          </tr></thead>
+          <tbody id="tableBody">
+            <tr><td colspan="9" class="no-data">Loading data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="chart-panel">
+        <div class="chart-title">Completion by Project</div>
+        <div class="donut-wrap">
+          <canvas id="donut" width="150" height="150"></canvas>
+          <div class="donut-center"><div class="big" id="donut-avg">—</div><div class="lbl">Avg %</div></div>
+        </div>
+        <div id="donutLegend"><div class="no-data">No data.</div></div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-title">Status Breakdown</div>
+        <div id="statusBars"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">Completion by Person</div>
+  <div class="bar-panel">
+    <div class="chart-title">Individual progress — all members</div>
+    <div class="bars-area" id="barChart"><div class="no-data">Loading…</div></div>
+  </div>
+
+  <div class="summary-box">
+    <div style="flex:1;min-width:220px">
+      <div class="sum-title">Dashboard Summary</div>
+      <p id="summaryText">Loading live data from Google Sheets…</p>
+    </div>
+    <div style="flex:1;min-width:220px">
+      <div class="sum-title">Data Source</div>
+      <p>Live connection to <strong>FZR Group Google Sheet</strong>. Auto-refreshes every <strong>3 minutes</strong>. Columns: Name, Place, Project, Pending, Percent, Status, Deadline.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <img src="logo.png" alt="FZR Group" class="footer-logo"/>
+  <span class="pg">Live Dashboard — <span id="footerYear"></span></span>
+</footer>
+
+<script>
+const SHEETS = {
+  "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
+  "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv",
+  "MYM Inco":        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1896272570&single=true&output=csv",
+  "Velur Inco":      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1868149419&single=true&output=csv",
+  "Lumena Inco":     "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=648374071&single=true&output=csv"
+};
+let activeSheet = "FZR Projects";
+const REFRESH_INTERVAL = 3 * 60;
+const TEAM_LOGOS = {
+  "FZR":       { src: "team-fzr.png",       bg: "#1b221a" },
+  "Velur":     { src: "team-velur.png",      bg: "#1b221a" },
+  "MYM":       { src: "team-mym.png",        bg: "#ffffff" },
+  "Acumen AI": { src: "team-acumenai.png",   bg: "#000000" }
+};
+
+const CHART_COLORS = ["#1b221a","#344832","#4a6648","#6a8f6a","#263325","#8aaf8a","#2e4030","#a8c8a8"];
+
+let allData=[], filteredData=[], sortKey="", sortAsc=true, countdown=REFRESH_INTERVAL;
+
+document.getElementById("bannerDate").textContent = new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"long",year:"numeric"});
+document.getElementById("footerYear").textContent = new Date().getFullYear();
+
+async function fetchData(){
+  setLoading(true);
+  try{
+    const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
+    const text=await res.text();
+    const rows=text.trim().split("\n").map(r=>parseCSVRow(r));
+    const hdrs=rows[0];
+    allData=rows.slice(1).map(row=>{
+      const o={}; hdrs.forEach((h,i)=>{o[h.trim()]=(row[i]||"").trim();});
+      o.Percent=parseFloat(String(o.Percent).replace("%",""))||0;
+      return o;
+    }).filter(r=>r.Name);
+    document.getElementById("lastUpdated").textContent=new Date().toLocaleTimeString("en-GB");
+    countdown=REFRESH_INTERVAL;
+    populateProjectFilter();
+    populateTeamFilter();
+    applyFilters();
+  }catch(e){
+    document.getElementById("tableBody").innerHTML=`<tr><td colspan="9" class="no-data">⚠️ Could not load data.</td></tr>`;
+  }
+  setLoading(false);
+}
+
+function parseCSVRow(row){
+  const result=[]; let cur="",inQ=false;
+  for(let i=0;i<row.length;i++){
+    const c=row[i];
+    if(c==='"'){inQ=!inQ;}
+    else if(c===','&&!inQ){result.push(cur);cur="";}
+    else{cur+=c;}
+  }
+  result.push(cur); return result;
+}
+
+function setLoading(on){ const el=document.getElementById("loadingFill"); if(el) el.style.width=on?"100%":"0%"; }
+
+
+function switchSheet(name, el){
+  activeSheet = name;
+  document.querySelectorAll('.sheet-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById("searchInput").value="";
+  document.getElementById("statusFilter").value="";
+  document.getElementById("projectFilter").value="";
+  document.getElementById("teamFilter").value="";
+  updateTeamLogo("");
+  fetchData();
+}
+
+function populateTeamFilter(){
+  const teams=[...new Set(allData.map(d=>d.Team).filter(Boolean))].sort();
+  const sel=document.getElementById("teamFilter"),cur=sel.value;
+  sel.innerHTML='<option value="">All Teams</option>'+
+    teams.map(t=>`<option value="${t}" ${t===cur?"selected":""}>${t}</option>`).join("");
+}
+
+function populateProjectFilter(){
+  const selectedTeam = document.getElementById("teamFilter").value;
+  const filtered = selectedTeam ? allData.filter(d=>d.Team===selectedTeam) : allData;
+  const projects=[...new Set(filtered.map(d=>d.Project).filter(Boolean))].sort();
+  const sel=document.getElementById("projectFilter"),cur=sel.value;
+  sel.innerHTML='<option value="">All Projects</option>'+
+    projects.map(p=>`<option value="${p}" ${p===cur?"selected":""}>${p}</option>`).join("");
+  if(cur && !projects.includes(cur)) sel.value="";
+}
+
+function updateTeamLogo(team){
+  const wrap=document.getElementById("teamLogoWrap");
+  const img=document.getElementById("teamLogoImg");
+  if(team && TEAM_LOGOS[team]){
+    const t=TEAM_LOGOS[team];
+    img.src=t.src;
+    img.alt=team;
+    wrap.style.background=t.bg;
+    wrap.style.border="1px solid "+t.bg;
+    wrap.style.padding="8px 16px";
+    wrap.style.borderRadius="4px";
+    wrap.style.display="flex";
+  } else {
+    wrap.style.display="none";
+    img.src="";
+  }
+}
+
+function applyFilters(){
+  const search=document.getElementById("searchInput").value.toLowerCase();
+  const status=document.getElementById("statusFilter").value;
+  const project=document.getElementById("projectFilter").value;
+  const team=document.getElementById("teamFilter").value;
+  updateTeamLogo(team);
+  populateProjectFilter();
+  filteredData=allData.filter(r=>{
+    const ms=!search||[r.Name,r.Place,r.Project,r.Pending,r.Team].some(v=>(v||"").toLowerCase().includes(search));
+    const mst=!status||r.Status===status;
+    const mp=!project||r.Project===project;
+    const mt=!team||r.Team===team;
+    return ms&&mst&&mp&&mt;
+  });
+  if(sortKey) doSort();
+  renderAll(filteredData);
+}
+
+function resetFilters(){
+  document.getElementById("searchInput").value="";
+  document.getElementById("statusFilter").value="";
+  document.getElementById("projectFilter").value="";
+  document.getElementById("teamFilter").value="";
+  updateTeamLogo("");
+  applyFilters();
+}
+
+function sortTable(key){
+  if(sortKey===key){sortAsc=!sortAsc;}else{sortKey=key;sortAsc=true;}
+  doSort(); renderAll(filteredData);
+}
+
+function doSort(){
+  filteredData.sort((a,b)=>{
+    let va=a[sortKey]||"",vb=b[sortKey]||"";
+    if(sortKey==="Percent"){va=parseFloat(va)||0;vb=parseFloat(vb)||0;}
+    else if(sortKey==="Deadline"){va=parseDate(va);vb=parseDate(vb);}
+    else{va=va.toLowerCase();vb=vb.toLowerCase();}
+    return sortAsc?(va>vb?1:-1):(va<vb?1:-1);
+  });
+}
+
+function parseDate(str){
+  if(!str) return 0;
+  const p=str.split("/");
+  return p.length===3?new Date(p[2],p[1]-1,p[0]).getTime():0;
+}
+
+function renderAll(data){
+  const total=data.length;
+  const avg=total?Math.round(data.map(d=>d.Percent).reduce((a,b)=>a+b,0)/total):0;
+  const projects=[...new Set(data.map(d=>d.Project).filter(Boolean))];
+  const ongoing=data.filter(d=>(d.Status||"").toLowerCase()==="ongoing").length;
+  const hold=data.filter(d=>(d.Status||"").toLowerCase()==="hold").length;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const overdue=data.filter(d=>{
+    if(!d.Deadline||(d.Status||"").toLowerCase()==="done") return false;
+    const dt=parseDate(d.Deadline); return dt&&dt<today.getTime();
+  });
+  document.getElementById("s-total").textContent=total;
+  document.getElementById("s-avg").textContent=avg+"%";
+  document.getElementById("s-projects").textContent=projects.length;
+  document.getElementById("s-ongoing").textContent=ongoing;
+  document.getElementById("s-hold").textContent=hold;
+  document.getElementById("s-overdue").textContent=overdue.length;
+  document.getElementById("recordCount").textContent=`${total} record${total!==1?"s":""}`;
+  document.getElementById("kpiNote").textContent=`as of ${new Date().toLocaleTimeString("en-GB")}`;
+  document.getElementById("summaryText").textContent=
+    `This live report covers ${total} member${total!==1?"s":""} across ${projects.length} `+
+    `project${projects.length!==1?"s":""}. Average task completion is ${avg}%. `+
+    `${ongoing} task${ongoing!==1?"s are":" is"} ongoing, ${hold} on hold, `+
+    `and ${overdue.length} item${overdue.length!==1?"s are":" is"} overdue.`;
+  renderTable(data,overdue.map(r=>r.Name));
+  renderDonut(data,projects);
+  renderStatusBars(data);
+  renderBars(data);
+}
+
+function getStatusTag(s){
+  const sl=(s||"").toLowerCase();
+  if(sl==="ongoing") return `<span class="tag tag-ongoing">Ongoing</span>`;
+  if(sl==="done")    return `<span class="tag tag-done">Done</span>`;
+  if(sl==="hold")    return `<span class="tag tag-hold">Hold</span>`;
+  return `<span class="tag tag-other">${s||"—"}</span>`;
+}
+
+function renderTable(data,overdueNames){
+  if(!data.length){
+    document.getElementById("tableBody").innerHTML=`<tr><td colspan="9" class="no-data">No records match your filters.</td></tr>`;
+    return;
+  }
+  document.getElementById("tableBody").innerHTML=data.map((d,i)=>{
+    const pct=d.Percent,isOver=overdueNames.includes(d.Name);
+    return `<tr class="${isOver?"overdue-row":""}">
+      <td class="td-num">${i+1}</td>
+      <td>${d.Team||"—"}</td>
+      <td class="td-name">${d.Name||"—"}${isOver?'<span class="overdue-flag">⚠ overdue</span>':""}</td>
+      <td>${d.Place||"—"}</td>
+      <td>${d.Project||"—"}</td>
+      <td><div class="prog-wrap"><div class="bar-bg"><div class="bar-fill${pct<50?" lo":""}" style="width:${pct}%"></div></div><span class="td-pct">${pct}%</span></div></td>
+      <td>${getStatusTag(d.Status)}</td>
+      <td style="font-family:monospace;font-size:11px">${d.Deadline||"—"}</td>
+      <td style="font-size:11px;color:var(--text-muted)">${d.Pending||"—"}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderDonut(data,projects){
+  const groups={};
+  projects.forEach(p=>{
+    const rows=data.filter(d=>d.Project===p);
+    groups[p]=rows.length?Math.round(rows.map(d=>d.Percent).reduce((a,b)=>a+b,0)/rows.length):0;
+  });
+  const vals=projects.map(p=>groups[p]);
+  const total=vals.reduce((a,b)=>a+b,0)||1;
+  const overall=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
+  document.getElementById("donut-avg").textContent=overall+"%";
+  const c=document.getElementById("donut"),ctx=c.getContext("2d");
+  ctx.clearRect(0,0,150,150);
+  let angle=-Math.PI/2;
+  vals.forEach((v,i)=>{
+    const sl=(v/total)*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(75,75);ctx.arc(75,75,66,angle,angle+sl);ctx.closePath();
+    ctx.fillStyle=CHART_COLORS[i%CHART_COLORS.length];ctx.fill();angle+=sl;
+  });
+  ctx.beginPath();ctx.arc(75,75,40,0,Math.PI*2);ctx.fillStyle="#ffffff";ctx.fill();
+  document.getElementById("donutLegend").innerHTML=projects.map((p,i)=>`
+    <div class="leg-row">
+      <div class="leg-dot" style="background:${CHART_COLORS[i%CHART_COLORS.length]}"></div>
+      <div class="leg-name">${p}</div><div class="leg-pct">${groups[p]}%</div>
+    </div>`).join("");
+}
+
+function renderStatusBars(data){
+  const counts={Ongoing:0,Done:0,Hold:0};
+  data.forEach(d=>{const s=(d.Status||"").trim();if(counts[s]!==undefined)counts[s]++;});
+  const total=data.length||1;
+  const colors={Ongoing:"#344832",Done:"#1b221a",Hold:"#8a7020"};
+  document.getElementById("statusBars").innerHTML=Object.entries(counts).map(([k,v])=>`
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px">
+        <span>${getStatusTag(k)}</span><span style="font-weight:600;color:var(--green)">${v}</span>
+      </div>
+      <div style="height:6px;background:var(--beige-dark);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${Math.round(v/total*100)}%;background:${colors[k]};transition:width 1s ease;border-radius:3px"></div>
+      </div>
+    </div>`).join("");
+}
+
+function renderBars(data){
+  const max=Math.max(...data.map(d=>d.Percent),1);
+  document.getElementById("barChart").innerHTML=data.length?data.map(d=>{
+    const pct=d.Percent,h=Math.round((pct/max)*100);
+    return `<div class="b-col">
+      <div class="b-val">${pct}%</div>
+      <div class="b-fill${pct>=70?" hi":""}" style="height:${h}%"></div>
+      <div class="b-label">${(d.Name||"?").split(" ")[0]}</div>
+    </div>`;
+  }).join(""):`<div class="no-data">No data.</div>`;
+}
+
+setInterval(()=>{
+  countdown--;
+  if(countdown<=0){fetchData();return;}
+  const m=Math.floor(countdown/60),s=countdown%60;
+  document.getElementById("countdown").textContent=`${m}:${String(s).padStart(2,"0")}`;
+},1000);
+
+fetchData();
+</script>
+</body>
+</html>
