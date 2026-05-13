@@ -691,6 +691,8 @@ function switchSheet(name, el){
     if(document.getElementById("knowPills") && !document.getElementById("knowPills").hasChildNodes()) {
       window.knowInit && window.knowInit();
     }
+    // Trigger init via custom event
+    document.dispatchEvent(new CustomEvent("knowShow"));
     return;
   }
   if (name === "Market Intel") {
@@ -1419,7 +1421,7 @@ fetchData();
   var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
   var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Flag compliance items with warning. Respond in the user language.";
   var AK="",SD={},hist=[],LD={},AC={},inited=false;
-  function init(){
+  window.knowInit=function(){
     if(inited)return;inited=true;
     var p=document.getElementById("knowPills");
     KS.forEach(function(s){var b=document.createElement("button");b.className="know-pill";b.textContent=s.name;b.onclick=function(){tog(s.name,b);};p.appendChild(b);});
