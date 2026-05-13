@@ -1482,6 +1482,11 @@ fetchData();
   }
   function typ(){var a=document.getElementById("knowChatArea");if(!a)return null;var el=document.createElement("div");el.className="know-typing";el.id="kt_"+Date.now();for(var i=0;i<3;i++){var d=document.createElement("div");d.className="know-dot";el.appendChild(d);}a.appendChild(el);a.scrollTop=a.scrollHeight;return el.id;}
   function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
+  // Auto-init pills when page loads so they're ready before tab click
+  document.addEventListener("DOMContentLoaded", function(){ window.knowInit(); });
+  // Also init immediately in case DOM is already ready
+  if(document.readyState !== "loading") window.knowInit();
+
   var _orig=window.switchSheet;
   window.switchSheet=function(name,btn){
     var kn=document.getElementById("know-content"),da=document.getElementById("dash-content"),it=document.getElementById("intel-content"),ta=document.getElementById("talent-content"),ve=document.getElementById("velur-content");
