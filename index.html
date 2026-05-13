@@ -676,6 +676,8 @@ function switchSheet(name, el){
   var dash = document.getElementById("dash-content");
   var intel = document.getElementById("intel-content");
   var talent = document.getElementById("talent-content");
+  var know = document.getElementById("know-content");
+  if(know) know.style.display="none";
 
   if (name === "Knowledge") {
     document.querySelectorAll(".sheet-tab").forEach(function(t){
