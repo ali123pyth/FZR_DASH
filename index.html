@@ -1413,95 +1413,7 @@ fetchData();
 })();
 </script>
 
-<script>
-(function(){
-  var KS=[{name:"FZR Projects"},{name:"Startup Project"},{name:"MYM Inco"},{name:"Velur Inco"},{name:"Lumena Inco"}];
-  var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
-  var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Flag compliance items with warning. Respond in the user language.";
-  var AK="",SD={},hist=[],LD={},AC={},inited=false;
-  window.knowInit=function(){
-    if(inited)return;inited=true;
-    var p=document.getElementById("knowPills");
-    KS.forEach(function(s){var b=document.createElement("button");b.className="know-pill";b.textContent=s.name;b.onclick=function(){tog(s.name,b);};p.appendChild(b);});
-    var sg=document.getElementById("knowSuggestions");
-    SG.forEach(function(q){var b=document.createElement("button");b.className="know-suggest-btn";b.textContent=q;b.onclick=function(){document.getElementById("knowInput").value=q;document.getElementById("knowSuggestions").style.display="none";knowSend();};sg.appendChild(b);});
-    bub("assistant","Hello Ali. Select sheet pills above to load your live data, then ask anything.",[]);
-  }
-  function tog(name,pill){if(AC[name]){AC[name]=false;pill.classList.remove("active");}else{AC[name]=true;pill.classList.add("active");if(!LD[name])fetchS(name);}}
-  function fetchS(name){
-    var url=(window.SHEETS||{})[name];
-    if(!url){SD[name]="["+name+": URL not in window.SHEETS]";LD[name]=true;stat();return;}
-    stat("Fetching "+name+"...");
-    fetch(url+"&t="+Date.now()).then(function(r){return r.text();}).then(function(csv){SD[name]=toTxt(csv,name);LD[name]=true;stat();}).catch(function(e){SD[name]="["+name+": Error]";LD[name]=true;stat();});
-  }
-  function toTxt(csv,name){
-    var rows=csv.trim().split("
-").map(function(r){return r.split(",").map(function(c){return c.replace(/^"|"$/g,"").trim();});});
-    if(!rows.length)return "["+name+": empty]";
-    var h=rows[0],d=rows.slice(1).filter(function(r){return r.some(function(c){return c;});});
-    var L=["=== "+name+" ===","Columns: "+h.join(", "),"Rows: "+d.length,""];
-    d.forEach(function(row,i){var pp=h.map(function(hh,j){return row[j]?hh+": "+row[j]:null;}).filter(Boolean);L.push("Row "+(i+1)+": "+pp.join(" | "));});
-    return L.join("
-");
-  }
-  function stat(msg){var el=document.getElementById("knowDataStatus");if(!el)return;if(msg){el.textContent=msg;return;}var ld=Object.keys(SD);el.textContent=ld.length?"Loaded: "+ld.join(", "):"Select sheets below to begin";}
-  window.knowReloadSheets=function(){LD={};SD={};hist=[];var a=Object.keys(AC).filter(function(k){return AC[k];});if(!a.length){stat("No sheets selected.");return;}a.forEach(fetchS);};
-  window.knowSend=function(){
-    var inp=document.getElementById("knowInput"),q=(inp?inp.value:"").trim();if(!q)return;
-    if(!AK){AK=prompt("Enter your Anthropic API key (sk-ant-...):");if(!AK)return;}
-    var act=Object.keys(AC).filter(function(k){return AC[k];});
-    if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
-    var pend=act.filter(function(n){return !LD[n];});
-    if(pend.length){bub("assistant","Still loading: "+pend.join(", ")+". Please wait.",[]);return;}
-    if(inp)inp.value="";
-    document.getElementById("knowSendBtn").disabled=true;
-    var sg=document.getElementById("knowSuggestions");if(sg)sg.style.display="none";
-    bub("user",q,[]);
-    var ctx=act.map(function(n){return SD[n]||"";}).join("
 
-");
-    var sys=SYS+"
-
---- LIVE SHEET DATA ---
-
-"+ctx;
-    var tid=typ();hist.push({role:"user",content:q});
-    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":AK,"anthropic-version":"2023-06-01","anthropic-dangerous-client-side-api-key-allowed":"true"},body:JSON.stringify({model:"claude-opus-4-5",max_tokens:1000,system:sys,messages:hist})})
-    .then(function(r){return r.json();}).then(function(d){
-      rmTyp(tid);
-      var t=(d.content&&d.content[0])?d.content[0].text:"No response.";if(d.error)t="API Error: "+d.error.message;
-      hist.push({role:"assistant",content:t});bub("assistant",t,act);document.getElementById("knowSendBtn").disabled=false;
-    }).catch(function(e){rmTyp(tid);bub("assistant","Error: "+e.message,[]);document.getElementById("knowSendBtn").disabled=false;});
-  };
-  function bub(role,text,src){
-    var area=document.getElementById("knowChatArea");if(!area)return;
-    var w=document.createElement("div"),b=document.createElement("div");
-    b.className=role==="user"?"know-bubble-user":"know-bubble-ai";b.textContent=text;w.appendChild(b);
-    if(role==="assistant"&&src&&src.length){var sr=document.createElement("div");sr.className="know-sources";src.forEach(function(s,i){var bg=document.createElement("span");bg.className="know-source-badge";bg.textContent="Source "+(i+1)+" - "+s;sr.appendChild(bg);});w.appendChild(sr);}
-    area.appendChild(w);area.scrollTop=area.scrollHeight;
-  }
-  function typ(){var a=document.getElementById("knowChatArea");if(!a)return null;var el=document.createElement("div");el.className="know-typing";el.id="kt_"+Date.now();for(var i=0;i<3;i++){var d=document.createElement("div");d.className="know-dot";el.appendChild(d);}a.appendChild(el);a.scrollTop=a.scrollHeight;return el.id;}
-  function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
-  // Auto-init pills when page loads so they're ready before tab click
-  document.addEventListener("DOMContentLoaded", function(){ window.knowInit(); });
-  // Also init immediately in case DOM is already ready
-  if(document.readyState !== "loading") window.knowInit();
-
-  var _orig=window.switchSheet;
-  window.switchSheet=function(name,btn){
-    var kn=document.getElementById("know-content"),da=document.getElementById("dash-content"),it=document.getElementById("intel-content"),ta=document.getElementById("talent-content"),ve=document.getElementById("velur-content");
-    if(name==="Knowledge"){
-      [da,it,ta,ve].forEach(function(el){if(el)el.style.display="none";});
-      if(kn)kn.style.display="block";
-      document.querySelectorAll(".sheet-tab").forEach(function(t){t.classList.remove("active","intel-active","talent-active","velur-active","know-active");});
-      if(btn)btn.classList.add("know-active");
-      init();return;
-    }
-    if(kn)kn.style.display="none";
-    if(_orig)_orig(name,btn);
-  };
-})();
-</script>
 
 <div id="know-content" style="display:none">
   <div class="wrapper" style="padding-top:28px;">
@@ -1520,5 +1432,159 @@ fetchData();
     <div style="font-size:10px;color:var(--text-muted);">Answers grounded in your live Google Sheets. Data fetched fresh on pill select and manual reload.</div>
   </div>
 </div>
+<script>
+(function(){
+  var KS=[{name:"FZR Projects"},{name:"Startup Project"},{name:"MYM Inco"},{name:"Velur Inco"},{name:"Lumena Inco"}];
+  var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
+  var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
+  var AK="",SD={},hist=[],LD={},AC={};
+
+  window.knowInit=function(){
+    var p=document.getElementById("knowPills");
+    if(!p||p.hasChildNodes())return;
+    KS.forEach(function(s){
+      var b=document.createElement("button");
+      b.className="know-pill";
+      b.textContent=s.name;
+      b.onclick=function(){tog(s.name,b);};
+      p.appendChild(b);
+    });
+    var sg=document.getElementById("knowSuggestions");
+    if(sg){
+      SG.forEach(function(q){
+        var b=document.createElement("button");
+        b.className="know-suggest-btn";
+        b.textContent=q;
+        b.onclick=function(){
+          document.getElementById("knowInput").value=q;
+          document.getElementById("knowSuggestions").style.display="none";
+          knowSend();
+        };
+        sg.appendChild(b);
+      });
+    }
+    bub("assistant","Hello Ali. Select sheet pills above to load your live data, then ask anything.",[]);
+  };
+
+  function tog(name,pill){
+    if(AC[name]){AC[name]=false;pill.classList.remove("active");}
+    else{AC[name]=true;pill.classList.add("active");if(!LD[name])fetchS(name);}
+  }
+
+  function fetchS(name){
+    var url=(window.SHEETS||{})[name];
+    if(!url){SD[name]="["+name+": URL not in window.SHEETS]";LD[name]=true;stat();return;}
+    stat("Fetching "+name+"...");
+    fetch(url+"&t="+Date.now())
+      .then(function(r){return r.text();})
+      .then(function(csv){SD[name]=toTxt(csv,name);LD[name]=true;stat();})
+      .catch(function(e){SD[name]="["+name+": Error - "+e.message+"]";LD[name]=true;stat();});
+  }
+
+  function toTxt(csv,name){
+    var rows=csv.trim().split(String.fromCharCode(10)).map(function(r){
+      return r.split(",").map(function(c){return c.replace(/^"|"$/g,"").trim();});
+    });
+    if(!rows.length)return "["+name+": empty]";
+    var h=rows[0];
+    var d=rows.slice(1).filter(function(r){return r.some(function(c){return c;});});
+    var L=["=== "+name+" ===","Columns: "+h.join(", "),"Rows: "+d.length,""];
+    d.forEach(function(row,i){
+      var pp=h.map(function(hh,j){return row[j]?hh+": "+row[j]:null;}).filter(Boolean);
+      L.push("Row "+(i+1)+": "+pp.join(" | "));
+    });
+    return L.join(String.fromCharCode(10));
+  }
+
+  function stat(msg){
+    var el=document.getElementById("knowDataStatus");
+    if(!el)return;
+    if(msg){el.textContent=msg;return;}
+    var ld=Object.keys(SD);
+    el.textContent=ld.length?"Loaded: "+ld.join(", "):"Select sheets below to begin";
+  }
+
+  window.knowReloadSheets=function(){
+    LD={};SD={};hist=[];
+    var a=Object.keys(AC).filter(function(k){return AC[k];});
+    if(!a.length){stat("No sheets selected.");return;}
+    a.forEach(fetchS);
+  };
+
+  window.knowSend=function(){
+    var inp=document.getElementById("knowInput");
+    var q=(inp?inp.value:"").trim();
+    if(!q)return;
+    if(!AK){AK=prompt("Enter your Anthropic API key (sk-ant-...):");if(!AK)return;}
+    var act=Object.keys(AC).filter(function(k){return AC[k];});
+    if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
+    var pend=act.filter(function(n){return !LD[n];});
+    if(pend.length){bub("assistant","Still loading: "+pend.join(", ")+". Please wait.",[]);return;}
+    if(inp)inp.value="";
+    document.getElementById("knowSendBtn").disabled=true;
+    var sg=document.getElementById("knowSuggestions");if(sg)sg.style.display="none";
+    bub("user",q,[]);
+    var ctx=act.map(function(n){return SD[n]||"";}).join(String.fromCharCode(10)+String.fromCharCode(10));
+    var sys=SYS+" --- LIVE SHEET DATA --- "+ctx;
+    var tid=typ();
+    hist.push({role:"user",content:q});
+    fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key":AK,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-client-side-api-key-allowed":"true"
+      },
+      body:JSON.stringify({model:"claude-opus-4-5",max_tokens:1000,system:sys,messages:hist})
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      rmTyp(tid);
+      var t=(d.content&&d.content[0])?d.content[0].text:"No response.";
+      if(d.error)t="API Error: "+d.error.message;
+      hist.push({role:"assistant",content:t});
+      bub("assistant",t,act);
+      document.getElementById("knowSendBtn").disabled=false;
+    })
+    .catch(function(e){
+      rmTyp(tid);
+      bub("assistant","Error: "+e.message,[]);
+      document.getElementById("knowSendBtn").disabled=false;
+    });
+  };
+
+  function bub(role,text,src){
+    var area=document.getElementById("knowChatArea");if(!area)return;
+    var w=document.createElement("div");
+    var b=document.createElement("div");
+    b.className=role==="user"?"know-bubble-user":"know-bubble-ai";
+    b.textContent=text;
+    w.appendChild(b);
+    if(role==="assistant"&&src&&src.length){
+      var sr=document.createElement("div");sr.className="know-sources";
+      src.forEach(function(s,i){
+        var bg=document.createElement("span");bg.className="know-source-badge";
+        bg.textContent="Source "+(i+1)+" - "+s;sr.appendChild(bg);
+      });
+      w.appendChild(sr);
+    }
+    area.appendChild(w);area.scrollTop=area.scrollHeight;
+  }
+
+  function typ(){
+    var a=document.getElementById("knowChatArea");if(!a)return null;
+    var el=document.createElement("div");el.className="know-typing";el.id="kt_"+Date.now();
+    for(var i=0;i<3;i++){var d=document.createElement("div");d.className="know-dot";el.appendChild(d);}
+    a.appendChild(el);a.scrollTop=a.scrollHeight;return el.id;
+  }
+
+  function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
+
+  document.addEventListener("DOMContentLoaded",function(){window.knowInit&&window.knowInit();});
+  if(document.readyState!=="loading"){window.knowInit&&window.knowInit();}
+
+})();
+</script>
 </body>
 </html>
