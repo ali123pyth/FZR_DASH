@@ -1438,7 +1438,7 @@ fetchData();
   var KS=[{name:"FZR Projects"},{name:"Startup Project"},{name:"MYM Inco"},{name:"Velur Inco"},{name:"Lumena Inco"},{name:"Velur Marketing Materials"}];
   var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
   var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
-  var AK="",SD={},hist=[],LD={},AC={};
+  var AK=sessionStorage.getItem("fzr_ak")||"",SD={},hist=[],LD={},AC={};
 
   window.knowInit=function(){
     var p=document.getElementById("knowPills");
@@ -1516,7 +1516,7 @@ fetchData();
     var inp=document.getElementById("knowInput");
     var q=(inp?inp.value:"").trim();
     if(!q)return;
-    if(!AK){AK=prompt("Enter your Anthropic API key (sk-ant-...):");if(!AK)return;}
+    if(!AK){AK=prompt("Enter your Anthropic API key (sk-ant-...):");if(!AK)return;sessionStorage.setItem("fzr_ak",AK);}
     var act=Object.keys(AC).filter(function(k){return AC[k];});
     if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
     var pend=act.filter(function(n){return !LD[n];});
