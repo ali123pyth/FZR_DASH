@@ -688,11 +688,9 @@ function switchSheet(name, el){
     if(ve) ve.style.display="none";
     if(kn) kn.style.display="block";
     if(typeof init==="function") init();
-    if(document.getElementById("knowPills") && !document.getElementById("knowPills").hasChildNodes()) {
-      window.knowInit && window.knowInit();
-    }
-    // Trigger init via custom event
-    document.dispatchEvent(new CustomEvent("knowShow"));
+    setTimeout(function(){
+      if(window.knowInit) window.knowInit();
+    }, 50);
     return;
   }
   if (name === "Market Intel") {
