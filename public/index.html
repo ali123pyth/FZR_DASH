@@ -1933,22 +1933,22 @@ fetchData();
   var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
   var SD={},hist=[],LD={},AC={};
 
+  var knowInitialized = false;
   window.knowInit=function(){
-    var p=document.getElementById("knowPills");
-    if(!p||p.hasChildNodes())return;
-    var KS=[{name:"FZR Projects"},{name:"Velur Marketing Materials"}];
+    if(knowInitialized) return;
+    knowInitialized = true;
+    // Auto-load both sheets silently
     KS.forEach(function(s){ AC[s.name]=true; fetchS(s.name); });
-    var pillRow=p.parentElement;
-    if(pillRow) pillRow.style.display="none";
+    // Populate suggestion chips
     var sg=document.getElementById("knowSuggestions");
-    if(sg){
+    if(sg && !sg.hasChildNodes()){
       SG.forEach(function(q){
         var b=document.createElement("button");
         b.className="know-suggest-btn";
         b.textContent=q;
         b.onclick=function(){
           document.getElementById("knowInput").value=q;
-          document.getElementById("knowSuggestions").style.display="none";
+          sg.style.display="none";
           window.knowSend();
         };
         sg.appendChild(b);
@@ -1990,10 +1990,9 @@ fetchData();
   }
 
   window.knowReloadSheets=function(){
+    knowInitialized = false;
     LD={};SD={};hist=[];
-    var a=Object.keys(AC).filter(function(k){return AC[k];});
-    if(!a.length){stat("No sheets selected.");return;}
-    a.forEach(fetchS);
+    KS.forEach(function(s){ AC[s.name]=true; fetchS(s.name); });
   };
 
   window.knowSend=function(){
@@ -2001,7 +2000,7 @@ fetchData();
     var q=(inp?inp.value:"").trim();
     if(!q)return;
     var act=Object.keys(AC).filter(function(k){return AC[k];});
-    if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
+    if(!act.length){bub("assistant","Sheets are loading — please wait a moment and try again.",[]);return;}
     var pend=act.filter(function(n){return !LD[n];});
     if(pend.length){bub("assistant","Still loading: "+pend.join(", ")+". Please wait.",[]);return;}
     if(inp)inp.value="";
