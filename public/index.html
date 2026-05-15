@@ -134,6 +134,31 @@
   .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
   .sheet-tab.intel-active { background:#c46235 !important; color:#fff !important; border-bottom:3px solid #c46235 !important; }
   .sheet-tab.talent-active { background:#7a4028 !important; color:#fff !important; border-bottom:3px solid #7a4028 !important; }
+  .sheet-tab.know-active { background:#1a6b5a !important; color:#fff !important; border-bottom:3px solid #1a6b5a !important; }
+  #know-content { background:#f9faf9; min-height:calc(100vh - 200px); }
+  #know-content .sec-head { color:#1a6b5a; border-bottom-color:#1a6b5a; }
+  #know-content .know-send-btn { background:#1a6b5a; color:#fff; border:none; padding:10px 22px; cursor:pointer; font-family:var(--font); font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; transition:background .2s; flex-shrink:0; }
+  #know-content .know-send-btn:hover { background:#135045; }
+  #know-content .know-send-btn:disabled { background:#aaa; cursor:not-allowed; }
+  #know-content .know-input { flex:1; border:1px solid var(--beige-dark); padding:10px 14px; font-family:var(--font); font-size:13px; outline:none; background:#fff; }
+  #know-content .know-input:focus { border-color:#1a6b5a; }
+  #know-content .know-bubble-user { background:#1b221a; color:#f5f5f5; padding:10px 16px; margin:8px 0 8px 80px; font-size:13px; line-height:1.6; border-radius:3px; }
+  #know-content .know-bubble-ai { background:#fff; border:1px solid var(--beige-dark); border-left:3px solid #1a6b5a; padding:12px 16px; margin:8px 80px 8px 0; font-size:13px; line-height:1.75; border-radius:0 3px 3px 0; white-space:pre-wrap; }
+  #know-content .know-sources { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  #know-content .know-source-badge { padding:3px 10px; font-size:10px; border:1px solid #1a6b5a44; color:#1a6b5a; letter-spacing:0.04em; background:#f0faf8; border-radius:2px; }
+  #know-content .know-chat-area { min-height:340px; max-height:440px; overflow-y:auto; padding:4px 0 12px; margin-bottom:12px; border-bottom:1px solid var(--beige-dark); }
+  #know-content .know-pill { padding:5px 14px; font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; border:1px solid var(--beige-dark); cursor:pointer; background:#fff; font-family:var(--font); color:var(--text-muted); transition:all .15s; border-radius:3px; }
+  #know-content .know-pill.active { background:#1b221a; color:#f5f5f5; border-color:#1b221a; }
+  #know-content .know-pill:hover { border-color:#1a6b5a; color:#1a6b5a; }
+  #know-content .know-reload-btn { background:none; border:1px solid var(--beige-dark); color:var(--text-muted); padding:5px 14px; font-size:10px; font-weight:600; cursor:pointer; font-family:var(--font); letter-spacing:0.08em; text-transform:uppercase; transition:all .15s; border-radius:3px; }
+  #know-content .know-reload-btn:hover { border-color:#1a6b5a; color:#1a6b5a; }
+  #know-content .know-suggest-btn { padding:6px 12px; font-size:11px; border:1px solid var(--beige-dark); cursor:pointer; background:#fff; font-family:var(--font); color:var(--text-muted); text-align:left; line-height:1.4; transition:all .15s; border-radius:3px; }
+  #know-content .know-suggest-btn:hover { border-color:#1a6b5a; color:#1a6b5a; background:#f0faf8; }
+  #know-content .know-typing { display:flex; gap:5px; align-items:center; padding:10px 0; }
+  #know-content .know-dot { width:7px; height:7px; background:#1a6b5a; border-radius:50%; animation:knowpulse 1.2s ease-in-out infinite; }
+  #know-content .know-dot:nth-child(2){animation-delay:.2s} #know-content .know-dot:nth-child(3){animation-delay:.4s}
+  @keyframes knowpulse { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }
+
   .sheet-tab.know-active   { background:#185a4a !important; color:#fff !important; border-bottom:3px solid #185a4a !important; }
 
   /* Knowledge tab styles */
@@ -642,14 +667,22 @@
     </div>
 
     <!-- Sub-tabs (companies) -->
-    <!-- AUTO-INSIGHTS STRIP (Feature B) -->
+    <!-- INSIGHTS STRIP (Feature B — manual trigger) -->
     <div class="ai-insights" id="tm-ai-insights">
-      <div class="ai-insights-label">
-        <span class="ai-dot"></span>
-        Claude Intelligence · Live Analysis
+      <div class="ai-insights-label" style="justify-content:space-between">
+        <span style="display:flex;align-items:center;gap:8px">
+          <span class="ai-dot"></span>
+          Claude Intelligence · Team Analysis
+        </span>
+        <button onclick="tmGenerateInsights()" id="tm-insights-btn"
+          style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--beige);font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:4px 14px;cursor:pointer;border-radius:2px;transition:background .15s"
+          onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+          onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+          Generate Insights
+        </button>
       </div>
       <div class="ai-insights-text ai-insights-loading" id="tm-ai-insights-text">
-        Waiting for team data to load…
+        Click "Generate Insights" to analyse your team data.
       </div>
     </div>
 
@@ -727,14 +760,20 @@
             <div class="tm-verdict-body" id="tm-sc-action">—</div>
           </div>
 
-          <!-- AI NARRATIVE (Feature C) -->
+          <!-- AI NARRATIVE (Feature C — manual trigger) -->
           <div class="ai-narrative" id="tm-ai-narrative">
             <div class="ai-narrative-label">
               <span class="ai-dot"></span>
               Claude Analysis
             </div>
-            <div id="tm-ai-narrative-text" class="ai-narrative-loading">Generating…</div>
+            <div id="tm-ai-narrative-text"></div>
           </div>
+          <button id="tm-analyse-btn" onclick="tmAnalyseSelected()"
+            style="display:none;width:100%;margin-top:8px;padding:8px;background:var(--green);color:var(--beige);border:none;font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:background .15s"
+            onmouseover="this.style.background='#344832'"
+            onmouseout="this.style.background='var(--green)'">
+            Analyse with Claude
+          </button>
         </div>
 
         <div class="tm-panel">
@@ -806,7 +845,8 @@
      ORIGINAL DASHBOARD SCRIPT (projects/teams/etc.)
      ════════════════════════════════════════════════════════════ -->
 <script>
-const SHEETS = {
+window.SHEETS = {
+  "Velur Marketing Materials": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=896430628&single=true&output=csv",
   "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
   "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv",
   "MYM Inco":        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1896272570&single=true&output=csv",
@@ -829,7 +869,7 @@ document.getElementById("footerYear").textContent = new Date().getFullYear();
 
 async function fetchData(){
   try{
-    const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
+    const res=await fetch(window.SHEETS[activeSheet]+"&t="+Date.now());
     const text=await res.text();
     const rows=text.trim().split("\n").map(r=>parseCSVRow(r));
     const hdrs=rows[0];
@@ -1124,67 +1164,7 @@ fetchData();
 <!-- ════════════════════════════════════════════════════════════
      MARKET INTEL TAB — existing
      ════════════════════════════════════════════════════════════ -->
-<!-- ════════════════════════════════════════════════════════════
-     KNOWLEDGE TAB — Live Google Sheets RAG Chat
-     ════════════════════════════════════════════════════════════ -->
-<div id="know-content" style="display:none">
-  <div class="wrapper" style="padding:0 40px 60px">
 
-    <div class="sec-head" style="padding-top:20px;color:#185a4a;border-bottom-color:#185a4a">
-      Knowledge Base
-      <span style="font-weight:300;font-size:11px;color:var(--text-muted)" id="know-status">Ask questions about your live sheet data</span>
-    </div>
-
-    <div class="know-layout">
-
-      <!-- LEFT: Chat -->
-      <div class="know-chat">
-        <div class="know-chips" id="know-chips">
-          <span class="know-chip" onclick="knowAskChip(this)">What projects are in progress?</span>
-          <span class="know-chip" onclick="knowAskChip(this)">Who has the most open tasks?</span>
-          <span class="know-chip" onclick="knowAskChip(this)">What's overdue right now?</span>
-          <span class="know-chip" onclick="knowAskChip(this)">Summarise completion by team</span>
-          <span class="know-chip" onclick="knowAskChip(this)">ما هي المشاريع المتأخرة؟</span>
-          <span class="know-chip" onclick="knowAskChip(this)">من لديه أكثر المهام المفتوحة؟</span>
-        </div>
-        <div class="know-messages" id="know-messages">
-          <div class="know-msg assistant">
-            مرحباً — I'm connected to your live sheets. Select which sheets to include on the right, then ask me anything about your data. I answer in the language you write in.<br><br>
-            Hello — select sheets on the right and ask anything about your data.
-          </div>
-        </div>
-        <div class="know-input-row">
-          <textarea class="know-input" id="know-input"
-            placeholder="Ask about your data… / اسأل عن بياناتك…"
-            rows="1"></textarea>
-          <button class="know-send" id="know-send" onclick="knowAsk()">Send</button>
-        </div>
-        <div class="know-status" id="know-load-status"></div>
-      </div>
-
-      <!-- RIGHT: Source selector -->
-      <div>
-        <div class="know-sources">
-          <div class="tm-panel-title" style="border:none;padding:0;margin-bottom:12px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#185a4a">
-            Active Data Sources
-          </div>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:12px">
-            Select which sheets Claude reads when answering. Data fetches live on activation.
-          </p>
-          <div id="know-pills"></div>
-        </div>
-
-        <div class="summary-box" style="margin-top:16px;padding:16px 20px">
-          <div style="flex:1">
-            <div class="sum-title" style="color:#185a4a">How it works</div>
-            <p>Select a sheet — it loads live CSV data. Claude reads only what's selected, grounded in real rows from your sheets. Answers reference actual names, numbers, and statuses.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div><!-- end #know-content -->
 
 <div id="intel-content" style="display:none">
   <div class="wrapper" style="padding:0 40px 60px">
@@ -1505,11 +1485,6 @@ fetchData();
           state.activeCompany = companies[0] || null;
         }
         render();
-        // Feature B: generate insights after data is ready
-        if(window.tmGenerateInsights){
-          window.tmInsightsReset && window.tmInsightsReset();
-          window.tmGenerateInsights();
-        }
       })
       .catch(function(e){
         renderEmpty('Could not load data: ' + e.message);
@@ -1655,9 +1630,11 @@ fetchData();
   function renderScorecard(){
     var p = document.getElementById('tm-scorecard-panel');
     var narrative = document.getElementById('tm-ai-narrative');
+    var btn = document.getElementById('tm-analyse-btn');
     if(!state.selected){
       p.style.display = 'none';
       if(narrative) narrative.classList.remove('visible');
+      if(btn) btn.style.display = 'none';
       return;
     }
     var m = state.data.filter(function(d){ return d.company === state.activeCompany && d.name === state.selected; })[0];
@@ -1665,6 +1642,7 @@ fetchData();
       p.style.display = 'none';
       state.selected = null;
       if(narrative) narrative.classList.remove('visible');
+      if(btn) btn.style.display = 'none';
       return;
     }
     p.style.display = 'block';
@@ -1676,8 +1654,11 @@ fetchData();
     document.getElementById('tm-sc-init').textContent = m.init;
     document.getElementById('tm-sc-quadrant').textContent = m.quadrant;
     document.getElementById('tm-sc-action').textContent = (META[m.quadrant] || {}).action || '—';
-    // Feature C: generate personalized narrative for this person
-    if(window.tmGenerateNarrative) window.tmGenerateNarrative(m);
+    // Hide narrative until user clicks Analyse
+    var narrative = document.getElementById('tm-ai-narrative');
+    if(narrative) narrative.classList.remove('visible');
+    var btn = document.getElementById('tm-analyse-btn');
+    if(btn) btn.style.display = 'block';
   }
 
   function selectMember(name){
@@ -1789,6 +1770,18 @@ fetchData();
 
   // Reset insights flag when data refreshes so it regenerates
   window.tmInsightsReset = function() { insightsGenerated = false; };
+
+  // Called by the "Analyse with Claude" button in the scorecard
+  window.tmAnalyseSelected = function() {
+    if (!window.tmState || !window.tmState.selected) return;
+    var m = (window.tmState.data || []).filter(function(d){
+      return d.company === window.tmState.activeCompany && d.name === window.tmState.selected;
+    })[0];
+    if (m) window.tmGenerateNarrative(m);
+    // Hide the button once clicked
+    var btn = document.getElementById('tm-analyse-btn');
+    if (btn) btn.style.display = 'none';
+  };
 
   // ════════════════════════════════════════════════════════════
   // FEATURE C — Personalized scorecard narrative
@@ -1918,209 +1911,187 @@ fetchData();
 })();
 </script>
 
-<!-- ════════════════════════════════════════════════════════════
-     KNOWLEDGE TAB — Live Google Sheets RAG
-     ════════════════════════════════════════════════════════════ -->
+
+
 <script>
 (function(){
-  var API_URL = '/api/claude';
-  var initialized = false;
+  var KS=[{name:"FZR Projects"},{name:"Velur Marketing Materials"}];
+  var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
+  var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
+  var SD={},hist=[],LD={},AC={};
 
-  // All available sheets — sourced from the existing SHEETS constant
-  var KNOW_SOURCES = [
-    { name: 'FZR Projects',    key: 'FZR Projects',    desc: 'Project pipeline, status, owners, completion' },
-    { name: 'Startup Project', key: 'Startup Project', desc: 'Startup projects and tasks' },
-    { name: 'MYM Inco',        key: 'MYM Inco',        desc: 'MYM income and financials' },
-    { name: 'Velur Inco',      key: 'Velur Inco',      desc: 'Velur income, revenue, channels' },
-    { name: 'Lumena Inco',     key: 'Lumena Inco',     desc: 'Lumena income data' },
-  ];
-
-  var activeSheets = {};   // { sheetKey: csvText }
-  var loadingSheets = {};  // { sheetKey: true } while fetching
-  var history = [];
-
-  var SYSTEM = 'You are the internal AI assistant for FZR Group, a Dubai-based multi-company group (Acumen Light, Velur, MYM, Lumena). Answer questions grounded ONLY in the sheet data provided. Be concise and direct. Reference actual names, numbers, and statuses from the data. If the data does not answer the question, say so clearly. Detect the language of the user\'s question and respond in the same language (Arabic or English). Use formal business Arabic (MSA) when responding in Arabic.';
-
-  // ─── Init ────────────────────────────────────────────────────
-  window.knowInit = function() {
-    if (initialized) return;
-    initialized = true;
-    renderPills();
-    // Wire textarea
-    var inp = document.getElementById('know-input');
-    if (inp) {
-      inp.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-      });
-      inp.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          knowAsk();
-        }
+  window.knowInit=function(){
+    var p=document.getElementById("knowPills");
+    if(!p||p.hasChildNodes())return;
+    KS.forEach(function(s){ AC[s.name]=true; fetchS(s.name); });
+    var pillRow=p.parentElement;
+    if(pillRow) pillRow.style.display="none";
+    var sg=document.getElementById("knowSuggestions");
+    if(sg){
+      SG.forEach(function(q){
+        var b=document.createElement("button");
+        b.className="know-suggest-btn";
+        b.textContent=q;
+        b.onclick=function(){
+          document.getElementById("knowInput").value=q;
+          document.getElementById("knowSuggestions").style.display="none";
+          window.knowSend();
+        };
+        sg.appendChild(b);
       });
     }
   };
 
-  // ─── Render source pills ──────────────────────────────────────
-  function renderPills() {
-    var wrap = document.getElementById('know-pills');
-    if (!wrap) return;
-    wrap.innerHTML = '';
-    KNOW_SOURCES.forEach(function(src) {
-      var pill = document.createElement('button');
-      pill.className = 'know-source-pill' + (activeSheets[src.key] ? ' active' : '');
-      pill.innerHTML = '<span class="pill-dot"></span>' + src.name;
-      pill.title = src.desc;
-      pill.onclick = function() { toggleSheet(src); };
-      wrap.appendChild(pill);
+  function fetchS(name){
+    var url=(window.SHEETS||{})[name];
+    if(!url){SD[name]="["+name+": URL not in window.SHEETS]";LD[name]=true;stat();return;}
+    stat("Fetching "+name+"...");
+    fetch(url+"&t="+Date.now())
+      .then(function(r){return r.text();})
+      .then(function(csv){SD[name]=toTxt(csv,name);LD[name]=true;stat();})
+      .catch(function(e){SD[name]="["+name+": Error - "+e.message+"]";LD[name]=true;stat();});
+  }
+
+  function toTxt(csv,name){
+    var rows=csv.trim().split("\n").map(function(r){
+      return r.split(",").map(function(c){return c.replace(/^"|"$/g,"").trim();});
     });
-  }
-
-  // ─── Toggle a sheet source on/off ────────────────────────────
-  function toggleSheet(src) {
-    if (loadingSheets[src.key]) return;
-    if (activeSheets[src.key]) {
-      // Deactivate
-      delete activeSheets[src.key];
-      renderPills();
-      updateStatus();
-      return;
-    }
-    // Activate — fetch the CSV
-    loadingSheets[src.key] = true;
-    renderPills();
-    setStatus('Loading ' + src.name + '…');
-
-    var url = window.SHEETS && window.SHEETS[src.key] ? window.SHEETS[src.key] : null;
-    if (!url) {
-      delete loadingSheets[src.key];
-      setStatus('No URL found for ' + src.name);
-      return;
-    }
-
-    fetch(url + '&t=' + Date.now())
-      .then(function(r) { return r.text(); })
-      .then(function(text) {
-        delete loadingSheets[src.key];
-        activeSheets[src.key] = text;
-        renderPills();
-        updateStatus();
-      })
-      .catch(function(e) {
-        delete loadingSheets[src.key];
-        setStatus('Failed to load ' + src.name + ': ' + e.message);
-        renderPills();
-      });
-  }
-
-  // ─── Build context from active sheets ────────────────────────
-  function buildContext() {
-    var keys = Object.keys(activeSheets);
-    if (!keys.length) return null;
-    var ctx = 'Live data from ' + keys.length + ' sheet(s):\n\n';
-    keys.forEach(function(k) {
-      ctx += '=== ' + k + ' ===\n' + activeSheets[k] + '\n\n';
+    if(!rows.length)return "["+name+": empty]";
+    var h=rows[0];
+    var d=rows.slice(1).filter(function(r){return r.some(function(c){return c;});});
+    var L=["=== "+name+" ===","Columns: "+h.join(", "),"Rows: "+d.length,""];
+    d.forEach(function(row,i){
+      var pp=h.map(function(hh,j){return row[j]?hh+": "+row[j]:null;}).filter(Boolean);
+      L.push("Row "+(i+1)+": "+pp.join(" | "));
     });
-    return ctx;
+    return L.join("\n");
   }
 
-  // ─── Ask ─────────────────────────────────────────────────────
-  window.knowAsk = async function() {
-    var inp  = document.getElementById('know-input');
-    var send = document.getElementById('know-send');
-    var q = inp.value.trim();
-    if (!q) return;
+  function stat(msg){
+    var el=document.getElementById("knowDataStatus");
+    if(!el)return;
+    if(msg){el.textContent=msg;return;}
+    var ld=Object.keys(SD);
+    el.textContent=ld.length?"Loaded: "+ld.join(", "):"Select sheets below to begin";
+  }
 
-    inp.value = '';
-    inp.style.height = 'auto';
-    send.disabled = true;
+  window.knowReloadSheets=function(){
+    LD={};SD={};hist=[];
+    var a=Object.keys(AC).filter(function(k){return AC[k];});
+    if(!a.length){stat("No sheets selected.");return;}
+    a.forEach(fetchS);
+  };
 
-    appendMsg('user', q);
-    var thinking = appendMsg('thinking', 'Thinking…');
+  window.knowSend=function(){
+    var inp=document.getElementById("knowInput");
+    var q=(inp?inp.value:"").trim();
+    if(!q)return;
+    var act=Object.keys(AC).filter(function(k){return AC[k];});
+    if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
+    var pend=act.filter(function(n){return !LD[n];});
+    if(pend.length){bub("assistant","Still loading: "+pend.join(", ")+". Please wait.",[]);return;}
+    if(inp)inp.value="";
+    document.getElementById("knowSendBtn").disabled=true;
+    var sg=document.getElementById("knowSuggestions");if(sg)sg.style.display="none";
+    bub("user",q,[]);
+    var ctx=act.map(function(n){return SD[n]||"";}).join("\n\n");
+    var sys=SYS+" --- LIVE SHEET DATA --- "+ctx;
+    var tid=typ();
+    hist.push({role:"user",content:q});
+    fetch("/api/claude",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:hist})
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      rmTyp(tid);
+      var t=(d.content&&d.content[0])?d.content[0].text:"No response.";
+      if(d.error)t="API Error: "+d.error.message;
+      hist.push({role:"assistant",content:t});
+      bub("assistant",t,act);
+      document.getElementById("knowSendBtn").disabled=false;
+    })
+    .catch(function(e){
+      rmTyp(tid);
+      bub("assistant","Error: "+e.message,[]);
+      document.getElementById("knowSendBtn").disabled=false;
+    });
+  };
 
-    var ctx = buildContext();
-    if (!ctx) {
-      thinking.className = 'know-msg assistant';
-      thinking.textContent = 'Please select at least one data source on the right first.';
-      send.disabled = false;
-      return;
+  function renderMd(text){
+    var lines=text.split("\n");
+    var out=[],inTable=false,tableLines=[];
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];
+      if(l.trim().charAt(0)==="|"){
+        if(!inTable){inTable=true;tableLines=[];}
+        tableLines.push(l);
+      } else {
+        if(inTable){out.push(renderTable(tableLines));inTable=false;tableLines=[];}
+        l=l.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+        l=l.replace(/\*([^*]+)\*/g,"<em>$1</em>");
+        out.push(l);
+      }
     }
+    if(inTable) out.push(renderTable(tableLines));
+    return out.join("\n");
+  }
 
-    var messages = history.slice();
-    messages.push({ role: 'user', content: ctx + '\n\nQuestion: ' + q });
+  function renderTable(lines){
+    var rows=lines.filter(function(l){return !l.match(/^\|[-| ]+\|$/);});
+    var html='<table style="width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;">';
+    rows.forEach(function(row,i){
+      var cells=row.split("|").filter(function(c,idx){return idx>0&&idx<row.split("|").length-1;});
+      var tag=i===0?"th":"td";
+      var bg=i===0?"background:#1b221a;color:#f5f5f5;":"background:"+(i%2===0?"#f5f9f5":"#fff")+";color:#2a2a2a;";
+      html+="<tr>"+cells.map(function(c){
+        return "<"+tag+' style="padding:7px 12px;border:1px solid #e0e0e0;text-align:left;'+bg+'">'+c.trim().replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")+"</"+tag+">";
+      }).join("")+"</tr>";
+    });
+    return html+"</table>";
+  }
 
-    try {
-      var res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model:      'claude-sonnet-4-20250514',
-          max_tokens: 800,
-          system:     SYSTEM,
-          messages:   messages
-        })
+  function bub(role,text,src){
+    var area=document.getElementById("knowChatArea");if(!area)return;
+    var w=document.createElement("div");
+    var b=document.createElement("div");
+    b.className=role==="user"?"know-bubble-user":"know-bubble-ai";
+    if(role==="assistant"){
+      b.innerHTML=renderMd(text).replace(/\n/g,"<br/>");
+    } else {
+      b.textContent=text;
+    }
+    w.appendChild(b);
+    if(role==="assistant"&&src&&src.length){
+      var sr=document.createElement("div");sr.className="know-sources";
+      src.forEach(function(s,i){
+        var bg=document.createElement("span");bg.className="know-source-badge";
+        bg.textContent="Source "+(i+1)+" - "+s;sr.appendChild(bg);
       });
-      var data = await res.json();
-      if (!res.ok) throw new Error(data.error && data.error.message || 'API error');
-      var answer = data.content[0].text;
-
-      history.push({ role: 'user',      content: ctx + '\n\nQuestion: ' + q });
-      history.push({ role: 'assistant', content: answer });
-      if (history.length > 12) history = history.slice(-12);
-
-      thinking.className = 'know-msg assistant';
-      thinking.innerHTML = renderMarkdown(answer);
-
-    } catch(e) {
-      thinking.className = 'know-msg assistant';
-      thinking.textContent = 'Error: ' + e.message;
+      w.appendChild(sr);
     }
-
-    send.disabled = false;
-  };
-
-  window.knowAskChip = function(chip) {
-    var inp = document.getElementById('know-input');
-    inp.value = chip.textContent;
-    knowAsk();
-  };
-
-  // ─── Helpers ─────────────────────────────────────────────────
-  function appendMsg(role, text) {
-    var msgs = document.getElementById('know-messages');
-    var div = document.createElement('div');
-    div.className = 'know-msg ' + role;
-    div.textContent = text;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-    return div;
+    area.appendChild(w);area.scrollTop=area.scrollHeight;
   }
 
-  function setStatus(msg) {
-    var el = document.getElementById('know-load-status');
-    if (el) el.textContent = msg;
+  function typ(){
+    var a=document.getElementById("knowChatArea");if(!a)return null;
+    var el=document.createElement("div");el.className="know-typing";el.id="kt_"+Date.now();
+    for(var i=0;i<3;i++){var d=document.createElement("div");d.className="know-dot";el.appendChild(d);}
+    a.appendChild(el);a.scrollTop=a.scrollHeight;return el.id;
   }
 
-  function updateStatus() {
-    var keys = Object.keys(activeSheets);
-    setStatus(keys.length ? keys.length + ' source(s) active: ' + keys.join(', ') : 'No sources selected');
-  }
+  function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
 
-  // Basic markdown: bold, bullet points, line breaks
-  function renderMarkdown(text) {
-    return text
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
-      .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\n/g, '<br>');
+  document.addEventListener("DOMContentLoaded",function(){
+    var kn=document.getElementById("know-content");
+    if(kn) kn.style.display="none";
+  });
+  if(document.readyState!=="loading"){
+    var kn=document.getElementById("know-content");
+    if(kn) kn.style.display="none";
   }
-
 })();
 </script>
 
 </body>
-</html>
