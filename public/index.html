@@ -134,6 +134,38 @@
   .sheet-tab.active { background:var(--green); color:var(--beige); border-bottom:3px solid var(--green); }
   .sheet-tab.intel-active { background:#c46235 !important; color:#fff !important; border-bottom:3px solid #c46235 !important; }
   .sheet-tab.talent-active { background:#7a4028 !important; color:#fff !important; border-bottom:3px solid #7a4028 !important; }
+  .sheet-tab.know-active   { background:#185a4a !important; color:#fff !important; border-bottom:3px solid #185a4a !important; }
+
+  /* Knowledge tab styles */
+  #know-content .know-layout { display:grid; grid-template-columns:1fr 300px; gap:24px; }
+  @media(max-width:860px){ #know-content .know-layout { grid-template-columns:1fr; } }
+  #know-content .know-sources { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; padding:18px; }
+  #know-content .know-source-pill {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 12px; margin:4px; border-radius:14px;
+    border:1px solid var(--beige-dark); background:var(--beige);
+    font-size:10px; font-weight:600; letter-spacing:0.08em;
+    text-transform:uppercase; cursor:pointer; transition:all .15s;
+    color:var(--text-muted); font-family:var(--font);
+  }
+  #know-content .know-source-pill.active { background:#185a4a; color:var(--beige); border-color:#185a4a; }
+  #know-content .know-source-pill .pill-dot { width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+  #know-content .know-chat { background:var(--white); border:1px solid var(--beige-dark); border-radius:4px; padding:20px; display:flex; flex-direction:column; gap:12px; min-height:500px; }
+  #know-content .know-messages { flex:1; max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; padding-bottom:4px; }
+  #know-content .know-msg { padding:10px 14px; border-radius:3px; font-size:12px; line-height:1.7; max-width:94%; }
+  #know-content .know-msg.user { background:#185a4a; color:var(--beige); align-self:flex-end; font-weight:500; }
+  #know-content .know-msg.assistant { background:var(--beige); color:var(--text-body); align-self:flex-start; border-left:3px solid #185a4a; border-radius:0 3px 3px 0; }
+  #know-content .know-msg.thinking { background:var(--beige-mid); color:var(--text-muted); font-style:italic; align-self:flex-start; }
+  #know-content .know-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  #know-content .know-chip { padding:4px 10px; background:var(--beige-mid); border:1px solid var(--beige-dark); border-radius:12px; font-size:10px; color:var(--text-muted); cursor:pointer; transition:all .15s; font-family:var(--font); }
+  #know-content .know-chip:hover { background:#185a4a; color:var(--beige); border-color:#185a4a; }
+  #know-content .know-input-row { display:flex; gap:8px; align-items:flex-end; }
+  #know-content .know-input { flex:1; padding:8px 10px; font-family:var(--font); font-size:12px; background:var(--beige); border:1px solid var(--beige-dark); border-radius:3px; outline:none; resize:none; min-height:36px; max-height:100px; transition:border-color .15s; }
+  #know-content .know-input:focus { border-color:#185a4a; background:var(--white); }
+  #know-content .know-send { padding:8px 16px; background:#185a4a; color:var(--beige); border:none; font-family:var(--font); font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; height:36px; white-space:nowrap; }
+  #know-content .know-send:hover { background:#0f3d33; }
+  #know-content .know-send:disabled { opacity:.5; cursor:not-allowed; }
+  #know-content .know-status { font-size:10px; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; }
   #intel-content .sec-head { color:#c46235; border-bottom-color:#c46235; }
   #intel-content .table-panel thead tr { background:#c46235; }
   #intel-content #i-brief { border-left-color:#c46235; }
@@ -477,6 +509,7 @@
     <button class="sheet-tab" onclick="switchSheet('Velur Inco', this)">Velur Inco</button>
     <button class="sheet-tab" onclick="switchSheet('Lumena Inco', this)">Lumena Inco</button>
     <button class="sheet-tab" onclick="switchSheet('Talent Matrix', this)">Talent Matrix</button>
+    <button class="sheet-tab" onclick="switchSheet('Knowledge', this)">Knowledge</button>
     <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
   </div>
 
@@ -833,34 +866,48 @@ function switchSheet(name, el){
     t.classList.remove('active');
     t.classList.remove('intel-active');
     t.classList.remove('talent-active');
+    t.classList.remove('know-active');
   });
   el.classList.add('active');
 
-  var dash = document.getElementById("dash-content");
-  var intel = document.getElementById("intel-content");
+  var dash   = document.getElementById("dash-content");
+  var intel  = document.getElementById("intel-content");
   var talent = document.getElementById("talent-content");
+  var know   = document.getElementById("know-content");
 
   if (name === "Market Intel") {
     el.classList.add("intel-active");
-    if(dash) dash.style.display = "none";
+    if(dash)   dash.style.display   = "none";
     if(talent) talent.style.display = "none";
-    if(intel) intel.style.display = "block";
+    if(know)   know.style.display   = "none";
+    if(intel)  intel.style.display  = "block";
     if(window.intelLoad && !window.intelLoaded) window.intelLoad();
     return;
   }
   if (name === "Talent Matrix") {
     el.classList.add("talent-active");
-    if(dash) dash.style.display = "none";
-    if(intel) intel.style.display = "none";
+    if(dash)   dash.style.display   = "none";
+    if(intel)  intel.style.display  = "none";
+    if(know)   know.style.display   = "none";
     if(talent) talent.style.display = "block";
     if(window.tmFetch) window.tmFetch();
     return;
   }
+  if (name === "Knowledge") {
+    el.classList.add("know-active");
+    if(dash)   dash.style.display   = "none";
+    if(intel)  intel.style.display  = "none";
+    if(talent) talent.style.display = "none";
+    if(know)   know.style.display   = "block";
+    if(window.knowInit) window.knowInit();
+    return;
+  }
 
   // Project/team tab
-  if(dash) dash.style.display = "block";
-  if(intel) intel.style.display = "none";
+  if(dash)   dash.style.display   = "block";
+  if(intel)  intel.style.display  = "none";
   if(talent) talent.style.display = "none";
+  if(know)   know.style.display   = "none";
   activeSheet = name;
   document.getElementById("searchInput").value="";
   document.getElementById("statusFilter").value="";
@@ -1077,6 +1124,68 @@ fetchData();
 <!-- ════════════════════════════════════════════════════════════
      MARKET INTEL TAB — existing
      ════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════
+     KNOWLEDGE TAB — Live Google Sheets RAG Chat
+     ════════════════════════════════════════════════════════════ -->
+<div id="know-content" style="display:none">
+  <div class="wrapper" style="padding:0 40px 60px">
+
+    <div class="sec-head" style="padding-top:20px;color:#185a4a;border-bottom-color:#185a4a">
+      Knowledge Base
+      <span style="font-weight:300;font-size:11px;color:var(--text-muted)" id="know-status">Ask questions about your live sheet data</span>
+    </div>
+
+    <div class="know-layout">
+
+      <!-- LEFT: Chat -->
+      <div class="know-chat">
+        <div class="know-chips" id="know-chips">
+          <span class="know-chip" onclick="knowAskChip(this)">What projects are in progress?</span>
+          <span class="know-chip" onclick="knowAskChip(this)">Who has the most open tasks?</span>
+          <span class="know-chip" onclick="knowAskChip(this)">What's overdue right now?</span>
+          <span class="know-chip" onclick="knowAskChip(this)">Summarise completion by team</span>
+          <span class="know-chip" onclick="knowAskChip(this)">ما هي المشاريع المتأخرة؟</span>
+          <span class="know-chip" onclick="knowAskChip(this)">من لديه أكثر المهام المفتوحة؟</span>
+        </div>
+        <div class="know-messages" id="know-messages">
+          <div class="know-msg assistant">
+            مرحباً — I'm connected to your live sheets. Select which sheets to include on the right, then ask me anything about your data. I answer in the language you write in.<br><br>
+            Hello — select sheets on the right and ask anything about your data.
+          </div>
+        </div>
+        <div class="know-input-row">
+          <textarea class="know-input" id="know-input"
+            placeholder="Ask about your data… / اسأل عن بياناتك…"
+            rows="1"></textarea>
+          <button class="know-send" id="know-send" onclick="knowAsk()">Send</button>
+        </div>
+        <div class="know-status" id="know-load-status"></div>
+      </div>
+
+      <!-- RIGHT: Source selector -->
+      <div>
+        <div class="know-sources">
+          <div class="tm-panel-title" style="border:none;padding:0;margin-bottom:12px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#185a4a">
+            Active Data Sources
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:12px">
+            Select which sheets Claude reads when answering. Data fetches live on activation.
+          </p>
+          <div id="know-pills"></div>
+        </div>
+
+        <div class="summary-box" style="margin-top:16px;padding:16px 20px">
+          <div style="flex:1">
+            <div class="sum-title" style="color:#185a4a">How it works</div>
+            <p>Select a sheet — it loads live CSV data. Claude reads only what's selected, grounded in real rows from your sheets. Answers reference actual names, numbers, and statuses.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- end #know-content -->
+
 <div id="intel-content" style="display:none">
   <div class="wrapper" style="padding:0 40px 60px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:20px">
@@ -1805,6 +1914,210 @@ fetchData();
       });
     }
   });
+
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════
+     KNOWLEDGE TAB — Live Google Sheets RAG
+     ════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  var API_URL = '/api/claude';
+  var initialized = false;
+
+  // All available sheets — sourced from the existing SHEETS constant
+  var KNOW_SOURCES = [
+    { name: 'FZR Projects',    key: 'FZR Projects',    desc: 'Project pipeline, status, owners, completion' },
+    { name: 'Startup Project', key: 'Startup Project', desc: 'Startup projects and tasks' },
+    { name: 'MYM Inco',        key: 'MYM Inco',        desc: 'MYM income and financials' },
+    { name: 'Velur Inco',      key: 'Velur Inco',      desc: 'Velur income, revenue, channels' },
+    { name: 'Lumena Inco',     key: 'Lumena Inco',     desc: 'Lumena income data' },
+  ];
+
+  var activeSheets = {};   // { sheetKey: csvText }
+  var loadingSheets = {};  // { sheetKey: true } while fetching
+  var history = [];
+
+  var SYSTEM = 'You are the internal AI assistant for FZR Group, a Dubai-based multi-company group (Acumen Light, Velur, MYM, Lumena). Answer questions grounded ONLY in the sheet data provided. Be concise and direct. Reference actual names, numbers, and statuses from the data. If the data does not answer the question, say so clearly. Detect the language of the user\'s question and respond in the same language (Arabic or English). Use formal business Arabic (MSA) when responding in Arabic.';
+
+  // ─── Init ────────────────────────────────────────────────────
+  window.knowInit = function() {
+    if (initialized) return;
+    initialized = true;
+    renderPills();
+    // Wire textarea
+    var inp = document.getElementById('know-input');
+    if (inp) {
+      inp.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+      });
+      inp.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          knowAsk();
+        }
+      });
+    }
+  };
+
+  // ─── Render source pills ──────────────────────────────────────
+  function renderPills() {
+    var wrap = document.getElementById('know-pills');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    KNOW_SOURCES.forEach(function(src) {
+      var pill = document.createElement('button');
+      pill.className = 'know-source-pill' + (activeSheets[src.key] ? ' active' : '');
+      pill.innerHTML = '<span class="pill-dot"></span>' + src.name;
+      pill.title = src.desc;
+      pill.onclick = function() { toggleSheet(src); };
+      wrap.appendChild(pill);
+    });
+  }
+
+  // ─── Toggle a sheet source on/off ────────────────────────────
+  function toggleSheet(src) {
+    if (loadingSheets[src.key]) return;
+    if (activeSheets[src.key]) {
+      // Deactivate
+      delete activeSheets[src.key];
+      renderPills();
+      updateStatus();
+      return;
+    }
+    // Activate — fetch the CSV
+    loadingSheets[src.key] = true;
+    renderPills();
+    setStatus('Loading ' + src.name + '…');
+
+    var url = window.SHEETS && window.SHEETS[src.key] ? window.SHEETS[src.key] : null;
+    if (!url) {
+      delete loadingSheets[src.key];
+      setStatus('No URL found for ' + src.name);
+      return;
+    }
+
+    fetch(url + '&t=' + Date.now())
+      .then(function(r) { return r.text(); })
+      .then(function(text) {
+        delete loadingSheets[src.key];
+        activeSheets[src.key] = text;
+        renderPills();
+        updateStatus();
+      })
+      .catch(function(e) {
+        delete loadingSheets[src.key];
+        setStatus('Failed to load ' + src.name + ': ' + e.message);
+        renderPills();
+      });
+  }
+
+  // ─── Build context from active sheets ────────────────────────
+  function buildContext() {
+    var keys = Object.keys(activeSheets);
+    if (!keys.length) return null;
+    var ctx = 'Live data from ' + keys.length + ' sheet(s):\n\n';
+    keys.forEach(function(k) {
+      ctx += '=== ' + k + ' ===\n' + activeSheets[k] + '\n\n';
+    });
+    return ctx;
+  }
+
+  // ─── Ask ─────────────────────────────────────────────────────
+  window.knowAsk = async function() {
+    var inp  = document.getElementById('know-input');
+    var send = document.getElementById('know-send');
+    var q = inp.value.trim();
+    if (!q) return;
+
+    inp.value = '';
+    inp.style.height = 'auto';
+    send.disabled = true;
+
+    appendMsg('user', q);
+    var thinking = appendMsg('thinking', 'Thinking…');
+
+    var ctx = buildContext();
+    if (!ctx) {
+      thinking.className = 'know-msg assistant';
+      thinking.textContent = 'Please select at least one data source on the right first.';
+      send.disabled = false;
+      return;
+    }
+
+    var messages = history.slice();
+    messages.push({ role: 'user', content: ctx + '\n\nQuestion: ' + q });
+
+    try {
+      var res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model:      'claude-sonnet-4-20250514',
+          max_tokens: 800,
+          system:     SYSTEM,
+          messages:   messages
+        })
+      });
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.error && data.error.message || 'API error');
+      var answer = data.content[0].text;
+
+      history.push({ role: 'user',      content: ctx + '\n\nQuestion: ' + q });
+      history.push({ role: 'assistant', content: answer });
+      if (history.length > 12) history = history.slice(-12);
+
+      thinking.className = 'know-msg assistant';
+      thinking.innerHTML = renderMarkdown(answer);
+
+    } catch(e) {
+      thinking.className = 'know-msg assistant';
+      thinking.textContent = 'Error: ' + e.message;
+    }
+
+    send.disabled = false;
+  };
+
+  window.knowAskChip = function(chip) {
+    var inp = document.getElementById('know-input');
+    inp.value = chip.textContent;
+    knowAsk();
+  };
+
+  // ─── Helpers ─────────────────────────────────────────────────
+  function appendMsg(role, text) {
+    var msgs = document.getElementById('know-messages');
+    var div = document.createElement('div');
+    div.className = 'know-msg ' + role;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function setStatus(msg) {
+    var el = document.getElementById('know-load-status');
+    if (el) el.textContent = msg;
+  }
+
+  function updateStatus() {
+    var keys = Object.keys(activeSheets);
+    setStatus(keys.length ? keys.length + ' source(s) active: ' + keys.join(', ') : 'No sources selected');
+  }
+
+  // Basic markdown: bold, bullet points, line breaks
+  function renderMarkdown(text) {
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+  }
 
 })();
 </script>
