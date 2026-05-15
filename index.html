@@ -1452,9 +1452,7 @@ fetchData();
     // Hide pills row entirely
     var pillRow=p.parentElement;
     if(pillRow) pillRow.style.display="none";
-    // Ensure know-content stays hidden until tab is clicked
-    var kn=document.getElementById("know-content");
-    if(kn) kn.style.display="none";
+
     var sg=document.getElementById("knowSuggestions");
     if(sg){
       SG.forEach(function(q){
