@@ -632,6 +632,8 @@ document.getElementById("bannerDate").textContent = new Date().toLocaleDateStrin
 document.getElementById("footerYear").textContent = new Date().getFullYear();
 
 async function fetchData(){
+  // Don't refresh if Knowledge tab is active
+  if(document.querySelector(".know-active")) return;
   try{
     const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
     const text=await res.text();
