@@ -1586,8 +1586,8 @@ fetchData();
      ════════════════════════════════════════════════════════════ -->
 <script>
 (function(){
-  var API_KEY = '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';
-  var API_URL = 'https://api.anthropic.com/v1/messages';
+  // Claude API routed through our own server — key is server-side only
+  var API_URL = '/api/claude';
   var MODEL   = 'claude-sonnet-4-20250514';
 
   // ─── Call Claude API ────────────────────────────────────────
@@ -1597,8 +1597,7 @@ fetchData();
       method: 'POST',
       headers: {
         'Content-Type':      'application/json',
-        'x-api-key':         API_KEY,
-        'anthropic-version': '2023-06-01'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         model:      MODEL,
@@ -1762,8 +1761,7 @@ fetchData();
         method: 'POST',
         headers: {
           'Content-Type':      'application/json',
-          'x-api-key':         API_KEY,
-          'anthropic-version': '2023-06-01'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           model:      MODEL,
