@@ -1166,6 +1166,19 @@ fetchData();
      ════════════════════════════════════════════════════════════ -->
 
 
+<div id="know-content" style="display:none">
+  <div class="wrapper" style="padding-top:28px;">
+    <div class="sec-head" style="margin-top:0;">Knowledge — Chat with Live Sheets <span id="knowDataStatus" style="font-weight:300;font-size:10px;color:var(--text-muted);letter-spacing:0.05em;text-transform:none">Loading sheets…</span></div>
+    <div id="knowSuggestions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"></div>
+    <div class="know-chat-area" id="knowChatArea"></div>
+    <div style="display:flex;gap:0;margin-bottom:8px;">
+      <input class="know-input" id="knowInput" type="text" placeholder="Ask anything about your live sheet data..." onkeydown="if(event.key==='Enter') window.knowSend()"/>
+      <button class="know-send-btn" id="knowSendBtn" onclick="window.knowSend()">Ask</button>
+    </div>
+    <div style="font-size:10px;color:var(--text-muted);">Answers grounded in FZR Projects + Velur Marketing Materials. Data fetches live on tab open.</div>
+  </div>
+</div>
+
 <div id="intel-content" style="display:none">
   <div class="wrapper" style="padding:0 40px 60px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:20px">
