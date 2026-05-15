@@ -283,39 +283,166 @@
 
   #talent-content .tm-empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-  #talent-content .sec-head { color: var(--green); border-bottom-color: var(--green); }
+  /* ── CLAUDE INTELLIGENCE LAYER ── */
+  #talent-content .ai-insights {
+    background: var(--green);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    position: relative;
+    min-height: 52px;
+  }
+  #talent-content .ai-insights-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #talent-content .ai-insights-label .ai-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #6dbf6d; display: inline-block;
+    animation: blink 2s ease-in-out infinite;
+  }
+  #talent-content .ai-insights-text {
+    font-size: 12px; font-weight: 300;
+    color: var(--beige); line-height: 1.7;
+  }
+  #talent-content .ai-insights-loading {
+    font-size: 11px; color: var(--text-light);
+    font-style: italic;
+  }
+  #talent-content .ai-narrative {
+    padding: 12px 14px;
+    background: var(--beige);
+    border-left: 3px solid var(--green);
+    border-radius: 0 3px 3px 0;
+    margin-bottom: 14px;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--text-body);
+    display: none;
+  }
+  #talent-content .ai-narrative.visible { display: block; }
+  #talent-content .ai-narrative-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  #talent-content .ai-narrative-label .ai-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #6dbf6d; display: inline-block;
+  }
+  #talent-content .ai-narrative-loading {
+    color: var(--text-muted); font-style: italic; font-size: 11px;
+  }
+  /* Q&A Panel */
+  #talent-content .ai-qa-panel {
+    background: var(--white);
+    border: 1px solid var(--beige-dark);
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 14px;
+  }
+  #talent-content .ai-messages {
+    max-height: 280px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #talent-content .ai-msg {
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-size: 11px;
+    line-height: 1.65;
+    max-width: 92%;
+  }
+  #talent-content .ai-msg.user {
+    background: var(--green);
+    color: var(--beige);
+    align-self: flex-end;
+    font-weight: 500;
+  }
+  #talent-content .ai-msg.assistant {
+    background: var(--beige);
+    color: var(--text-body);
+    align-self: flex-start;
+    border-left: 3px solid var(--green);
+    border-radius: 0 3px 3px 0;
+  }
+  #talent-content .ai-msg.thinking {
+    background: var(--beige-mid);
+    color: var(--text-muted);
+    font-style: italic;
+    align-self: flex-start;
+  }
+  #talent-content .ai-input-row {
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  #talent-content .ai-input {
+    flex: 1;
+    padding: 8px 10px;
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--text-body);
+    background: var(--beige);
+    border: 1px solid var(--beige-dark);
+    border-radius: 3px;
+    outline: none;
+    resize: none;
+    min-height: 36px;
+    max-height: 90px;
+    transition: border-color 0.15s;
+    line-height: 1.5;
+  }
+  #talent-content .ai-input:focus { border-color: var(--green); background: var(--white); }
+  #talent-content .ai-send {
+    padding: 8px 16px;
+    background: var(--green);
+    color: var(--beige);
+    border: none;
+    font-family: var(--font);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.15s;
+    white-space: nowrap;
+    align-self: flex-end;
+    height: 36px;
+  }
+  #talent-content .ai-send:hover { background: var(--green-mid); }
+  #talent-content .ai-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  #talent-content .ai-chips {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+  }
+  #talent-content .ai-chip {
+    padding: 4px 10px;
+    background: var(--beige-mid);
+    border: 1px solid var(--beige-dark);
+    border-radius: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+  #talent-content .ai-chip:hover {
+    background: var(--green);
+    color: var(--beige);
+    border-color: var(--green);
+  }
   #talent-content a.sheet-link {
     color: var(--green); font-weight: 600; text-decoration: none;
     border-bottom: 1px solid var(--green);
     font-size: 11px;
   }
   #talent-content a.sheet-link:hover { color: #c46235; border-bottom-color: #c46235; }
-
-  .sheet-tab.know-active { background:#1a6b5a !important; color:#fff !important; border-bottom:3px solid #1a6b5a !important; }
-  #know-content { background:#f9faf9; min-height:calc(100vh - 200px); }
-  #know-content .sec-head { color:#1a6b5a; border-bottom-color:#1a6b5a; }
-  #know-content .know-send-btn { background:#1a6b5a; color:#fff; border:none; padding:10px 22px; cursor:pointer; font-family:var(--font); font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; transition:background .2s; flex-shrink:0; }
-  #know-content .know-send-btn:hover { background:#135045; }
-  #know-content .know-send-btn:disabled { background:#aaa; cursor:not-allowed; }
-  #know-content .know-input { flex:1; border:1px solid var(--beige-dark); padding:10px 14px; font-family:var(--font); font-size:13px; outline:none; background:#fff; }
-  #know-content .know-input:focus { border-color:#1a6b5a; }
-  #know-content .know-bubble-user { background:#1b221a; color:#f5f5f5; padding:10px 16px; margin:8px 0 8px 80px; font-size:13px; line-height:1.6; border-radius:3px; }
-  #know-content .know-bubble-ai { background:#fff; border:1px solid var(--beige-dark); border-left:3px solid #1a6b5a; padding:12px 16px; margin:8px 80px 8px 0; font-size:13px; line-height:1.75; border-radius:0 3px 3px 0; white-space:pre-wrap; }
-  #know-content .know-sources { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
-  #know-content .know-source-badge { padding:3px 10px; font-size:10px; border:1px solid #1a6b5a44; color:#1a6b5a; letter-spacing:0.04em; background:#f0faf8; border-radius:2px; }
-  #know-content .know-chat-area { min-height:340px; max-height:440px; overflow-y:auto; padding:4px 0 12px; margin-bottom:12px; border-bottom:1px solid var(--beige-dark); }
-  #know-content .know-pill { padding:5px 14px; font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; border:1px solid var(--beige-dark); cursor:pointer; background:#fff; font-family:var(--font); color:var(--text-muted); transition:all .15s; border-radius:3px; }
-  #know-content .know-pill.active { background:#1b221a; color:#f5f5f5; border-color:#1b221a; }
-  #know-content .know-pill:hover { border-color:#1a6b5a; color:#1a6b5a; }
-  #know-content .know-reload-btn { background:none; border:1px solid var(--beige-dark); color:var(--text-muted); padding:5px 14px; font-size:10px; font-weight:600; cursor:pointer; font-family:var(--font); letter-spacing:0.08em; text-transform:uppercase; transition:all .15s; border-radius:3px; }
-  #know-content .know-reload-btn:hover { border-color:#1a6b5a; color:#1a6b5a; }
-  #know-content .know-suggest-btn { padding:6px 12px; font-size:11px; border:1px solid var(--beige-dark); cursor:pointer; background:#fff; font-family:var(--font); color:var(--text-muted); text-align:left; line-height:1.4; transition:all .15s; border-radius:3px; }
-  #know-content .know-suggest-btn:hover { border-color:#1a6b5a; color:#1a6b5a; background:#f0faf8; }
-  #know-content .know-typing { display:flex; gap:5px; align-items:center; padding:10px 0; }
-  #know-content .know-dot { width:7px; height:7px; background:#1a6b5a; border-radius:50%; animation:knowpulse 1.2s ease-in-out infinite; }
-  #know-content .know-dot:nth-child(2){animation-delay:.2s} #know-content .know-dot:nth-child(3){animation-delay:.4s}
-  @keyframes knowpulse { 0%,100%{opacity:.2;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }
-
 </style>
 </head>
 <body>
@@ -351,7 +478,6 @@
     <button class="sheet-tab" onclick="switchSheet('Lumena Inco', this)">Lumena Inco</button>
     <button class="sheet-tab" onclick="switchSheet('Talent Matrix', this)">Talent Matrix</button>
     <button class="sheet-tab" onclick="switchSheet('Market Intel', this)">Market Intel</button>
-    <button class="sheet-tab" onclick="switchSheet('Knowledge', this)">Knowledge</button>
   </div>
 
 <div id="dash-content">
@@ -483,6 +609,17 @@
     </div>
 
     <!-- Sub-tabs (companies) -->
+    <!-- AUTO-INSIGHTS STRIP (Feature B) -->
+    <div class="ai-insights" id="tm-ai-insights">
+      <div class="ai-insights-label">
+        <span class="ai-dot"></span>
+        Claude Intelligence · Live Analysis
+      </div>
+      <div class="ai-insights-text ai-insights-loading" id="tm-ai-insights-text">
+        Waiting for team data to load…
+      </div>
+    </div>
+
     <div class="tm-subtabs" id="tm-subtabs"></div>
 
     <!-- Layout -->
@@ -556,6 +693,15 @@
             <div class="tm-verdict-title" id="tm-sc-quadrant">—</div>
             <div class="tm-verdict-body" id="tm-sc-action">—</div>
           </div>
+
+          <!-- AI NARRATIVE (Feature C) -->
+          <div class="ai-narrative" id="tm-ai-narrative">
+            <div class="ai-narrative-label">
+              <span class="ai-dot"></span>
+              Claude Analysis
+            </div>
+            <div id="tm-ai-narrative-text" class="ai-narrative-loading">Generating…</div>
+          </div>
         </div>
 
         <div class="tm-panel">
@@ -565,6 +711,28 @@
           </div>
           <div id="tm-roster-list">
             <div class="tm-empty">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Q&A PANEL (Feature A) -->
+        <div class="ai-qa-panel">
+          <div class="tm-panel-title" style="border:none;padding:0;margin-bottom:10px">
+            <span>Ask Claude</span>
+            <span class="tm-sub">About your team</span>
+          </div>
+          <div class="ai-chips" id="tm-ai-chips">
+            <span class="ai-chip" onclick="tmAskChip(this)">Who are my Stars?</span>
+            <span class="ai-chip" onclick="tmAskChip(this)">Who needs a 1-on-1 this week?</span>
+            <span class="ai-chip" onclick="tmAskChip(this)">Where is my biggest risk?</span>
+            <span class="ai-chip" onclick="tmAskChip(this)">من هم النجوم في الفريق؟</span>
+            <span class="ai-chip" onclick="tmAskChip(this)">ما التوصية لهذا الربع؟</span>
+          </div>
+          <div class="ai-messages" id="tm-ai-messages"></div>
+          <div class="ai-input-row">
+            <textarea class="ai-input" id="tm-ai-input"
+              placeholder="Ask anything about your team… / اسأل عن فريقك…"
+              rows="1"></textarea>
+            <button class="ai-send" id="tm-ai-send" onclick="tmAskQuestion()">Send</button>
           </div>
         </div>
 
@@ -596,10 +764,6 @@
   </div>
 </div><!-- end #talent-content -->
 
-<div id="know-content" style="display:none">
-  <div class="wrapper" style="padding-top:28px;">
-    <div class="sec-head" style="margin-top:0;">Knowledge — Chat with Live Sheets<span id="knowDataStatus">Select sheets below to begin</span></div>
-
 <footer>
   <img src="logo.png" alt="FZR Group" class="footer-logo"/>
   <span class="pg">Live Dashboard — <span id="footerYear"></span></span>
@@ -609,8 +773,7 @@
      ORIGINAL DASHBOARD SCRIPT (projects/teams/etc.)
      ════════════════════════════════════════════════════════════ -->
 <script>
-window.SHEETS = {
-  "Velur Marketing Materials": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=896430628&single=true&output=csv",
+const SHEETS = {
   "FZR Projects":    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=702214351&single=true&output=csv",
   "Startup Project": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1572939223&single=true&output=csv",
   "MYM Inco":        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC46hijszKGFYnAMOpVjgmHLX3dO4iF5Bc0ARF3N2bPFbmPNptiMWmXv98Z2Ry74uzAwGp-xFVx9ia/pub?gid=1896272570&single=true&output=csv",
@@ -632,8 +795,6 @@ document.getElementById("bannerDate").textContent = new Date().toLocaleDateStrin
 document.getElementById("footerYear").textContent = new Date().getFullYear();
 
 async function fetchData(){
-  // Don't refresh if Knowledge tab is active
-  if(document.querySelector(".know-active")) return;
   try{
     const res=await fetch(SHEETS[activeSheet]+"&t="+Date.now());
     const text=await res.text();
@@ -678,30 +839,6 @@ function switchSheet(name, el){
   var dash = document.getElementById("dash-content");
   var intel = document.getElementById("intel-content");
   var talent = document.getElementById("talent-content");
-  if (name === "Knowledge") {
-    document.querySelectorAll(".sheet-tab").forEach(function(t){
-      t.classList.remove("active","intel-active","talent-active","velur-active","know-active");
-    });
-    el.classList.add("know-active");
-    var kn=document.getElementById("know-content");
-    var da=document.getElementById("dash-content");
-    var it=document.getElementById("intel-content");
-    var ta=document.getElementById("talent-content");
-    var ve=document.getElementById("velur-content");
-    if(da) da.style.display="none";
-    if(it) it.style.display="none";
-    if(ta) ta.style.display="none";
-    if(ve) ve.style.display="none";
-    if(kn) kn.style.display="block";
-    if(typeof init==="function") init();
-    setTimeout(function(){
-      if(window.knowInit) window.knowInit();
-    }, 50);
-    return;
-  }
-  // Hide Knowledge tab for all non-Knowledge tabs
-  var know = document.getElementById("know-content");
-  if(know) know.style.display="none";
 
   if (name === "Market Intel") {
     el.classList.add("intel-active");
@@ -1250,6 +1387,7 @@ fetchData();
         });
 
         state.data = data;
+        window.tmState = state;  // expose to Claude intelligence layer
         window.tmLoaded = true;
 
         // Set active company if not set or no longer exists
@@ -1258,6 +1396,11 @@ fetchData();
           state.activeCompany = companies[0] || null;
         }
         render();
+        // Feature B: generate insights after data is ready
+        if(window.tmGenerateInsights){
+          window.tmInsightsReset && window.tmInsightsReset();
+          window.tmGenerateInsights();
+        }
       })
       .catch(function(e){
         renderEmpty('Could not load data: ' + e.message);
@@ -1402,9 +1545,19 @@ fetchData();
 
   function renderScorecard(){
     var p = document.getElementById('tm-scorecard-panel');
-    if(!state.selected){ p.style.display = 'none'; return; }
+    var narrative = document.getElementById('tm-ai-narrative');
+    if(!state.selected){
+      p.style.display = 'none';
+      if(narrative) narrative.classList.remove('visible');
+      return;
+    }
     var m = state.data.filter(function(d){ return d.company === state.activeCompany && d.name === state.selected; })[0];
-    if(!m){ p.style.display = 'none'; state.selected = null; return; }
+    if(!m){
+      p.style.display = 'none';
+      state.selected = null;
+      if(narrative) narrative.classList.remove('visible');
+      return;
+    }
     p.style.display = 'block';
     document.getElementById('tm-sc-name').textContent = m.name;
     document.getElementById('tm-sc-role').textContent = m.role || '—';
@@ -1414,6 +1567,8 @@ fetchData();
     document.getElementById('tm-sc-init').textContent = m.init;
     document.getElementById('tm-sc-quadrant').textContent = m.quadrant;
     document.getElementById('tm-sc-action').textContent = (META[m.quadrant] || {}).action || '—';
+    // Feature C: generate personalized narrative for this person
+    if(window.tmGenerateNarrative) window.tmGenerateNarrative(m);
   }
 
   function selectMember(name){
@@ -1423,218 +1578,238 @@ fetchData();
 })();
 </script>
 
-
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-      <span style="font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-right:4px;">Load:</span>
-      <div id="knowPills" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
-      <button class="know-reload-btn" onclick="knowReloadSheets()">&#8635; Reload</button>
-    </div>
-    <div id="knowSuggestions" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"></div>
-    <div class="know-chat-area" id="knowChatArea"></div>
-    <div style="display:flex;gap:0;margin-bottom:8px;">
-      <input class="know-input" id="knowInput" type="text" placeholder="Ask anything about your live sheet data..." onkeydown="if(event.key==='Enter') knowSend()"/>
-      <button class="know-send-btn" id="knowSendBtn" onclick="knowSend()">Ask</button>
-    </div>
-    <div style="font-size:10px;color:var(--text-muted);">Answers grounded in your live Google Sheets. Data fetched fresh on pill select and manual reload.</div>
-  </div>
-</div>
+<!-- ════════════════════════════════════════════════════════════
+     CLAUDE INTELLIGENCE LAYER
+     Feature A: Q&A panel
+     Feature B: Auto-insights on tab load
+     Feature C: Personalized scorecard narratives
+     ════════════════════════════════════════════════════════════ -->
 <script>
 (function(){
-  var KS=[{name:"FZR Projects"},{name:"Velur Marketing Materials"}];
-  var SG=["What projects are currently in progress?","Which project has the most blockers?","Who owns the most open tasks?","Summarise Velur income this month","What is the total pipeline value?"];
-  var SYS="You are the internal AI assistant for FZR Group Dubai. Companies: Acumen Light (lighting, fit-out), Velur (home fragrance), MYM, Lumena. Answer ONLY from the sheet data provided. Be concise and direct. Respond in the user language.";
-  var AK="",SD={},hist=[],LD={},AC={};
+  var API_KEY = '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';
+  var API_URL = 'https://api.anthropic.com/v1/messages';
+  var MODEL   = 'claude-sonnet-4-20250514';
 
-  window.knowInit=function(){
-    var p=document.getElementById("knowPills");
-    if(!p||p.hasChildNodes())return;
-    // Auto-activate all sheets silently
-    KS.forEach(function(s){
-      AC[s.name]=true;
-      fetchS(s.name);
-    });
-    // Hide pills row entirely
-    var pillRow=p.parentElement;
-    if(pillRow) pillRow.style.display="none";
-
-    var sg=document.getElementById("knowSuggestions");
-    if(sg){
-      SG.forEach(function(q){
-        var b=document.createElement("button");
-        b.className="know-suggest-btn";
-        b.textContent=q;
-        b.onclick=function(){
-          document.getElementById("knowInput").value=q;
-          document.getElementById("knowSuggestions").style.display="none";
-          knowSend();
-        };
-        sg.appendChild(b);
-      });
-    }
-
-  };
-
-  function tog(name,pill){
-    if(AC[name]){AC[name]=false;pill.classList.remove("active");}
-    else{AC[name]=true;pill.classList.add("active");if(!LD[name])fetchS(name);}
-  }
-
-  function fetchS(name){
-    var url=(window.SHEETS||{})[name];
-    if(!url){SD[name]="["+name+": URL not in window.SHEETS]";LD[name]=true;stat();return;}
-    stat("Fetching "+name+"...");
-    fetch(url+"&t="+Date.now())
-      .then(function(r){return r.text();})
-      .then(function(csv){SD[name]=toTxt(csv,name);LD[name]=true;stat();})
-      .catch(function(e){SD[name]="["+name+": Error - "+e.message+"]";LD[name]=true;stat();});
-  }
-
-  function toTxt(csv,name){
-    var rows=csv.trim().split(String.fromCharCode(10)).map(function(r){
-      return r.split(",").map(function(c){return c.replace(/^"|"$/g,"").trim();});
-    });
-    if(!rows.length)return "["+name+": empty]";
-    var h=rows[0];
-    var d=rows.slice(1).filter(function(r){return r.some(function(c){return c;});});
-    var L=["=== "+name+" ===","Columns: "+h.join(", "),"Rows: "+d.length,""];
-    d.forEach(function(row,i){
-      var pp=h.map(function(hh,j){return row[j]?hh+": "+row[j]:null;}).filter(Boolean);
-      L.push("Row "+(i+1)+": "+pp.join(" | "));
-    });
-    return L.join(String.fromCharCode(10));
-  }
-
-  function stat(msg){
-    var el=document.getElementById("knowDataStatus");
-    if(!el)return;
-    if(msg){el.textContent=msg;return;}
-    var ld=Object.keys(SD);
-    el.textContent=ld.length?"Loaded: "+ld.join(", "):"Select sheets below to begin";
-  }
-
-  window.knowReloadSheets=function(){
-    LD={};SD={};hist=[];
-    var a=Object.keys(AC).filter(function(k){return AC[k];});
-    if(!a.length){stat("No sheets selected.");return;}
-    a.forEach(fetchS);
-  };
-
-  window.knowSend=function(){
-    var inp=document.getElementById("knowInput");
-    var q=(inp?inp.value:"").trim();
-    if(!q)return;
-    
-    var act=Object.keys(AC).filter(function(k){return AC[k];});
-    if(!act.length){bub("assistant","Please select at least one sheet pill first.",[]);return;}
-    var pend=act.filter(function(n){return !LD[n];});
-    if(pend.length){bub("assistant","Still loading: "+pend.join(", ")+". Please wait.",[]);return;}
-    if(inp)inp.value="";
-    document.getElementById("knowSendBtn").disabled=true;
-    var sg=document.getElementById("knowSuggestions");if(sg)sg.style.display="none";
-    bub("user",q,[]);
-    var ctx=act.map(function(n){return SD[n]||"";}).join(String.fromCharCode(10)+String.fromCharCode(10));
-    var sys=SYS+" --- LIVE SHEET DATA --- "+ctx;
-    var tid=typ();
-    hist.push({role:"user",content:q});
-    fetch("https://muddy-credit-de1b.openupopen.workers.dev/v1/messages",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "x-api-key":AK,
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-client-side-api-key-allowed":"true"
+  // ─── Call Claude API ────────────────────────────────────────
+  async function callClaude(systemPrompt, userMessage, maxTokens) {
+    maxTokens = maxTokens || 600;
+    var res = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type':      'application/json',
+        'x-api-key':         API_KEY,
+        'anthropic-version': '2023-06-01'
       },
-      body:JSON.stringify({model:"claude-opus-4-5",max_tokens:1000,system:sys,messages:hist})
-    })
-    .then(function(r){return r.json();})
-    .then(function(d){
-      rmTyp(tid);
-      var t=(d.content&&d.content[0])?d.content[0].text:"No response.";
-      if(d.error)t="API Error: "+d.error.message;
-      hist.push({role:"assistant",content:t});
-      bub("assistant",t,act);
-      document.getElementById("knowSendBtn").disabled=false;
-    })
-    .catch(function(e){
-      rmTyp(tid);
-      bub("assistant","Error: "+e.message,[]);
-      document.getElementById("knowSendBtn").disabled=false;
+      body: JSON.stringify({
+        model:      MODEL,
+        max_tokens: maxTokens,
+        system:     systemPrompt,
+        messages:   [{ role: 'user', content: userMessage }]
+      })
     });
+    var data = await res.json();
+    if (!res.ok) throw new Error(data.error && data.error.message || 'API error');
+    return data.content[0].text;
+  }
+
+  // ─── Build team context string from live sheet data ─────────
+  function buildContext() {
+    if (!window.tmState || !window.tmState.data || !window.tmState.data.length) return null;
+    var data = window.tmState.data;
+    var lines = ['Current talent evaluation data:'];
+    data.forEach(function(m) {
+      lines.push(
+        '- ' + m.name +
+        ' | ' + m.company +
+        ' | ' + (m.role || 'No role') +
+        ' | Quarter: ' + (m.quarter || 'N/A') +
+        ' | Performance: ' + m.perf + '/10' +
+        ' | Initiative: ' + m.init + '/10' +
+        ' | Quadrant: ' + m.quadrant +
+        (m.evaluator ? ' | Evaluated by: ' + m.evaluator : '')
+      );
+    });
+    var companies = {};
+    data.forEach(function(m){ (companies[m.company] = companies[m.company] || []).push(m); });
+    lines.push('\nSummary by company:');
+    Object.keys(companies).forEach(function(c) {
+      var members = companies[c];
+      var stars    = members.filter(function(m){ return m.quadrant === 'Star'; }).length;
+      var reliable = members.filter(function(m){ return m.quadrant === 'Reliable'; }).length;
+      var aspirant = members.filter(function(m){ return m.quadrant === 'Aspirant'; }).length;
+      var under    = members.filter(function(m){ return m.quadrant === 'Underperformer'; }).length;
+      var avgP = (members.reduce(function(s,m){ return s + m.perf; }, 0) / members.length).toFixed(1);
+      var avgI = (members.reduce(function(s,m){ return s + m.init; }, 0) / members.length).toFixed(1);
+      lines.push(c + ': ' + members.length + ' members | Stars: ' + stars + ' | Reliable: ' + reliable + ' | Aspirants: ' + aspirant + ' | Underperformers: ' + under + ' | Avg P: ' + avgP + ' | Avg I: ' + avgI);
+    });
+    return lines.join('\n');
+  }
+
+  var SYSTEM_BASE = 'You are a talent management advisor for FZR Group, a UAE-based multi-company group (Acumen Light, Velur, MYM, Acumen AI, Lumena). You have direct access to the team\'s latest evaluation data. Be concise, direct, and actionable. Never make up data — only reference what is provided. Detect the language of the user\'s question and respond in the same language (Arabic or English). For Arabic responses, use formal business Arabic (MSA). Keep responses under 150 words unless depth is specifically requested.';
+
+  // ════════════════════════════════════════════════════════════
+  // FEATURE B — Auto-insights on tab open
+  // ════════════════════════════════════════════════════════════
+  var insightsGenerated = false;
+
+  window.tmGenerateInsights = async function() {
+    var ctx = buildContext();
+    if (!ctx) {
+      document.getElementById('tm-ai-insights-text').textContent = 'No evaluation data available yet.';
+      return;
+    }
+    if (insightsGenerated) return;
+    insightsGenerated = true;
+
+    var el = document.getElementById('tm-ai-insights-text');
+    el.className = 'ai-insights-text ai-insights-loading';
+    el.textContent = 'Analyzing your team data…';
+
+    try {
+      var text = await callClaude(
+        SYSTEM_BASE,
+        ctx + '\n\nProvide 3 concise, specific insights about this team. Each insight should be one sentence. Focus on: retention risks, performance patterns, and one immediate management action. Format as a numbered list. Respond in English.',
+        400
+      );
+      el.className = 'ai-insights-text';
+      el.textContent = text;
+    } catch(e) {
+      el.className = 'ai-insights-text';
+      el.textContent = 'Could not generate insights: ' + e.message;
+    }
   };
 
-  function renderMd(text){
-    // Tables
-    var lines=text.split("\n");
-    var out=[],inTable=false,tableLines=[];
-    for(var i=0;i<lines.length;i++){
-      var l=lines[i];
-      if(l.trim().startsWith("|")){
-        if(!inTable){inTable=true;tableLines=[];}
-        tableLines.push(l);
-      } else {
-        if(inTable){out.push(renderTable(tableLines));inTable=false;tableLines=[];}
-        // Bold
-        l=l.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
-        // Italic
-        l=l.replace(/\*([^*]+)\*/g,"<em>$1</em>");
-        out.push(l);
-      }
+  // Reset insights flag when data refreshes so it regenerates
+  window.tmInsightsReset = function() { insightsGenerated = false; };
+
+  // ════════════════════════════════════════════════════════════
+  // FEATURE C — Personalized scorecard narrative
+  // ════════════════════════════════════════════════════════════
+  window.tmGenerateNarrative = async function(member) {
+    var narrative = document.getElementById('tm-ai-narrative');
+    var narrativeText = document.getElementById('tm-ai-narrative-text');
+    narrative.classList.add('visible');
+    narrativeText.className = 'ai-narrative-loading';
+    narrativeText.textContent = 'Generating analysis…';
+
+    var ctx = buildContext() || '';
+    var prompt = ctx + '\n\nGenerate a specific, personalized management brief for ' + member.name +
+      ' (' + member.role + ' at ' + member.company + ').' +
+      ' Performance: ' + member.perf + '/10, Initiative: ' + member.init + '/10, Quadrant: ' + member.quadrant + '.' +
+      ' Quarter: ' + (member.quarter || 'latest') + '.' +
+      ' In 3–4 sentences: (1) what the scores suggest about this person specifically, (2) one concrete development action, (3) one retention or exit consideration based on their quadrant.' +
+      ' Be direct and manager-ready. Respond in English.';
+
+    try {
+      var text = await callClaude(SYSTEM_BASE, prompt, 300);
+      narrativeText.className = '';
+      narrativeText.textContent = text;
+    } catch(e) {
+      narrativeText.className = '';
+      narrativeText.textContent = 'Could not generate analysis: ' + e.message;
     }
-    if(inTable) out.push(renderTable(tableLines));
-    return out.join("\n");
+  };
+
+  // ════════════════════════════════════════════════════════════
+  // FEATURE A — Q&A Chat panel
+  // ════════════════════════════════════════════════════════════
+  var qaHistory = [];
+
+  function appendMessage(role, text) {
+    var msgs = document.getElementById('tm-ai-messages');
+    var div = document.createElement('div');
+    div.className = 'ai-msg ' + role;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
   }
-  function renderTable(lines){
-    var rows=lines.filter(function(l){return !l.match(/^\|[-| ]+\|$/);});
-    var html="<table style=\"width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;\">";
-    rows.forEach(function(row,i){
-      var cells=row.split("|").filter(function(c,idx){return idx>0&&idx<row.split("|").length-1;});
-      var tag=i===0?"th":"td";
-      var bg=i===0?"background:#1b221a;color:#f5f5f5;":"background:"+(i%2===0?"#f5f9f5":"#fff")+";color:#2a2a2a;";
-      html+="<tr>"+cells.map(function(c){
-        return "<"+tag+" style=\"padding:7px 12px;border:1px solid #e0e0e0;text-align:left;"+bg+"\">"+c.trim().replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")+"</"+tag+">";
-      }).join("")+"</tr>";
-    });
-    return html+"</table>";
-  }
-  function bub(role,text,src){
-    var area=document.getElementById("knowChatArea");if(!area)return;
-    var w=document.createElement("div");
-    var b=document.createElement("div");
-    b.className=role==="user"?"know-bubble-user":"know-bubble-ai";
-    if(role==="assistant"){
-      b.innerHTML=renderMd(text).split("\n").map(function(l){
-        return l.startsWith("<table")||l.startsWith("</table")||l.startsWith("<tr")||l.startsWith("<th")||l.startsWith("<td")?"":("<span>"+l+"</span><br/>");
-      }).join("").replace(/<br\/>(<table)/g,"$1").replace(/(<\/table>)<br\/>/g,"$1");
-      // Simpler: just set innerHTML with rendered md
-      b.innerHTML=renderMd(text).replace(/\n/g,"<br/>");
-    } else {
-      b.textContent=text;
+
+  window.tmAskChip = function(chip) {
+    var input = document.getElementById('tm-ai-input');
+    input.value = chip.textContent;
+    tmAskQuestion();
+  };
+
+  window.tmAskQuestion = async function() {
+    var input = document.getElementById('tm-ai-input');
+    var send  = document.getElementById('tm-ai-send');
+    var q = input.value.trim();
+    if (!q) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    send.disabled = true;
+
+    appendMessage('user', q);
+    var thinking = appendMessage('thinking', 'Thinking…');
+
+    var ctx = buildContext();
+    if (!ctx) {
+      thinking.className = 'ai-msg assistant';
+      thinking.textContent = 'No team data loaded yet. Please wait for the sheet to load.';
+      send.disabled = false;
+      return;
     }
-    w.appendChild(b);
-    if(role==="assistant"&&src&&src.length){
-      var sr=document.createElement("div");sr.className="know-sources";
-      src.forEach(function(s,i){
-        var bg=document.createElement("span");bg.className="know-source-badge";
-        bg.textContent="Source "+(i+1)+" - "+s;sr.appendChild(bg);
+
+    // Build messages array with history for multi-turn context
+    var messages = [];
+    qaHistory.forEach(function(h){ messages.push(h); });
+    messages.push({ role: 'user', content: ctx + '\n\n' + q });
+
+    try {
+      var res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type':      'application/json',
+          'x-api-key':         API_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model:      MODEL,
+          max_tokens: 600,
+          system:     SYSTEM_BASE,
+          messages:   messages
+        })
       });
-      w.appendChild(sr);
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.error && data.error.message || 'API error');
+      var answer = data.content[0].text;
+
+      // Store in history (keep last 6 turns to stay within context)
+      qaHistory.push({ role: 'user',      content: ctx + '\n\n' + q });
+      qaHistory.push({ role: 'assistant', content: answer });
+      if (qaHistory.length > 12) qaHistory = qaHistory.slice(-12);
+
+      thinking.className = 'ai-msg assistant';
+      thinking.textContent = answer;
+    } catch(e) {
+      thinking.className = 'ai-msg assistant';
+      thinking.textContent = 'Error: ' + e.message;
     }
-    area.appendChild(w);area.scrollTop=area.scrollHeight;
-  }
 
-  function typ(){
-    var a=document.getElementById("knowChatArea");if(!a)return null;
-    var el=document.createElement("div");el.className="know-typing";el.id="kt_"+Date.now();
-    for(var i=0;i<3;i++){var d=document.createElement("div");d.className="know-dot";el.appendChild(d);}
-    a.appendChild(el);a.scrollTop=a.scrollHeight;return el.id;
-  }
+    send.disabled = false;
+  };
 
-  function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
-
-  document.addEventListener("DOMContentLoaded",function(){ var kn=document.getElementById("know-content"); if(kn) kn.style.display="none"; window.knowInit&&window.knowInit(); });
-  if(document.readyState!=="loading"){ var kn=document.getElementById("know-content"); if(kn) kn.style.display="none"; window.knowInit&&window.knowInit(); }
+  // Auto-resize textarea
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('tm-ai-input');
+    if (inp) {
+      inp.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 90) + 'px';
+      });
+      inp.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          tmAskQuestion();
+        }
+      });
+    }
+  });
 
 })();
 </script>
+
 </body>
 </html>
