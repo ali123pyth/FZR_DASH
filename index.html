@@ -699,6 +699,10 @@ function switchSheet(name, el){
     }, 50);
     return;
   }
+  // Hide Knowledge tab for all non-Knowledge tabs
+  var know = document.getElementById("know-content");
+  if(know) know.style.display="none";
+
   if (name === "Market Intel") {
     el.classList.add("intel-active");
     if(dash) dash.style.display = "none";
