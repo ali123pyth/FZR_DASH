@@ -1627,8 +1627,8 @@ fetchData();
 
   function rmTyp(id){if(!id)return;var el=document.getElementById(id);if(el)el.remove();}
 
-  document.addEventListener("DOMContentLoaded",function(){window.knowInit&&window.knowInit();});
-  if(document.readyState!=="loading"){window.knowInit&&window.knowInit();}
+  document.addEventListener("DOMContentLoaded",function(){ var kn=document.getElementById("know-content"); if(kn) kn.style.display="none"; window.knowInit&&window.knowInit(); });
+  if(document.readyState!=="loading"){ var kn=document.getElementById("know-content"); if(kn) kn.style.display="none"; window.knowInit&&window.knowInit(); }
 
 })();
 </script>
